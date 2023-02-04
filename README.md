@@ -23,3 +23,4 @@ var op = OpenMeteo(latitude: 52.52, longitude: 13.41);
 var hourly = Hourly(temperature_2m: true);
 var res = await op.raw_request(hourly: hourly);
 ```
+All options are shipped from the offcial [OpenMeteo's docs](https://open-meteo.com/en/docs#api-documentation)
