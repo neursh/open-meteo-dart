@@ -1,5 +1,5 @@
 # OpenMeteo API SDK
-An simple, fast, asynchronous SDK for OpenMeteo API
+An simple, fast, asynchronous Dart/Flutter SDK package for OpenMeteo API
 
 ## Why?
 OpenMeteo is an open-source API allows us to get weather infomations from any locations for free, no key required.
