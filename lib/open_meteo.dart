@@ -9,6 +9,38 @@ class InvalidDataException implements Exception {
 }
 
 class Daily {
+  /// A class to specify what you want out of the API for daily infomations.
+  ///
+  /// | attributes                 | type  |
+  /// |----------------------------|-------|
+  /// | weathercode                | bool? |
+  /// | temperature_2m_max         | bool? |
+  /// | temperature_2m_min         | bool? |
+  /// | apparent_temperature_max   | bool? |
+  /// | apparent_temperature_min   | bool? |
+  /// | sunrise                    | bool? |
+  /// | sunset                     | bool? |
+  /// | precipitation_sum          | bool? |
+  /// | rain_sum                   | bool? |
+  /// | showers_sum                | bool? |
+  /// | snowfall_sum               | bool? |
+  /// | precipitation_hours        | bool? |
+  /// | windspeed_10m_max          | bool? |
+  /// | windgusts_10m_max          | bool? |
+  /// | winddirection_10m_dominant | bool? |
+  /// | shortwave_radiation_sum    | bool? |
+  /// | et0_fao_evapotranspiration | bool? |
+  /// | all                        | bool? |
+  ///
+  /// `all` attribute to get all ifnomations.
+  ///
+  /// Example:
+  ///
+  /// ```
+  /// Daily sun_moon = Daily(sunrise: true, sunset: true);
+  /// ```
+  ///
+  /// To learn more what are these attributes mean, go to [OpenMeteo's docs](https://open-meteo.com/en/docs).
   bool? weathercode,
       temperature_2m_max,
       temperature_2m_min,
@@ -67,6 +99,68 @@ class Daily {
 }
 
 class Hourly {
+  /// A class to specify what you want out of the API for hourly infomations.
+  ///
+  /// | attributes                 | type  |
+  /// |----------------------------|-------|
+  /// | temperature_2m             | bool? |
+  /// | temperature_80m            | bool? |
+  /// | temperature_120m           | bool? |
+  /// | temperature_180m           | bool? |
+  /// | relativehumidity_2m        | bool? |
+  /// | dewpoint_2m                | bool? |
+  /// | apparent_temperature       | bool? |
+  /// | pressure_msl               | bool? |
+  /// | surface_pressure           | bool? |
+  /// | cloudcover                 | bool? |
+  /// | cloudcover_low             | bool? |
+  /// | cloudcover_mid             | bool? |
+  /// | cloudcover_high            | bool? |
+  /// | windspeed_10m              | bool? |
+  /// | windspeed_80m              | bool? |
+  /// | windspeed_120m             | bool? |
+  /// | windspeed_180m             | bool? |
+  /// | winddirection_10m          | bool? |
+  /// | winddirection_80m          | bool? |
+  /// | winddirection_120m         | bool? |
+  /// | winddirection_180m         | bool? |
+  /// | windgusts_10m              | bool? |
+  /// | shortwave_radiation        | bool? |
+  /// | direct_radiation           | bool? |
+  /// | direct_normal_irradiance   | bool? |
+  /// | diffuse_radiation          | bool? |
+  /// | vapor_pressure_deficit     | bool? |
+  /// | cape                       | bool? |
+  /// | evapotranspiration         | bool? |
+  /// | et0_fao_evapotranspiration | bool? |
+  /// | precipitation              | bool? |
+  /// | snowfall                   | bool? |
+  /// | rain                       | bool? |
+  /// | showers                    | bool? |
+  /// | weathercode                | bool? |
+  /// | snow_depth                 | bool? |
+  /// | freezinglevel_height       | bool? |
+  /// | visibility                 | bool? |
+  /// | soil_temperature_0cm       | bool? |
+  /// | soil_temperature_6cm       | bool? |
+  /// | soil_temperature_18cm      | bool? |
+  /// | soil_temperature_54cm      | bool? |
+  /// | soil_moisture_0_1cm        | bool? |
+  /// | soil_moisture_1_3cm        | bool? |
+  /// | soil_moisture_3_9cm        | bool? |
+  /// | soil_moisture_9_27cm       | bool? |
+  /// | soil_moisture_27_81cm      | bool? |
+  /// | all                        | bool? |
+  ///
+  /// `all` attribute to get all ifnomations.
+  ///
+  /// Example:
+  ///
+  /// ```
+  /// Hourly temp_cloud = Hourly(temperature_2m: true, cloudcover: true);
+  /// ```
+  ///
+  /// To learn more about what are these attributes mean, go to [OpenMeteo's docs](https://open-meteo.com/en/docs).
   bool? temperature_2m,
       temperature_80m,
       temperature_120m,
@@ -212,6 +306,16 @@ class Hourly {
 }
 
 class TemperatureUnit {
+  /// Set response's temperature unit.
+  ///
+  /// Example (set response's temperature unit to fahrenheit):
+  ///
+  /// ```
+  /// OpenMeteo(
+  /// ...
+  ///   temperature_unit: TemperatureUnit.fahrenheit
+  /// )
+  /// ```
   static TemperatureUnit celsius = TemperatureUnit(type: "celsius"),
       fahrenheit = TemperatureUnit(type: "fahrenheit");
 
@@ -220,6 +324,16 @@ class TemperatureUnit {
 }
 
 class WindspeedUnit {
+  /// Set response's windspeed unit.
+  ///
+  /// Example (set response's windspeed unit to m/s):
+  ///
+  /// ```
+  /// OpenMeteo(
+  /// ...
+  ///   windspeed_unit: WindspeedUnit.ms
+  /// )
+  /// ```
   static WindspeedUnit kmh = WindspeedUnit(type: "kmh"),
       ms = WindspeedUnit(type: "ms"),
       mph = WindspeedUnit(type: "mph"),
@@ -230,6 +344,16 @@ class WindspeedUnit {
 }
 
 class PrecipitationUnit {
+  /// Set response's precipitation unit.
+  ///
+  /// Example (set response's precipitation unit to inch):
+  ///
+  /// ```
+  /// OpenMeteo(
+  /// ...
+  ///   precipitation_unit: PrecipitationUnit.inch
+  /// )
+  /// ```
   static PrecipitationUnit mm = PrecipitationUnit(type: "mm"),
       inch = PrecipitationUnit(type: "inch");
 
@@ -238,6 +362,28 @@ class PrecipitationUnit {
 }
 
 class OpenMeteo {
+  /// Main class for checking and sending request to OpenMeteo's API.
+  ///
+  /// | attributes         | type               |
+  /// |--------------------|--------------------|
+  /// | latitude           | double             |
+  /// | longitude          | double             |
+  /// | current_weather    | bool?              |
+  /// | temperature_unit   | TemperatureUnit?   |
+  /// | windspeed_unit     | WindspeedUnit?     |
+  /// | precipitation_unit | PrecipitationUnit? |
+  /// | past_days          | int?               |
+  /// | start_date         | DateTime?          |
+  /// | end_date           | DateTime?          |
+  ///
+  /// To learn more about what are these attributes mean, go to [OpenMeteo's docs](https://open-meteo.com/en/docs).
+  ///
+  /// Example:
+  /// ```
+  /// var op = OpenMeteo(latitude: 52.52, longitude: 13.41);
+  /// var hourly = Hourly(temperature_2m: true);
+  /// var res = await op.raw_request(hourly: hourly);
+  /// ```
   final double latitude, longitude;
   bool? current_weather = false;
   TemperatureUnit? temperature_unit = TemperatureUnit.celsius;
@@ -270,7 +416,7 @@ class OpenMeteo {
       {Hourly? hourly, Daily? daily}) async {
     List<String> hourlyArgs = [], dailyArgs = [];
 
-    if (!(hourly == null)) {
+    if (hourly != null) {
       if (hourly.all ?? false) {
         hourlyArgs = [
           "temperature_2m",
@@ -450,7 +596,7 @@ class OpenMeteo {
       }
     }
 
-    if (!(daily == null)) {
+    if (daily != null) {
       if (daily.all ?? false) {
         dailyArgs = [
           "weathercode",
@@ -547,7 +693,25 @@ class OpenMeteo {
   }
 }
 
-void main() async {
-  await OpenMeteo(latitude: 52.52, longitude: 13.41)
-      .raw_request(hourly: Hourly(temperature_2m: true));
+class Geocoding {
+  /// Search locations in any language globally.
+  ///
+  /// | attributes | type    |
+  /// |------------|---------|
+  /// | name       | String  |
+  /// | count      | int?    |
+  /// | language   | String? |
+  ///
+  /// If `name` attributes is empty, this function will return `{}`
+  ///
+  /// [Return object format](https://open-meteo.com/en/docs/geocoding-api#api-documentation)
+  Future<dynamic> search(
+      {required String name, int? count, String? language}) async {
+    if (name.isEmpty) {
+      return {};
+    }
+    return jsonDecode((await http.get(Uri.parse(
+            "https://geocoding-api.open-meteo.com/v1/search?name=$name${count != null ? "&count=$count" : ""}${language != null ? "&language=$language" : ""}")))
+        .body);
+  }
 }
