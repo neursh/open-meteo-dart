@@ -50,6 +50,8 @@ class Daily {
       winddirection_10m_dominant,
       shortwave_radiation_sum,
       et0_fao_evapotranspiration,
+      uv_index_max,
+      uv_index_clear_sky_max,
       all;
   Daily(
       {this.weathercode,
@@ -68,7 +70,10 @@ class Daily {
       this.windgusts_10m_max,
       this.winddirection_10m_dominant,
       this.shortwave_radiation_sum,
-      this.et0_fao_evapotranspiration}) {
+      this.et0_fao_evapotranspiration,
+      this.uv_index_max,
+      this.uv_index_clear_sky_max,
+      this.all}) {
     weathercode = weathercode ?? false;
     temperature_2m_max = temperature_2m_max ?? false;
     temperature_2m_min = temperature_2m_min ?? false;
@@ -86,6 +91,8 @@ class Daily {
     winddirection_10m_dominant = winddirection_10m_dominant ?? false;
     shortwave_radiation_sum = shortwave_radiation_sum ?? false;
     et0_fao_evapotranspiration = et0_fao_evapotranspiration ?? false;
+    uv_index_max = uv_index_max ?? false;
+    uv_index_clear_sky_max = uv_index_clear_sky_max ?? false;
     all = all ?? false;
   }
 }

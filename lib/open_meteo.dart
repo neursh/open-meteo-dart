@@ -10,6 +10,7 @@ import 'prefcls.dart';
 export 'hourly.dart';
 export 'daily.dart';
 export 'prefcls.dart';
+export 'geocoding.dart';
 
 class InvalidDataException implements Exception {
   String cause;
@@ -58,14 +59,17 @@ class OpenMeteo {
       this.start_date,
       this.end_date}) {
     if (latitude < -90 || latitude > 90) {
-      throw InvalidDataException("Provided latitude must be in range -90 to 90");
+      throw InvalidDataException(
+          "Provided latitude must be in range -90 to 90");
     }
     if (longitude < -180 || longitude > 180) {
-      throw InvalidDataException("Provided longitude must be in range -180 to 180");
+      throw InvalidDataException(
+          "Provided longitude must be in range -180 to 180");
     }
   }
 
-  Future<Map<String, dynamic>> raw_request({Hourly? hourly, Daily? daily}) async {
+  Future<Map<String, dynamic>> raw_request(
+      {Hourly? hourly, Daily? daily}) async {
     List<String> hourlyArgs = [], dailyArgs = [];
 
     if (hourly != null) {
@@ -321,6 +325,12 @@ class OpenMeteo {
         if (daily.et0_fao_evapotranspiration ?? false) {
           dailyArgs.add("et0_fao_evapotranspiration");
         }
+        if (daily.uv_index_max ?? false) {
+          dailyArgs.add("daily.uv_index_max");
+        }
+        if (daily.uv_index_clear_sky_max ?? false) {
+          dailyArgs.add("daily.uv_index_max");
+        }
       }
     }
 
@@ -342,27 +352,5 @@ class OpenMeteo {
         .body);
 
     return collected;
-  }
-}
-
-class Geocoding {
-  /// Search locations in any language globally.
-  ///
-  /// | attributes | type    |
-  /// |------------|---------|
-  /// | name       | String  |
-  /// | count      | int?    |
-  /// | language   | String? |
-  ///
-  /// If `name` attributes is empty, this function will return `{}`
-  ///
-  /// [Return object format](https://open-meteo.com/en/docs/geocoding-api#api-documentation)
-  Future<dynamic> search({required String name, int? count, String? language}) async {
-    if (name.isEmpty) {
-      return {};
-    }
-    return jsonDecode((await http.get(Uri.parse(
-            "https://geocoding-api.open-meteo.com/v1/search?name=$name${count != null ? "&count=$count" : ""}${language != null ? "&language=$language" : ""}")))
-        .body);
   }
 }

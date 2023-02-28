@@ -21,3 +21,15 @@
 ## 0.0.6
 
 * Added Geocoding API, document
+
+## 0.0.7
+
+* Edit elements
+
+## 0.0.8
+
+* Split Geocoding API to another code file
+
+## 0.0.9
+
+* Added new UV options on Daily class
