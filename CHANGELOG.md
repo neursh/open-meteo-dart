@@ -33,3 +33,7 @@
 ## 0.0.9
 
 * Added new UV options on Daily class
+
+## 0.0.10
+
+* Updated packages. Revising the package.

@@ -4,13 +4,13 @@ version: 0.0.9
 homepage: https://github.com/Neurs12/open-meteo-dart
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: '>=2.19.0 <4.0.0'
 
 
 dependencies:
-  http: ^0.13.5
+  http: ^1.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
