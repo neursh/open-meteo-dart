@@ -12,9 +12,9 @@ class Weather {
   String? apiUrl = "https://api.open-meteo.com/v1/";
   final double latitude, longitude;
   double? elevation;
-  TemperatureUnit? temperature_unit = TemperatureUnit.celsius;
-  WindspeedUnit? windspeed_unit = WindspeedUnit.kmh;
-  PrecipitationUnit? precipitation_unit = PrecipitationUnit.mm;
+  TemperatureUnit? temperature_unit;
+  WindspeedUnit? windspeed_unit;
+  PrecipitationUnit? precipitation_unit;
   int? past_days;
   int? forecast_days, forecast_hours, forecast_minutely_15;
   int? past_hours, past_minutely_15;
@@ -78,8 +78,6 @@ class Weather {
             'end_minutely_15', end_minutely_15?.toIso8601String()) +
         createNullableParam('cell_selection', cell_selection) +
         createNullableParam('apikey', apikey);
-
-    print(args);
 
     // Send the request.
     return jsonDecode((await http.get(Uri.parse(

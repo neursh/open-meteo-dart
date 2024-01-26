@@ -4,7 +4,7 @@ A fast, asynchronous Dart/Flutter SDK package for Open-Meteo API.
 All [features from Open-Meteo API](https://open-meteo.com/en/features) are available with fully (some limited) implementation.
 
 > [!CAUTION]
-This SDK simplified hourly and daily values in across all 7 features that needed it into 2 enum files. Remember to read the docs carefully before use it.
+This SDK simplified hourly and daily values in across all 7 features that needed it into 2 enum files. Remember to read the docs carefully before using it.
 
 > [!NOTE]
 All parameters are shipped from the official [Open-Meteo's docs](https://open-meteo.com/en/docs#api-documentation).
@@ -22,7 +22,7 @@ var result = await wea.raw_request(hourly: hourly);
 > [!TIP]
 `raw_request` will return a JSON, which is the result if nothing is wrong.
 
-Only two exception are `Geocoding` and `Elevation`:
+Only two exceptions are `Geocoding` and `Elevation`:
 ```dart
 var result = await Geocoding.search(name: "Somewhere");
 ```
