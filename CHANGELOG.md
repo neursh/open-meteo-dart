@@ -37,3 +37,7 @@
 ## 0.0.10
 
 * Updated packages. Revising the package.
+
+## 0.1.0
+
+* Rework the code, port current implementation to enum for readability and usability.
