@@ -7,8 +7,8 @@ and could be pasted to enum.
 You can ignore this file or use it to update manually if this package haven't update new features yet.
 `
 
-let contentTitle = document.getElementsByClassName("mt-5");
-let content = document.getElementsByTagName("tbody");
+contentTitle = document.getElementsByClassName("mt-5");
+content = document.getElementsByTagName("tbody");
 
 for (let pat = 1; pat < contentTitle.length; pat++) {
     console.log(`%c${contentTitle[pat].innerText}`, "color:green;font-size: 20px");

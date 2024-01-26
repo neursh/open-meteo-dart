@@ -1,26 +1,31 @@
-# Open-Meteo Weather Forecast API
-A simple, fast, asynchronous Dart/Flutter client package for Open-Meteo Weather Forecast API.
+# Open-Meteo API SDK (Rewritten)
+A fast, asynchronous Dart/Flutter SDK package for Open-Meteo API.
 
-## Why?
-Open-Meteo is an open-source API that allows us to get weather infomations from any locations for free, no key required.
+All [features from Open-Meteo API](https://open-meteo.com/en/features) are available with fully (some limited) implementation.
 
-This package will let you access to Open-Meteo Weather Forecast API easier on Dart / Flutter!
+> [!CAUTION]
+This SDK simplified hourly and daily values in across all 7 features that needed it into 2 enum files. Remember to read the docs carefully before use it.
 
-## How to use
-There are 4 classes and 2 enums for you to play around with OpenMeteo's API:
+> [!NOTE]
+All parameters are shipped from the official [Open-Meteo's docs](https://open-meteo.com/en/docs#api-documentation).
 
-- `OpenMeteo`: Main class for checking and sending request to OpenMeteo's API.
-    - `TemperatureUnit` | `WindspeedUnit` | `PrecipitationUnit`: Classes to provide customizations for the request.
-- `Hourly` | `Daily`: Enums to specify needed informations.
+## Usage & Docs
+> [!NOTE]
+There're 9 classes represent 9 features available in Open-Meteo API: `Weather`, `Historical`, `Ensemble`, `Climate`, `Marine`, `AirQuality`, `Geocoding`, `Elevation` and `Flood`.
 
-Example of getting temperature from 2 meters above sea level:
+Out of all classes, there're 7 classes that requires either daily or hourly parameter, they will all have a similar style of implementation. For example, this is how to get current temperature from London, 2 meters above sea level using `Weather`:
 ```dart
-await OpenMeteo(latitude: 52.52, longitude: 13.41).raw_request(hourly: [Hourly.temperature_2m]);
-```
-Or:
-```dart
-var op = OpenMeteo(latitude: 52.52, longitude: 13.41);
+var wea = Weather(latitude: 52.52, longitude: 13.41);
 var hourly = [Hourly.temperature_2m];
-var res = await op.raw_request(hourly: hourly);
+var result = await wea.raw_request(hourly: hourly);
 ```
-All parameters are shipped from the offcial [OpenMeteo's docs](https://open-meteo.com/en/docs#api-documentation)
+> [!TIP]
+`raw_request` will return a JSON, which is the result if nothing is wrong.
+
+Only two exception are `Geocoding` and `Elevation`:
+```dart
+var result = await Geocoding.search(name: "Somewhere");
+```
+```dart
+var result = await Elevation.search(latitude: 52.52, longitude: 13.41);
+```
