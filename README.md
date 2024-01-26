@@ -13,6 +13,9 @@ All parameters are shipped from the official [Open-Meteo's docs](https://open-me
 > [!NOTE]
 There're 9 classes represent 9 features available in Open-Meteo API: `Weather`, `Historical`, `Ensemble`, `Climate`, `Marine`, `AirQuality`, `Geocoding`, `Elevation` and `Flood`.
 
+> [!NOTE]
+All values from API have been adapted to Flutter friendly variables. Example: Fixed point time related arguments are using `DateTime` and some options are available `enum` values specified for it.
+
 Out of all classes, there're 7 classes that requires either daily or hourly parameter, they will all have a similar style of implementation. For example, this is how to get current temperature from London, 2 meters above sea level using `Weather`:
 ```dart
 var weather = Weather(latitude: 52.52, longitude: 13.41);
@@ -20,9 +23,9 @@ var hourly = [Hourly.temperature_2m];
 var result = await weather.raw_request(hourly: hourly);
 ```
 > [!TIP]
-`raw_request` will return a JSON, which is the result if nothing is wrong.
+`raw_request` will return a JSON, which is the result if nothing is wrong. Right now, this is the only way to request the API.
 
-Only two exceptions are `Geocoding` and `Elevation`:
+The only two exceptions are `Geocoding` and `Elevation`:
 ```dart
 var result = await Geocoding.search(name: "Somewhere");
 ```
