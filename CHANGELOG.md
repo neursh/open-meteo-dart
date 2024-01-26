@@ -41,3 +41,7 @@
 ## 0.1.0
 
 * Rework the code, port current implementation to enum for readability and usability.
+
+## 0.1.1
+
+* Update README.
