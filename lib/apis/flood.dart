@@ -2,8 +2,9 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:open_meteo/open_meteo.dart';
 
+import '../enums/daily.dart';
+import '../enums/prefcls.dart';
 import '../utils.dart';
 
 class Flood {
