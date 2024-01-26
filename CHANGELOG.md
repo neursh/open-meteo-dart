@@ -49,3 +49,7 @@
 ## 0.1.2
 
 * Fix typos
+
+## 0.1.3
+
+* Add instructions to generator.js

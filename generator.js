@@ -1,8 +1,10 @@
 `
-A simple file to parse parameters from the official docs.
+A simple script to parse parameters from the official docs.
 
 Paste this script to DevTools at 'https://open-meteo.com/en/docs' and it will return a string with all available parameters
 and could be pasted to enum.
+
+You can ignore this file or use it to update manually if this package haven't update new features yet.
 `
 
 let contentTitle = document.getElementsByClassName("mt-5");
