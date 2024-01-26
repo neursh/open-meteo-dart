@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+/// Current enums provided by Open-Meteo. Storing all parameters available from documentation.
 enum Current {
   temperature_2m,
   relative_humidity_2m,

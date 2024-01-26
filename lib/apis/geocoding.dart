@@ -3,6 +3,9 @@ import 'dart:convert';
 
 import 'package:open_meteo/utils.dart';
 
+/// Search locations globally in any language.
+///
+/// https://open-meteo.com/en/docs/geocoding-api/
 class Geocoding {
   static Future<dynamic> search(
       {String apiUrl = "https://geocoding-api.open-meteo.com/v1/",

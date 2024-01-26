@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+/// Climate model provided by Open-Meteo
 enum ClimateModel {
   CMCC_CM2_VHR4,
   FGOALS_f3_H,

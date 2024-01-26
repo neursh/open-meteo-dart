@@ -7,6 +7,9 @@ import '../enums/daily.dart';
 import '../enums/prefcls.dart';
 import '../utils.dart';
 
+/// Simulated river discharge at 5 km resolution from 1984 up to 7 months forecast.
+///
+/// https://open-meteo.com/en/docs/flood-api/
 class Flood {
   String? apiUrl = "https://flood-api.open-meteo.com/v1/";
   final double latitude, longitude;

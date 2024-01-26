@@ -9,6 +9,9 @@ import '../enums/daily.dart';
 import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
 
+/// Seamless integration of high-resolution weather models with up 16 days forecast.
+///
+/// https://open-meteo.com/en/docs/
 class Weather {
   String? apiUrl = "https://api.open-meteo.com/v1/";
   final double latitude, longitude;

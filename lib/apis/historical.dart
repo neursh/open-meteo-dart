@@ -8,6 +8,9 @@ import '../utils.dart';
 import '../enums/daily.dart';
 import '../enums/hourly.dart';
 
+/// Discover how weather has shaped our world from 1940 until now.
+///
+/// https://open-meteo.com/en/docs/historical-weather-api/
 class Historical {
   String? apiUrl = "https://api.open-meteo.com/v1/";
   final double latitude, longitude;

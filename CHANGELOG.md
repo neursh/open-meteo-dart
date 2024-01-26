@@ -72,3 +72,7 @@
 ## 1.0.3
 
 * Fix enum usage.
+
+## 1.0.5
+
+* Adding documentation...

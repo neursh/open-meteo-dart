@@ -9,6 +9,9 @@ import '../enums/daily.dart';
 import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
 
+/// Hourly wave forecasts at 5 km resolution
+///
+/// https://open-meteo.com/en/docs/marine-weather-api/
 class Marine {
   String? apiUrl = "https://marine-api.open-meteo.com/v1/";
   final double latitude, longitude;

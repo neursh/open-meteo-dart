@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names, camel_case_types
 
+/// Hourly enums provided by Open-Meteo. Storing all parameters available from documentation.
 enum Hourly {
-  /// Enum storing all parameters available from documentation.
   temperature_2m,
   relative_humidity_2m,
   dew_point_2m,
