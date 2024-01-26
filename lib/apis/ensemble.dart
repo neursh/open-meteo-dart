@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../enums/ensemble_models.dart';
+import '../enums/ensemble_model.dart';
 import '../enums/prefcls.dart';
 import '../utils.dart';
 
