@@ -99,7 +99,8 @@ class OpenMeteo {
         : "";
 
     if (args.isEmpty) {
-      throw InvalidDataException("Please provide Hourly class or Daily class.");
+      throw InvalidDataException(
+          "Please provide at least one of the two Hourly or Daily parameters.");
     }
 
     args +=
