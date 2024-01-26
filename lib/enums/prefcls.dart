@@ -5,3 +5,5 @@ enum WindspeedUnit { kmh, ms, mph, kn }
 enum PrecipitationUnit { mm, inch }
 
 enum CellSelection { land, sea, nearest }
+
+enum LengthUnit { metric, imperial }

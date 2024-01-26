@@ -1,3 +1,4 @@
+import 'enums/current.dart';
 import 'enums/daily.dart';
 import 'enums/hourly.dart';
 import 'exceptions/invalid_data.dart';
@@ -23,23 +24,28 @@ throwCheckLatLng(double latitude, longitude) {
   }
 }
 
-String generateArgsDHBase(List<Hourly>? hourly, List<Daily>? daily) {
-  List<String> hourlyArgs = [], dailyArgs = [];
+String generateArgsDHCBase(
+    List<Daily>? daily, List<Hourly>? hourly, List<Current>? current) {
+  List<String> dailyArgs = [], hourlyArgs = [], currentArgs = [];
 
   // Convert enums to standard values.
-  hourlyArgs = generateVaules(hourly);
   dailyArgs = generateVaules(daily);
+  hourlyArgs = generateVaules(hourly);
+  currentArgs = generateVaules(current);
 
-  if (hourlyArgs.isEmpty && dailyArgs.isEmpty) {
+  if (dailyArgs.isEmpty && hourlyArgs.isEmpty && currentArgs.isEmpty) {
     throw InvalidDataException(
-        "Please provide at least one of the two Hourly or Daily enum values.");
+        "Empty URL arguments. Please check your implementation.");
   }
 
   // Add and convert.
   String args = "";
-  args += hourlyArgs.isNotEmpty ? "hourly=${hourlyArgs.join(",")}" : "";
   args += dailyArgs.isNotEmpty
-      ? "${hourlyArgs.isNotEmpty ? "&" : ""}daily=${dailyArgs.join(",")}"
+      ? "${args.isNotEmpty ? "&" : ""}daily=${dailyArgs.join(",")}"
+      : "";
+  args += hourlyArgs.isNotEmpty ? "hourly=${hourlyArgs.join(",")}" : "";
+  args += currentArgs.isNotEmpty
+      ? "${args.isNotEmpty ? "&" : ""}current=${dailyArgs.join(",")}"
       : "";
 
   return args;

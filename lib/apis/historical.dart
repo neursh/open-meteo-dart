@@ -38,7 +38,7 @@ class Historical {
 
   Future<Map<String, dynamic>> raw_request(
       {List<Hourly>? hourly, List<Daily>? daily}) async {
-    String args = generateArgsDHBase(hourly, daily) +
+    String args = generateArgsDHCBase(daily, hourly, null) +
         createNullableParam("elevation", elevation) +
         createNullableParam(
             "start_date", start_date?.toIso8601String().split("T")[0]) +

@@ -8,7 +8,7 @@ import '../enums/prefcls.dart';
 import '../utils.dart';
 import '../enums/daily.dart';
 
-class Historical {
+class Climate {
   String? apiUrl = "https://climate-api.open-meteo.com/v1/";
   final double latitude, longitude;
   DateTime start_date, end_date;
@@ -19,7 +19,7 @@ class Historical {
   CellSelection? cell_selection;
   String? apikey;
 
-  Historical(
+  Climate(
       {this.apiUrl,
       required this.latitude,
       required this.longitude,
@@ -39,20 +39,20 @@ class Historical {
 
   Future<Map<String, dynamic>> raw_request(
       {required List<Daily> daily, required List<ClimateModel> models}) async {
-    // ignore: prefer_interpolation_to_compose_strings
-    String args = "models=${generateVaules(models).join(",")}"
-            "daily=${generateVaules(daily).join(",")}" +
-        createNullableParam(
-            "start_date", start_date.toIso8601String().split("T")[0]) +
-        createNullableParam(
-            "end_date", end_date.toIso8601String().split("T")[0]) +
-        createNullableParam("temperature_unit", temperature_unit) +
-        createNullableParam("windspeed_unit", windspeed_unit) +
-        createNullableParam("precipitation_unit", precipitation_unit) +
-        createNullableParam("cell_selection", cell_selection) +
-        createNullableParam(
-            "disable_bias_correction", disable_bias_correction) +
-        createNullableParam("apikey", apikey);
+    String args =
+        // ignore: prefer_interpolation_to_compose_strings
+        "models=${generateVaules(models).join(",")}&daily=${generateVaules(daily).join(",")}" +
+            createNullableParam(
+                "start_date", start_date.toIso8601String().split("T")[0]) +
+            createNullableParam(
+                "end_date", end_date.toIso8601String().split("T")[0]) +
+            createNullableParam("temperature_unit", temperature_unit) +
+            createNullableParam("windspeed_unit", windspeed_unit) +
+            createNullableParam("precipitation_unit", precipitation_unit) +
+            createNullableParam(
+                "disable_bias_correction", disable_bias_correction) +
+            createNullableParam("cell_selection", cell_selection) +
+            createNullableParam("apikey", apikey);
 
     // Send the request.
     return jsonDecode((await http.get(Uri.parse(
