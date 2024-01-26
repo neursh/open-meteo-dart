@@ -1,7 +1,7 @@
 `
 A simple file to parse parameters from the official docs.
 
-Paste this code to DevTools at 'https://open-meteo.com/en/docs' and it will return a string with all available parameters
+Paste this script to DevTools at 'https://open-meteo.com/en/docs' and it will return a string with all available parameters
 and could be pasted to enum.
 `
 
