@@ -1,10 +1,10 @@
-# OpenMeteo API Client
-A simple, fast, asynchronous Dart/Flutter client package for OpenMeteo API.
+# Open-Meteo Weather Forecast API
+A simple, fast, asynchronous Dart/Flutter client package for Open-Meteo Weather Forecast API.
 
 ## Why?
-OpenMeteo is an open-source API allows us to get weather infomations from any locations for free, no key required.
+Open-Meteo is an open-source API that allows us to get weather infomations from any locations for free, no key required.
 
-This package will let you access to OpenMeteo's API easier on Dart / Flutter!
+This package will let you access to Open-Meteo Weather Forecast API easier on Dart / Flutter!
 
 ## How to use
 There are 4 classes and 2 enums for you to play around with OpenMeteo's API:

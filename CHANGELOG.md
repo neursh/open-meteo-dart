@@ -53,3 +53,7 @@
 ## 0.1.3
 
 * Add instructions to generator.js
+
+## 0.1.4
+
+* Edit the project's scope
