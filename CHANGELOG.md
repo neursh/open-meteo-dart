@@ -68,3 +68,7 @@
 ## 1.0.1
 
 * Edit name to fit the context.
+
+## 1.0.3
+
+* Fix enum usage.
