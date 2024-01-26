@@ -13,7 +13,7 @@ class Geocoding {
   /// If `name` attributes is empty, this function will return `{}`
   ///
   /// [Return object format](https://open-meteo.com/en/docs/geocoding-api#api-documentation)
-  Future<dynamic> search(
+  static Future<dynamic> search(
       {required String name, int? count, String? language}) async {
     if (name.isEmpty) {
       return {};

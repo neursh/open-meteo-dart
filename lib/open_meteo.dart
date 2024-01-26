@@ -69,270 +69,28 @@ class OpenMeteo {
   }
 
   Future<Map<String, dynamic>> raw_request(
-      {Hourly? hourly, Daily? daily}) async {
+      {List<Hourly>? hourly, List<Daily>? daily}) async {
     List<String> hourlyArgs = [], dailyArgs = [];
 
     if (hourly != null) {
-      if (hourly.all ?? false) {
-        hourlyArgs = [
-          "temperature_2m",
-          "temperature_80m",
-          "temperature_120m",
-          "temperature_180m",
-          "relativehumidity_2m",
-          "dewpoint_2m",
-          "apparent_temperature",
-          "precipitation",
-          "rain",
-          "showers",
-          "snowfall",
-          "snow_depth",
-          "freezinglevel_height",
-          "weathercode",
-          "pressure_msl",
-          "surface_pressure",
-          "cloudcover",
-          "cloudcover_low",
-          "cloudcover_mid",
-          "cloudcover_high",
-          "visibility",
-          "evapotranspiration",
-          "et0_fao_evapotranspiration",
-          "vapor_pressure_deficit",
-          "cape",
-          "windspeed_10m",
-          "windspeed_80m",
-          "windspeed_120m",
-          "windspeed_180m",
-          "winddirection_10m",
-          "winddirection_80m",
-          "winddirection_120m",
-          "winddirection_180m",
-          "windgusts_10m",
-          "soil_temperature_0cm",
-          "soil_temperature_6cm",
-          "soil_temperature_18cm",
-          "soil_temperature_54cm",
-          "soil_moisture_0_1cm",
-          "soil_moisture_1_3cm",
-          "soil_moisture_3_9cm",
-          "soil_moisture_9_27cm",
-          "soil_moisture_27_81cm"
-        ];
+      if (hourly.contains(Hourly.all)) {
+        hourlyArgs = Hourly.values.map((value) => value.name).toList();
       } else {
-        if (hourly.temperature_2m ?? false) {
-          hourlyArgs.add("temperature_2m");
-        }
-        if (hourly.temperature_80m ?? false) {
-          hourlyArgs.add("temperature_80m");
-        }
-        if (hourly.temperature_120m ?? false) {
-          hourlyArgs.add("temperature_120m");
-        }
-        if (hourly.temperature_180m ?? false) {
-          hourlyArgs.add("temperature_180m");
-        }
-        if (hourly.relativehumidity_2m ?? false) {
-          hourlyArgs.add("relativehumidity_2m");
-        }
-        if (hourly.dewpoint_2m ?? false) {
-          hourlyArgs.add("dewpoint_2m");
-        }
-        if (hourly.apparent_temperature ?? false) {
-          hourlyArgs.add("apparent_temperature");
-        }
-        if (hourly.precipitation ?? false) {
-          hourlyArgs.add("precipitation");
-        }
-        if (hourly.rain ?? false) {
-          hourlyArgs.add("rain");
-        }
-        if (hourly.showers ?? false) {
-          hourlyArgs.add("showers");
-        }
-        if (hourly.snowfall ?? false) {
-          hourlyArgs.add("snowfall");
-        }
-        if (hourly.snow_depth ?? false) {
-          hourlyArgs.add("snow_depth");
-        }
-        if (hourly.freezinglevel_height ?? false) {
-          hourlyArgs.add("freezinglevel_height");
-        }
-        if (hourly.weathercode ?? false) {
-          hourlyArgs.add("weathercode");
-        }
-        if (hourly.pressure_msl ?? false) {
-          hourlyArgs.add("pressure_msl");
-        }
-        if (hourly.surface_pressure ?? false) {
-          hourlyArgs.add("surface_pressure");
-        }
-        if (hourly.cloudcover ?? false) {
-          hourlyArgs.add("cloudcover");
-        }
-        if (hourly.cloudcover_low ?? false) {
-          hourlyArgs.add("cloudcover_low");
-        }
-        if (hourly.cloudcover_mid ?? false) {
-          hourlyArgs.add("cloudcover_mid");
-        }
-        if (hourly.cloudcover_high ?? false) {
-          hourlyArgs.add("cloudcover_high");
-        }
-        if (hourly.visibility ?? false) {
-          hourlyArgs.add("visibility");
-        }
-        if (hourly.evapotranspiration ?? false) {
-          hourlyArgs.add("evapotranspiration");
-        }
-        if (hourly.et0_fao_evapotranspiration ?? false) {
-          hourlyArgs.add("et0_fao_evapotranspiration");
-        }
-        if (hourly.vapor_pressure_deficit ?? false) {
-          hourlyArgs.add("vapor_pressure_deficit");
-        }
-        if (hourly.cape ?? false) {
-          hourlyArgs.add("cape");
-        }
-        if (hourly.windspeed_10m ?? false) {
-          hourlyArgs.add("windspeed_10m");
-        }
-        if (hourly.windspeed_80m ?? false) {
-          hourlyArgs.add("windspeed_80m");
-        }
-        if (hourly.windspeed_120m ?? false) {
-          hourlyArgs.add("windspeed_120m");
-        }
-        if (hourly.windspeed_180m ?? false) {
-          hourlyArgs.add("windspeed_180m");
-        }
-        if (hourly.winddirection_10m ?? false) {
-          hourlyArgs.add("winddirection_10m");
-        }
-        if (hourly.winddirection_80m ?? false) {
-          hourlyArgs.add("winddirection_80m");
-        }
-        if (hourly.winddirection_120m ?? false) {
-          hourlyArgs.add("winddirection_120m");
-        }
-        if (hourly.winddirection_180m ?? false) {
-          hourlyArgs.add("winddirection_180m");
-        }
-        if (hourly.windgusts_10m ?? false) {
-          hourlyArgs.add("windgusts_10m");
-        }
-        if (hourly.soil_temperature_0cm ?? false) {
-          hourlyArgs.add("soil_temperature_0cm");
-        }
-        if (hourly.soil_temperature_6cm ?? false) {
-          hourlyArgs.add("soil_temperature_6cm");
-        }
-        if (hourly.soil_temperature_18cm ?? false) {
-          hourlyArgs.add("soil_temperature_18cm");
-        }
-        if (hourly.soil_temperature_54cm ?? false) {
-          hourlyArgs.add("soil_temperature_54cm");
-        }
-        if (hourly.soil_moisture_0_1cm ?? false) {
-          hourlyArgs.add("soil_moisture_0_1cm");
-        }
-        if (hourly.soil_moisture_1_3cm ?? false) {
-          hourlyArgs.add("soil_moisture_1_3cm");
-        }
-        if (hourly.soil_moisture_3_9cm ?? false) {
-          hourlyArgs.add("soil_moisture_3_9cm");
-        }
-        if (hourly.soil_moisture_9_27cm ?? false) {
-          hourlyArgs.add("soil_moisture_9_27cm");
-        }
-        if (hourly.soil_moisture_27_81cm ?? false) {
-          hourlyArgs.add("soil_moisture_27_81cm");
-        }
+        hourlyArgs = hourly.map((value) => value.name).toList();
       }
     }
 
     if (daily != null) {
-      if (daily.all ?? false) {
-        dailyArgs = [
-          "weathercode",
-          "temperature_2m_max",
-          "temperature_2m_min",
-          "apparent_temperature_max",
-          "apparent_temperature_min",
-          "sunrise",
-          "sunset",
-          "precipitation_sum",
-          "rain_sum",
-          "showers_sum",
-          "snowfall_sum",
-          "precipitation_hours",
-          "windspeed_10m_max",
-          "windgusts_10m_max",
-          "winddirection_10m_dominant",
-          "shortwave_radiation_sum",
-          "et0_fao_evapotranspiration"
-        ];
+      if (daily.contains(Daily.all)) {
+        dailyArgs = Daily.values.map((value) => value.name).toList();
       } else {
-        if (daily.weathercode ?? false) {
-          dailyArgs.add("weathercode");
-        }
-        if (daily.temperature_2m_max ?? false) {
-          dailyArgs.add("temperature_2m_max");
-        }
-        if (daily.temperature_2m_min ?? false) {
-          dailyArgs.add("temperature_2m_min");
-        }
-        if (daily.apparent_temperature_max ?? false) {
-          dailyArgs.add("apparent_temperature_max");
-        }
-        if (daily.apparent_temperature_min ?? false) {
-          dailyArgs.add("apparent_temperature_min");
-        }
-        if (daily.sunrise ?? false) {
-          dailyArgs.add("sunrise");
-        }
-        if (daily.sunset ?? false) {
-          dailyArgs.add("sunset");
-        }
-        if (daily.precipitation_sum ?? false) {
-          dailyArgs.add("precipitation_sum");
-        }
-        if (daily.rain_sum ?? false) {
-          dailyArgs.add("rain_sum");
-        }
-        if (daily.showers_sum ?? false) {
-          dailyArgs.add("showers_sum");
-        }
-        if (daily.snowfall_sum ?? false) {
-          dailyArgs.add("snowfall_sum");
-        }
-        if (daily.precipitation_hours ?? false) {
-          dailyArgs.add("precipitation_hours");
-        }
-        if (daily.windspeed_10m_max ?? false) {
-          dailyArgs.add("windspeed_10m_max");
-        }
-        if (daily.windgusts_10m_max ?? false) {
-          dailyArgs.add("windgusts_10m_max");
-        }
-        if (daily.winddirection_10m_dominant ?? false) {
-          dailyArgs.add("winddirection_10m_dominant");
-        }
-        if (daily.shortwave_radiation_sum ?? false) {
-          dailyArgs.add("shortwave_radiation_sum");
-        }
-        if (daily.et0_fao_evapotranspiration ?? false) {
-          dailyArgs.add("et0_fao_evapotranspiration");
-        }
-        if (daily.uv_index_max ?? false) {
-          dailyArgs.add("daily.uv_index_max");
-        }
-        if (daily.uv_index_clear_sky_max ?? false) {
-          dailyArgs.add("daily.uv_index_max");
-        }
+        dailyArgs = daily.map((value) => value.name).toList();
       }
     }
+
+    // Making sure there're no custom arguments from the client.
+    hourlyArgs.remove("all");
+    dailyArgs.remove("all");
 
     String args = "";
     args += hourlyArgs.isNotEmpty ? "hourly=${hourlyArgs.join(",")}" : "";
@@ -340,7 +98,7 @@ class OpenMeteo {
         ? "${hourlyArgs.isNotEmpty ? "&" : ""}daily=${dailyArgs.join(",")}"
         : "";
 
-    if (args == "") {
+    if (args.isEmpty) {
       throw InvalidDataException("Please provide Hourly class or Daily class.");
     }
 
