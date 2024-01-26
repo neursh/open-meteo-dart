@@ -15,12 +15,12 @@ There are 6 classes for you to play around with OpenMeteo's API:
 
 Example of getting temperauture from 2 meters above sea level:
 ```dart
-await OpenMeteo(latitude: 52.52, longitude: 13.41).raw_request(hourly: Hourly(temperature_2m: true));
+await OpenMeteo(latitude: 52.52, longitude: 13.41).raw_request(hourly: [Hourly.temperature_2m]);
 ```
 Or:
 ```dart
 var op = OpenMeteo(latitude: 52.52, longitude: 13.41);
-var hourly = Hourly(temperature_2m: true);
+var hourly = [Hourly.temperature_2m];
 var res = await op.raw_request(hourly: hourly);
 ```
 All options are shipped from the offcial [OpenMeteo's docs](https://open-meteo.com/en/docs#api-documentation)
