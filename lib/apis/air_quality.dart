@@ -44,7 +44,7 @@ class AirQuality {
   Future<Map<String, dynamic>> raw_request(
       {List<Hourly>? hourly, List<Current>? current}) async {
     String args = generateArgsDHCBase(null, hourly, current) +
-        createNullableParam('domains', domains) +
+        createNullableParam('domains', domains?.name) +
         createNullableParam('past_days', past_days) +
         createNullableParam('forecast_days', forecast_days) +
         createNullableParam('forecast_hours', forecast_hours) +

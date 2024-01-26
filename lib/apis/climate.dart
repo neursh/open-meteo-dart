@@ -46,9 +46,10 @@ class Climate {
                 "start_date", start_date.toIso8601String().split("T")[0]) +
             createNullableParam(
                 "end_date", end_date.toIso8601String().split("T")[0]) +
-            createNullableParam("temperature_unit", temperature_unit) +
-            createNullableParam("windspeed_unit", windspeed_unit) +
-            createNullableParam("precipitation_unit", precipitation_unit) +
+            createNullableParam("temperature_unit", temperature_unit?.name) +
+            createNullableParam("windspeed_unit", windspeed_unit?.name) +
+            createNullableParam(
+                "precipitation_unit", precipitation_unit?.name) +
             createNullableParam(
                 "disable_bias_correction", disable_bias_correction) +
             createNullableParam("cell_selection", cell_selection) +

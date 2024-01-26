@@ -53,9 +53,9 @@ class Marine {
       List<Daily>? daily,
       List<Current>? current}) async {
     String args = generateArgsDHCBase(daily, hourly, current) +
-        createNullableParam('temperature_unit', temperature_unit) +
-        createNullableParam('windspeed_unit', windspeed_unit) +
-        createNullableParam('precipitation_unit', precipitation_unit) +
+        createNullableParam('temperature_unit', temperature_unit?.name) +
+        createNullableParam('windspeed_unit', windspeed_unit?.name) +
+        createNullableParam('precipitation_unit', precipitation_unit?.name) +
         createNullableParam('past_days', past_days) +
         createNullableParam('forecast_days', forecast_days) +
         createNullableParam('forecast_hours', forecast_hours) +
