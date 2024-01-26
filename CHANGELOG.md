@@ -64,3 +64,7 @@
 * Added all features available in Open-Meteo API. Some are still limited.
 * Fix bug & improve performace.
 * Added custom API URL & checking.
+
+## 1.0.1
+
+* Edit name to fit the context.

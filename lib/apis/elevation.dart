@@ -6,12 +6,12 @@ import 'package:open_meteo/utils.dart';
 class Elevation {
   static Future<dynamic> search(
       {String apiUrl = "https://api.open-meteo.com/v1/",
-      required List<double> latitude,
-      longitude,
+      required List<double> latitudes,
+      longitudes,
       String? apikey}) async {
     Uri.parse(apiUrl);
-    String args = (createNullableParam("latitude", latitude.join(",")) +
-            createNullableParam("longitude", longitude.join(",")) +
+    String args = (createNullableParam("latitude", latitudes.join(",")) +
+            createNullableParam("longitude", longitudes.join(",")) +
             createNullableParam("apikey", apikey))
         .replaceFirst("&", "");
 

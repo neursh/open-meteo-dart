@@ -27,7 +27,7 @@ Only two exceptions are `Geocoding` and `Elevation`:
 var result = await Geocoding.search(name: "Somewhere");
 ```
 ```dart
-var result = await Elevation.search(latitude: 52.52, longitude: 13.41);
+var result = await Elevation.search(latitudes: [52.52], longitudes: [13.41]);
 ```
 
 ## Bugs & Pull requests
