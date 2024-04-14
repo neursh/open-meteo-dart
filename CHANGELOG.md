@@ -83,4 +83,4 @@
 
 ## 1.0.7
 
-* Remove unnecessary dev dependencies.
+* Remove unnecessary dev dependencies, allowing Dart without Flutter to work.
