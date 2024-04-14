@@ -80,3 +80,7 @@
 ## 1.0.6
 
 * Fixed issue #1 where the values are flipped in the location's name in Search API.
+
+## 1.0.7
+
+* Remove unnecessary dev dependencies.

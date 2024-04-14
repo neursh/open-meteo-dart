@@ -1,6 +1,6 @@
 name: open_meteo
 description: A simple, fast, asynchronous Dart/Flutter SDK package for Open-Meteo API.
-version: 1.0.6
+version: 1.0.7
 homepage: https://github.com/Neurs12/open-meteo-dart
 
 environment:
@@ -9,8 +9,3 @@ environment:
 
 dependencies:
   http: ^1.2.1
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^3.0.2
