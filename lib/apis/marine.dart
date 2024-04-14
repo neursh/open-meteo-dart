@@ -56,22 +56,22 @@ class Marine {
       List<Daily>? daily,
       List<Current>? current}) async {
     String args = generateArgsDHCBase(daily, hourly, current) +
-        createNullableParam('temperature_unit', temperature_unit?.name) +
-        createNullableParam('windspeed_unit', windspeed_unit?.name) +
-        createNullableParam('precipitation_unit', precipitation_unit?.name) +
-        createNullableParam('past_days', past_days) +
-        createNullableParam('forecast_days', forecast_days) +
-        createNullableParam('forecast_hours', forecast_hours) +
-        createNullableParam('past_hours', past_hours) +
+        createNullableParam("temperature_unit", temperature_unit?.name) +
+        createNullableParam("windspeed_unit", windspeed_unit?.name) +
+        createNullableParam("precipitation_unit", precipitation_unit?.name) +
+        createNullableParam("past_days", past_days) +
+        createNullableParam("forecast_days", forecast_days) +
+        createNullableParam("forecast_hours", forecast_hours) +
+        createNullableParam("past_hours", past_hours) +
         createNullableParam(
-            'start_date', start_date?.toIso8601String().substring(0, 10)) +
+            "start_date", start_date?.toIso8601String().substring(0, 10)) +
         createNullableParam(
-            'end_date', end_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam('start_hour', start_hour?.toIso8601String()) +
-        createNullableParam('end_hour', end_hour?.toIso8601String()) +
-        createNullableParam('length_unit', length_unit) +
-        createNullableParam('cell_selection', cell_selection) +
-        createNullableParam('apikey', apikey);
+            "end_date", end_date?.toIso8601String().substring(0, 10)) +
+        createNullableParam("start_hour", start_hour?.toIso8601String()) +
+        createNullableParam("end_hour", end_hour?.toIso8601String()) +
+        createNullableParam("length_unit", length_unit) +
+        createNullableParam("cell_selection", cell_selection) +
+        createNullableParam("apikey", apikey);
 
     // Send the request.
     return jsonDecode((await http.get(Uri.parse(

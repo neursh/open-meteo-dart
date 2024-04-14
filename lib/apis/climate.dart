@@ -77,6 +77,7 @@ class Climate {
     throwCheckLatLng(latitude, longitude);
   }
 
+  /// Create a HTTP request. The function will return JSON data as Map if successful.
   Future<Map<String, dynamic>> raw_request(
       {required List<Daily> daily, required List<ClimateModel> models}) async {
     String args =

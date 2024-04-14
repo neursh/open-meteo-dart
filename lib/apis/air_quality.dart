@@ -84,22 +84,23 @@ class AirQuality {
     throwCheckLatLng(latitude, longitude);
   }
 
+  /// Create a HTTP request. The function will return JSON data as Map if successful.
   Future<Map<String, dynamic>> raw_request(
       {List<Hourly>? hourly, List<Current>? current}) async {
     String args = generateArgsDHCBase(null, hourly, current) +
-        createNullableParam('domains', domains?.name) +
-        createNullableParam('past_days', past_days) +
-        createNullableParam('forecast_days', forecast_days) +
-        createNullableParam('forecast_hours', forecast_hours) +
-        createNullableParam('past_hours', past_hours) +
+        createNullableParam("domains", domains?.name) +
+        createNullableParam("past_days", past_days) +
+        createNullableParam("forecast_days", forecast_days) +
+        createNullableParam("forecast_hours", forecast_hours) +
+        createNullableParam("past_hours", past_hours) +
         createNullableParam(
-            'start_date', start_date?.toIso8601String().substring(0, 10)) +
+            "start_date", start_date?.toIso8601String().substring(0, 10)) +
         createNullableParam(
-            'end_date', end_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam('start_hour', start_hour?.toIso8601String()) +
-        createNullableParam('end_hour', end_hour?.toIso8601String()) +
-        createNullableParam('cell_selection', cell_selection) +
-        createNullableParam('apikey', apikey);
+            "end_date", end_date?.toIso8601String().substring(0, 10)) +
+        createNullableParam("start_hour", start_hour?.toIso8601String()) +
+        createNullableParam("end_hour", end_hour?.toIso8601String()) +
+        createNullableParam("cell_selection", cell_selection) +
+        createNullableParam("apikey", apikey);
 
     // Send the request.
     return jsonDecode((await http.get(Uri.parse(

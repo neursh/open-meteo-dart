@@ -62,28 +62,28 @@ class Weather {
       List<Daily>? daily,
       List<Current>? current}) async {
     String args = generateArgsDHCBase(daily, hourly, current) +
-        createNullableParam('elevation', elevation) +
-        createNullableParam('temperature_unit', temperature_unit?.name) +
-        createNullableParam('windspeed_unit', windspeed_unit?.name) +
-        createNullableParam('precipitation_unit', precipitation_unit?.name) +
-        createNullableParam('past_days', past_days) +
-        createNullableParam('forecast_days', forecast_days) +
-        createNullableParam('forecast_hours', forecast_hours) +
-        createNullableParam('forecast_minutely_15', forecast_minutely_15) +
-        createNullableParam('past_hours', past_hours) +
-        createNullableParam('past_minutely_15', past_minutely_15) +
+        createNullableParam("elevation", elevation) +
+        createNullableParam("temperature_unit", temperature_unit?.name) +
+        createNullableParam("windspeed_unit", windspeed_unit?.name) +
+        createNullableParam("precipitation_unit", precipitation_unit?.name) +
+        createNullableParam("past_days", past_days) +
+        createNullableParam("forecast_days", forecast_days) +
+        createNullableParam("forecast_hours", forecast_hours) +
+        createNullableParam("forecast_minutely_15", forecast_minutely_15) +
+        createNullableParam("past_hours", past_hours) +
+        createNullableParam("past_minutely_15", past_minutely_15) +
         createNullableParam(
-            'start_date', start_date?.toIso8601String().substring(0, 10)) +
+            "start_date", start_date?.toIso8601String().substring(0, 10)) +
         createNullableParam(
-            'end_date', end_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam('start_hour', start_hour?.toIso8601String()) +
-        createNullableParam('end_hour', end_hour?.toIso8601String()) +
+            "end_date", end_date?.toIso8601String().substring(0, 10)) +
+        createNullableParam("start_hour", start_hour?.toIso8601String()) +
+        createNullableParam("end_hour", end_hour?.toIso8601String()) +
         createNullableParam(
-            'start_minutely_15', start_minutely_15?.toIso8601String()) +
+            "start_minutely_15", start_minutely_15?.toIso8601String()) +
         createNullableParam(
-            'end_minutely_15', end_minutely_15?.toIso8601String()) +
-        createNullableParam('cell_selection', cell_selection) +
-        createNullableParam('apikey', apikey);
+            "end_minutely_15", end_minutely_15?.toIso8601String()) +
+        createNullableParam("cell_selection", cell_selection) +
+        createNullableParam("apikey", apikey);
 
     // Send the request.
     return jsonDecode((await http.get(Uri.parse(
