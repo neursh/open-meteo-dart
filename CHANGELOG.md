@@ -20,7 +20,7 @@
 
 ## 1.0.0
 
-* Breaking changes: This version changes how it organize classes and introduce to a lot of new features, all projects are now unable to update to this version without some changes to the code base.
+* Breaking changes: This version changes how it organizes classes and introduce to lots of new features, all projects depends on this are now unable to update to this version without some changes to the code base.
 * Added all features available in Open-Meteo API. Some are still limited.
 * Fix bug & improve performace.
 * Added custom API URL & checking.
