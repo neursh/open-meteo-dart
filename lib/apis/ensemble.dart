@@ -84,8 +84,9 @@ class Ensemble {
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
   CellSelection? cell_selection;
+
   /// Only required to commercial use to access reserved API resources for customers.
-  /// 
+  ///
   /// https://open-meteo.com/en/docs/ensemble-api/
   String? apikey;
 

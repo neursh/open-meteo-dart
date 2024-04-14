@@ -1,13 +1,15 @@
-# Open-Meteo API SDK (Rewritten)
+# Open-Meteo API SDK
 A simple, fast, asynchronous Dart/Flutter SDK package for Open-Meteo API.
 
 All [features from Open-Meteo API](https://open-meteo.com/en/features) are available with fully (some limited) implementation.
 
-> [!CAUTION]
-This SDK simplified hourly and daily values in across all 7 features that needed it into 2 enum files. Remember to read the docs carefully before using it.
+Read [Terms of Use](https://open-meteo.com/en/terms/) of Open Meteo before using this package.
 
 > [!NOTE]
 All parameters are shipped from the official [Open-Meteo's docs](https://open-meteo.com/en/docs#api-documentation).
+
+> [!CAUTION]
+This SDK simplified hourly and daily values in across all 7 features that needed it into 2 enum files. Remember to read the docs carefully before using it.
 
 ## Usage & Docs
 > [!NOTE]
