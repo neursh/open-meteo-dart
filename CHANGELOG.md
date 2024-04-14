@@ -76,3 +76,7 @@
 ## 1.0.5
 
 * Adding documentation...
+
+## 1.0.6
+
+* Fixed issue #1 where the values are flipped in the location's name in Search API.
