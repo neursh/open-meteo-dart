@@ -27,7 +27,7 @@ class Geocoding {
       return {};
     }
 
-    String args = (createNullableParam(name, "name") +
+    String args = (createNullableParam("name", name) +
             createNullableParam("count", count) +
             createNullableParam("language", language) +
             createNullableParam("apikey", apikey))
