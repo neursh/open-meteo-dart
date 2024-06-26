@@ -43,7 +43,9 @@ String generateArgsDHCBase(
   args += dailyArgs.isNotEmpty
       ? "${args.isNotEmpty ? "&" : ""}daily=${dailyArgs.join(",")}"
       : "";
-  args += hourlyArgs.isNotEmpty ? "hourly=${hourlyArgs.join(",")}" : "";
+  args += hourlyArgs.isNotEmpty
+      ? "${args.isNotEmpty ? "&" : ""}hourly=${hourlyArgs.join(",")}"
+      : "";
   args += currentArgs.isNotEmpty
       ? "${args.isNotEmpty ? "&" : ""}current=${currentArgs.join(",")}"
       : "";
