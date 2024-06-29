@@ -1,22 +1,62 @@
-## 1.0.7
+## 0.0.1
 
-* Remove unnecessary dev dependencies, allowing Dart without Flutter to work.
+* Initalize package.
 
-## 1.0.6
+## 0.0.2
 
-* Fixed issue #1 where the values are flipped in the location's name in Search API.
+* Fix some problem
 
-## 1.0.5
+## 0.0.3
 
-* Adding documentation...
+* Updated README.md and Dependencies
 
-## 1.0.3
+## 0.0.4
 
-* Fix enum usage.
+* Updated README.md and Dependencies
 
-## 1.0.1
+## 0.0.5
 
-* Edit name to fit the context.
+* Added example
+
+## 0.0.6
+
+* Added Geocoding API, document
+
+## 0.0.7
+
+* Edit elements
+
+## 0.0.8
+
+* Split Geocoding API to another code file
+
+## 0.0.9
+
+* Added new UV options on Daily class
+
+## 0.0.10
+
+* Updated packages. Revising the package.
+
+## 0.1.0
+
+* Rework the code, port current implementation to enum for readability and usability.
+
+## 0.1.1
+
+* Update README.
+
+## 0.1.2
+
+* Fix typos
+
+## 0.1.3
+
+* Add instructions to generator.js
+
+## 0.1.4
+
+* Edit the project's scope
 
 ## 1.0.0
 
@@ -25,62 +65,27 @@
 * Fix bug & improve performace.
 * Added custom API URL & checking.
 
-## 0.1.4
+## 1.0.1
 
-* Edit the project's scope
+* Edit name to fit the context.
 
-## 0.1.3
+## 1.0.3
 
-* Add instructions to generator.js
+* Fix enum usage.
 
-## 0.1.2
+## 1.0.5
 
-* Fix typos
+* Adding documentation...
 
-## 0.1.1
+## 1.0.6
 
-* Update README.
+* Fixed issue #1 where the values are flipped in the location's name in Search API.
 
-## 0.1.0
+## 1.0.7
 
-* Rework the code, port current implementation to enum for readability and usability.
+* Remove unnecessary dev dependencies, allowing Dart without Flutter to work.
 
-## 0.0.10
+## 1.0.8
 
-* Updated packages. Revising the package.
-
-## 0.0.9
-
-* Added new UV options on Daily class
-
-## 0.0.8
-
-* Split Geocoding API to another code file
-
-## 0.0.7
-
-* Edit elements
-
-## 0.0.6
-
-* Added Geocoding API, document
-
-## 0.0.5
-
-* Added example
-
-## 0.0.4
-
-* Updated README.md and Dependencies
-
-## 0.0.3
-
-* Updated README.md and Dependencies
-
-## 0.0.2
-
-* Fix some problem
-
-## 0.0.1
-
-* Initalize package.
+* Merge pull request #2 from alvaroarino/main
+* Missing "&" on hourly params
