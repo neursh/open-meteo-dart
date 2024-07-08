@@ -4,8 +4,14 @@ version: 1.0.8
 homepage: https://github.com/Neurs12/open-meteo-dart
 
 environment:
-  sdk: '>=2.19.0 <4.0.0'
-
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  freezed_annotation: ^2.4.2
   http: ^1.2.1
+  json_annotation: ^4.9.0
+
+dev_dependencies:
+  build_runner: ^2.4.11
+  freezed: ^2.5.4
+  json_serializable: ^6.8.0

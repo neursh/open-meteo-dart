@@ -1,13 +1,15 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
-import 'package:open_meteo/utils.dart';
 
 import '../enums/current.dart';
 import '../enums/daily.dart';
 import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
+import '../models/weather.dart';
+import '../utils.dart';
 
 /// Seamless integration of high-resolution weather models with up 16 days forecast.
 ///
@@ -90,4 +92,12 @@ class Weather {
             "${apiUrl}forecast?latitude=$latitude&longitude=$longitude&$args&timeformat=unixtime&timezone=auto")))
         .body);
   }
+
+  Future<WeatherResponse> request({
+    List<Hourly>? hourly,
+    List<Daily>? daily,
+    List<Current>? current,
+  }) async =>
+      WeatherResponse.fromJson(
+          await raw_request(hourly: hourly, daily: daily, current: current));
 }
