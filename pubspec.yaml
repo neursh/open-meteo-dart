@@ -6,6 +6,7 @@ homepage: https://github.com/Neurs12/open-meteo-dart
 environment:
   sdk: '>=2.19.0 <4.0.0'
 
-
 dependencies:
   http: ^1.2.1
+dev_dependencies:
+  lints: ^4.0.0

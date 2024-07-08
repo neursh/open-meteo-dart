@@ -1,19 +1,15 @@
-// ignore_for_file: non_constant_identifier_names
-
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:open_meteo/enums/air_quality_domain.dart';
-import 'package:open_meteo/utils.dart';
-
+import '../enums/air_quality_domain.dart';
 import '../enums/current.dart';
 import '../enums/hourly.dart';
+import '../enums/prefcls.dart';
+import '../utils.dart';
 
 /// Pollutants and pollen forecast in 11 km resolution.
 ///
 /// https://open-meteo.com/en/docs/air-quality-api/
 class AirQuality {
   /// Custom API URL, format: `https://<domain>/<version>/`
-  String? apiUrl = "https://air-quality-api.open-meteo.com/v1/";
+  String apiUrl;
 
   /// Geographical WGS84 coordinates of the location.
   ///
@@ -55,7 +51,7 @@ class AirQuality {
   /// Set a preference how grid-cells are selected.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  String? cell_selection;
+  CellSelection? cell_selection;
 
   /// Only required to commercial use to access reserved API resources for customers.
   ///
@@ -63,7 +59,7 @@ class AirQuality {
   String? apikey;
 
   AirQuality({
-    this.apiUrl,
+    this.apiUrl = 'https://air-quality-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
     this.domains,
@@ -78,33 +74,31 @@ class AirQuality {
     this.cell_selection,
     this.apikey,
   }) {
-    apiUrl = apiUrl ?? "https://air-quality-api.open-meteo.com/v1/";
-    Uri.parse(apiUrl!);
+    Uri.parse(apiUrl);
 
     throwCheckLatLng(latitude, longitude);
   }
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request(
-      {List<Hourly>? hourly, List<Current>? current}) async {
-    String args = generateArgsDHCBase(null, hourly, current) +
-        createNullableParam("domains", domains?.name) +
-        createNullableParam("past_days", past_days) +
-        createNullableParam("forecast_days", forecast_days) +
-        createNullableParam("forecast_hours", forecast_hours) +
-        createNullableParam("past_hours", past_hours) +
-        createNullableParam(
-            "start_date", start_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam(
-            "end_date", end_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam("start_hour", start_hour?.toIso8601String()) +
-        createNullableParam("end_hour", end_hour?.toIso8601String()) +
-        createNullableParam("cell_selection", cell_selection) +
-        createNullableParam("apikey", apikey);
-
-    // Send the request.
-    return jsonDecode((await http.get(Uri.parse(
-            "${apiUrl}air-quality?latitude=$latitude&longitude=$longitude&$args&timeformat=unixtime&timezone=auto")))
-        .body);
-  }
+  Future<Map<String, dynamic>> raw_request({
+    List<Hourly>? hourly,
+    List<Current>? current,
+  }) =>
+      sendHttpRequest(apiUrl, 'air-quality', {
+        'latitude': latitude,
+        'longitude': longitude,
+        'domains': domains?.name,
+        'past_days': past_days,
+        'forecast_days': forecast_days,
+        'forecast_hours': forecast_hours,
+        'past_hours': past_hours,
+        'start_date': formatDate(start_date),
+        'end_date': formatDate(end_date),
+        'start_hour': formatTime(start_hour),
+        'end_hour': formatTime(end_hour),
+        'call_selection': cell_selection?.name,
+        'apikey': apikey,
+        'timeformat': 'unixtime',
+        'timezone': 'auto',
+      });
 }

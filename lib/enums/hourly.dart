@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names, camel_case_types
-
 /// Hourly enums provided by Open-Meteo. Storing all parameters available from documentation.
 enum Hourly {
   temperature_2m,
