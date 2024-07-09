@@ -85,6 +85,8 @@ class AirQuality {
     List<Current>? current,
   }) =>
       sendHttpRequest(apiUrl, 'air-quality', {
+        'hourly': hourly?.map((option) => option.name).join(","),
+        'current': current?.map((option) => option.name).join(","),
         'domains': domains?.name,
         'past_days': past_days,
         'forecast_days': forecast_days,

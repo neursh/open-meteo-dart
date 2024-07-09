@@ -78,6 +78,8 @@ enum Hourly {
   swell_wave_period,
   wind_wave_peak_period,
   swell_wave_peak_period,
+  ocean_current_velocity,
+  ocean_current_direction,
   pm10,
   pm2_5,
   carbon_monoxide,
