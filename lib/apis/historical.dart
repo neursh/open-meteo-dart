@@ -18,7 +18,7 @@ class Historical {
   String? apikey;
 
   Historical({
-    this.apiUrl = 'https://api.open-meteo.com/v1/',
+    this.apiUrl = 'https://archive-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
     this.elevation,
