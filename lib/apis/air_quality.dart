@@ -85,8 +85,6 @@ class AirQuality {
     List<Current>? current,
   }) =>
       sendHttpRequest(apiUrl, 'air-quality', {
-        'latitude': latitude,
-        'longitude': longitude,
         'domains': domains?.name,
         'past_days': past_days,
         'forecast_days': forecast_days,
@@ -98,6 +96,8 @@ class AirQuality {
         'end_hour': formatTime(end_hour),
         'call_selection': cell_selection?.name,
         'apikey': apikey,
+        'latitude': latitude,
+        'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
       });
