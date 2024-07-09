@@ -103,7 +103,6 @@ void main() {
     var daily = [Daily.temperature_2m_max];
     test('Daily temperature', () async {
       var result = await climate.raw_request(models: models, daily: daily);
-      print(result);
       expect(result['error'], isNot(true));
       expect(result['daily'], isNot(null));
       expect(result['daily']['time'].length,
