@@ -51,9 +51,9 @@ class Marine {
     List<Current>? current,
   }) =>
       sendHttpRequest(apiUrl, 'marine', {
-        'daily': daily?.join(','),
-        'hourly': hourly?.join(','),
-        'current': current?.join(','),
+        'daily': daily?.map((option) => option.name).join(","),
+        'hourly': hourly?.map((option) => option.name).join(","),
+        'current': current?.map((option) => option.name).join(","),
         'temperature_unit': temperature_unit?.name,
         'windspeed_unit': windspeed_unit?.name,
         'precipitation_unit': precipitation_unit?.name,

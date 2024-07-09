@@ -63,7 +63,7 @@ class Flood {
   /// Create a HTTP request. The function will return JSON data as Map if successful.
   Future<Map<String, dynamic>> raw_request({List<Daily>? daily}) =>
       sendHttpRequest(apiUrl, 'flood', {
-        'daily': daily?.join(','),
+        'daily': daily?.map((option) => option.name).join(","),
         'past_days': past_days,
         'forecast_days': forecast_days,
         'start_date': formatDate(start_date),

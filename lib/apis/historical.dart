@@ -39,8 +39,8 @@ class Historical {
     List<Daily>? daily,
   }) =>
       sendHttpRequest(apiUrl, 'archive', {
-        'daily': daily?.join(','),
-        'hourly': hourly?.join(','),
+        'daily': daily?.map((option) => option.name).join(","),
+        'hourly': hourly?.map((option) => option.name).join(","),
         'elevation': elevation,
         'start_date': formatDate(start_date),
         'end_date': formatDate(end_date),

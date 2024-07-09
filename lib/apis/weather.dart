@@ -57,9 +57,9 @@ class Weather {
     List<Current>? current,
   }) =>
       sendHttpRequest(apiUrl, 'forecast', {
-        'hourly': hourly?.join(','),
-        'daily': daily?.join(','),
-        'current': current?.join(','),
+        'hourly': hourly?.map((option) => option.name).join(","),
+        'daily': daily?.map((option) => option.name).join(","),
+        'current': current?.map((option) => option.name).join(","),
         'elevation': elevation,
         'temperature_unit': temperature_unit?.name,
         'windspeed_unit': windspeed_unit?.name,
