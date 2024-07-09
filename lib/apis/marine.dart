@@ -1,19 +1,14 @@
-// ignore_for_file: non_constant_identifier_names
-
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:open_meteo/utils.dart';
-
 import '../enums/current.dart';
 import '../enums/daily.dart';
 import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
+import '../utils.dart';
 
 /// Hourly wave forecasts at 5 km resolution
 ///
 /// https://open-meteo.com/en/docs/marine-weather-api/
 class Marine {
-  String? apiUrl = "https://marine-api.open-meteo.com/v1/";
+  String apiUrl;
   final double latitude, longitude;
   TemperatureUnit? temperature_unit;
   WindspeedUnit? windspeed_unit;
@@ -23,11 +18,11 @@ class Marine {
   DateTime? start_date, end_date;
   DateTime? start_hour, end_hour;
   LengthUnit? length_unit;
-  String? cell_selection;
+  CellSelection? cell_selection;
   String? apikey;
 
   Marine({
-    this.apiUrl,
+    this.apiUrl = 'https://marine-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
     this.temperature_unit,
@@ -45,37 +40,36 @@ class Marine {
     this.cell_selection,
     this.apikey,
   }) {
-    apiUrl = apiUrl ?? "https://marine-api.open-meteo.com/v1/";
-    Uri.parse(apiUrl!);
+    Uri.parse(apiUrl);
 
     throwCheckLatLng(latitude, longitude);
   }
 
-  Future<Map<String, dynamic>> raw_request(
-      {List<Hourly>? hourly,
-      List<Daily>? daily,
-      List<Current>? current}) async {
-    String args = generateArgsDHCBase(daily, hourly, current) +
-        createNullableParam("temperature_unit", temperature_unit?.name) +
-        createNullableParam("windspeed_unit", windspeed_unit?.name) +
-        createNullableParam("precipitation_unit", precipitation_unit?.name) +
-        createNullableParam("past_days", past_days) +
-        createNullableParam("forecast_days", forecast_days) +
-        createNullableParam("forecast_hours", forecast_hours) +
-        createNullableParam("past_hours", past_hours) +
-        createNullableParam(
-            "start_date", start_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam(
-            "end_date", end_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam("start_hour", start_hour?.toIso8601String()) +
-        createNullableParam("end_hour", end_hour?.toIso8601String()) +
-        createNullableParam("length_unit", length_unit) +
-        createNullableParam("cell_selection", cell_selection) +
-        createNullableParam("apikey", apikey);
-
-    // Send the request.
-    return jsonDecode((await http.get(Uri.parse(
-            "${apiUrl}marine?latitude=$latitude&longitude=$longitude&$args&timeformat=unixtime&timezone=auto")))
-        .body);
-  }
+  Future<Map<String, dynamic>> raw_request({
+    List<Hourly>? hourly,
+    List<Daily>? daily,
+    List<Current>? current,
+  }) =>
+      sendHttpRequest(apiUrl, 'marine', {
+        'daily': daily?.map((option) => option.name).join(","),
+        'hourly': hourly?.map((option) => option.name).join(","),
+        'current': current?.map((option) => option.name).join(","),
+        'temperature_unit': temperature_unit?.name,
+        'windspeed_unit': windspeed_unit?.name,
+        'precipitation_unit': precipitation_unit?.name,
+        'past_days': past_days,
+        'forecast_days': forecast_days,
+        'past_hours': past_hours,
+        'start_date': formatDate(start_date),
+        'end_date': formatDate(end_date),
+        'start_hour': formatTime(start_hour),
+        'end_hour': formatTime(end_hour),
+        'length_unit': length_unit?.name,
+        'cell_selection': cell_selection?.name,
+        'apikey': apikey,
+        'latiude': latitude,
+        'longitude': longitude,
+        'timeformat': 'unixtime',
+        'timezone': 'auto',
+      });
 }

@@ -1,8 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import '../enums/daily.dart';
 import '../enums/prefcls.dart';
 import '../utils.dart';
@@ -12,7 +7,7 @@ import '../utils.dart';
 /// https://open-meteo.com/en/docs/flood-api/
 class Flood {
   /// Custom API URL, format: `https://<domain>/<version>/`.
-  String? apiUrl = "https://flood-api.open-meteo.com/v1/";
+  String apiUrl;
 
   /// Geographical WGS84 coordinates of the location.
   ///
@@ -50,7 +45,7 @@ class Flood {
   String? apikey;
 
   Flood({
-    this.apiUrl,
+    this.apiUrl = 'https://flood-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
     this.past_days,
@@ -60,29 +55,25 @@ class Flood {
     this.cell_selection,
     this.apikey,
   }) {
-    apiUrl = apiUrl ?? "https://flood-api.open-meteo.com/v1/";
-    Uri.parse(apiUrl!);
+    Uri.parse(apiUrl);
 
     throwCheckLatLng(latitude, longitude);
   }
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request({List<Daily>? daily}) async {
-    // ignore: prefer_interpolation_to_compose_strings
-    String args = generateArgsDHCBase(daily, null, null) +
-        createNullableParam("past_days", past_days) +
-        createNullableParam("forecast_days", forecast_days) +
-        createNullableParam(
-            "start_date", start_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam(
-            "end_date", end_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam("ensemble", ensemble) +
-        createNullableParam("cell_selection", cell_selection) +
-        createNullableParam("apikey", apikey);
-
-    // Send the request.
-    return jsonDecode((await http.get(Uri.parse(
-            "${apiUrl}flood?latitude=$latitude&longitude=$longitude&$args&timeformat=unixtime&timezone=auto")))
-        .body);
-  }
+  Future<Map<String, dynamic>> raw_request({List<Daily>? daily}) =>
+      sendHttpRequest(apiUrl, 'flood', {
+        'daily': daily?.map((option) => option.name).join(","),
+        'past_days': past_days,
+        'forecast_days': forecast_days,
+        'start_date': formatDate(start_date),
+        'end_date': formatDate(end_date),
+        'ensemble': ensemble,
+        'cell_selection': cell_selection?.name,
+        'apikey': apikey,
+        'latitude': latitude,
+        'longitude': longitude,
+        'timeformat': 'unixtime',
+        'timezone': 'auto',
+      });
 }

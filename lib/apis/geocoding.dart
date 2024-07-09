@@ -1,7 +1,4 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import 'package:open_meteo/utils.dart';
+import '../utils.dart';
 
 /// Search locations globally in any language.
 ///
@@ -16,24 +13,23 @@ class Geocoding {
   /// `apikey`: Only required to commercial use to access reserved API resources for customers.
   ///
   /// https://open-meteo.com/en/docs/elevation-api/
-  static Future<dynamic> search(
-      {String apiUrl = "https://geocoding-api.open-meteo.com/v1/",
-      required String name,
-      int? count,
-      String? language,
-      String? apikey}) async {
+  static Future<dynamic> search({
+    String apiUrl = 'https://geocoding-api.open-meteo.com/v1/',
+    required String name,
+    int? count,
+    String? language,
+    String? apikey,
+  }) {
     Uri.parse(apiUrl);
     if (name.isEmpty) {
-      return {};
+      return Future.value({});
     }
 
-    String args = (createNullableParam("name", name) +
-            createNullableParam("count", count) +
-            createNullableParam("language", language) +
-            createNullableParam("apikey", apikey))
-        .replaceFirst("&", "");
-
-    return jsonDecode(
-        (await http.get(Uri.parse("${apiUrl}search?$args"))).body);
+    return sendHttpRequest(apiUrl, 'search', {
+      'name': name,
+      'count': count,
+      'language': language,
+      'apikey': apikey,
+    });
   }
 }
