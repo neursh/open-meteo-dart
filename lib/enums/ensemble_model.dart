@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 /// Ensemble model provided by Open-Meteo
 enum EnsembleModel {
   icon_seamless,

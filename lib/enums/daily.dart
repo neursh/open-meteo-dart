@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, camel_case_types
+
 /// Daily enums provided by Open-Meteo. Storing all parameters available from documentation.
 enum Daily {
   temperature_2m_max,

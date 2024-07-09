@@ -1,3 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import '../enums/ensemble_model.dart';
 import '../enums/prefcls.dart';
 import '../utils.dart';
@@ -7,7 +12,7 @@ import '../utils.dart';
 /// https://open-meteo.com/en/docs/ensemble-api/
 class Ensemble {
   /// Custom API URL, format: `https://<domain>/<version>/`.
-  String apiUrl;
+  String? apiUrl = "https://ensemble-api.open-meteo.com/v1/";
 
   /// Geographical WGS84 coordinates of the location.
   ///
@@ -86,7 +91,7 @@ class Ensemble {
   String? apikey;
 
   Ensemble({
-    this.apiUrl = 'https://ensemble-api.open-meteo.com/v1/',
+    this.apiUrl,
     required this.latitude,
     required this.longitude,
     this.elevation,
@@ -108,38 +113,43 @@ class Ensemble {
     this.cell_selection,
     this.apikey,
   }) {
-    Uri.parse(apiUrl);
+    apiUrl = apiUrl ?? "https://ensemble-api.open-meteo.com/v1/";
+    Uri.parse(apiUrl!);
 
     throwCheckLatLng(latitude, longitude);
   }
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request({
-    required List<EnsembleModel> models,
-  }) =>
-      sendHttpRequest(apiUrl, 'ensemble', {
-        'models': models.map((value) => value.name).toList().join(','),
-        'elevation': elevation,
-        'temperature_unit': temperature_unit?.name,
-        'windspeed_unit': windspeed_unit?.name,
-        'precipitation_unit': precipitation_unit?.name,
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'forecast_hours': forecast_hours,
-        'forecast_minutely_15': forecast_minutely_15,
-        'past_hours': past_hours,
-        'past_minutely_15': past_minutely_15,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'start_hour': formatTime(start_hour),
-        'end_hour': formatTime(end_hour),
-        'start_minytely_15': formatTime(start_minutely_15),
-        'end_minutely_15': formatTime(end_minutely_15),
-        'cell_selection': cell_selection?.name,
-        'apikey': apikey,
-        'latitude': latitude,
-        'longitude': longitude,
-        'timeformat': 'unixtime',
-        'timezone': 'auto',
-      });
+  Future<Map<String, dynamic>> raw_request(
+      {required List<EnsembleModel> models}) async {
+    // ignore: prefer_interpolation_to_compose_strings
+    String args = "models=${generateVaules(models).join(",")}" +
+        createNullableParam("elevation", elevation) +
+        createNullableParam("temperature_unit", temperature_unit?.name) +
+        createNullableParam("windspeed_unit", windspeed_unit?.name) +
+        createNullableParam("precipitation_unit", precipitation_unit?.name) +
+        createNullableParam("past_days", past_days) +
+        createNullableParam("forecast_days", forecast_days) +
+        createNullableParam("forecast_hours", forecast_hours) +
+        createNullableParam("forecast_minutely_15", forecast_minutely_15) +
+        createNullableParam("past_hours", past_hours) +
+        createNullableParam("past_minutely_15", past_minutely_15) +
+        createNullableParam(
+            "start_date", start_date?.toIso8601String().substring(0, 10)) +
+        createNullableParam(
+            "end_date", end_date?.toIso8601String().substring(0, 10)) +
+        createNullableParam("start_hour", start_hour?.toIso8601String()) +
+        createNullableParam("end_hour", end_hour?.toIso8601String()) +
+        createNullableParam(
+            "start_minutely_15", start_minutely_15?.toIso8601String()) +
+        createNullableParam(
+            "end_minutely_15", end_minutely_15?.toIso8601String()) +
+        createNullableParam("cell_selection", cell_selection) +
+        createNullableParam("apikey", apikey);
+
+    // Send the request.
+    return jsonDecode((await http.get(Uri.parse(
+            "${apiUrl}ensemble?latitude=$latitude&longitude=$longitude&$args&timeformat=unixtime&timezone=auto")))
+        .body);
+  }
 }
