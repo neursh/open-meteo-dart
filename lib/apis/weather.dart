@@ -1,19 +1,14 @@
-// ignore_for_file: non_constant_identifier_names
-
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:open_meteo/utils.dart';
-
 import '../enums/current.dart';
 import '../enums/daily.dart';
 import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
+import '../utils.dart';
 
 /// Seamless integration of high-resolution weather models with up 16 days forecast.
 ///
 /// https://open-meteo.com/en/docs/
 class Weather {
-  String? apiUrl = "https://api.open-meteo.com/v1/";
+  String apiUrl;
   final double latitude, longitude;
   double? elevation;
   TemperatureUnit? temperature_unit;
@@ -25,11 +20,11 @@ class Weather {
   DateTime? start_date, end_date;
   DateTime? start_hour, end_hour;
   DateTime? start_minutely_15, end_minutely_15;
-  String? cell_selection;
+  CellSelection? cell_selection;
   String? apikey;
 
   Weather({
-    this.apiUrl,
+    this.apiUrl = 'https://api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
     this.elevation,
@@ -51,43 +46,41 @@ class Weather {
     this.cell_selection,
     this.apikey,
   }) {
-    apiUrl = apiUrl ?? "https://api.open-meteo.com/v1/";
-    Uri.parse(apiUrl!);
+    Uri.parse(apiUrl);
 
     throwCheckLatLng(latitude, longitude);
   }
 
-  Future<Map<String, dynamic>> raw_request(
-      {List<Hourly>? hourly,
-      List<Daily>? daily,
-      List<Current>? current}) async {
-    String args = generateArgsDHCBase(daily, hourly, current) +
-        createNullableParam("elevation", elevation) +
-        createNullableParam("temperature_unit", temperature_unit?.name) +
-        createNullableParam("windspeed_unit", windspeed_unit?.name) +
-        createNullableParam("precipitation_unit", precipitation_unit?.name) +
-        createNullableParam("past_days", past_days) +
-        createNullableParam("forecast_days", forecast_days) +
-        createNullableParam("forecast_hours", forecast_hours) +
-        createNullableParam("forecast_minutely_15", forecast_minutely_15) +
-        createNullableParam("past_hours", past_hours) +
-        createNullableParam("past_minutely_15", past_minutely_15) +
-        createNullableParam(
-            "start_date", start_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam(
-            "end_date", end_date?.toIso8601String().substring(0, 10)) +
-        createNullableParam("start_hour", start_hour?.toIso8601String()) +
-        createNullableParam("end_hour", end_hour?.toIso8601String()) +
-        createNullableParam(
-            "start_minutely_15", start_minutely_15?.toIso8601String()) +
-        createNullableParam(
-            "end_minutely_15", end_minutely_15?.toIso8601String()) +
-        createNullableParam("cell_selection", cell_selection) +
-        createNullableParam("apikey", apikey);
-
-    // Send the request.
-    return jsonDecode((await http.get(Uri.parse(
-            "${apiUrl}forecast?latitude=$latitude&longitude=$longitude&$args&timeformat=unixtime&timezone=auto")))
-        .body);
-  }
+  Future<Map<String, dynamic>> raw_request({
+    List<Hourly>? hourly,
+    List<Daily>? daily,
+    List<Current>? current,
+  }) =>
+      sendHttpRequest(apiUrl, 'forecast', {
+        'hourly': hourly?.join(','),
+        'daily': daily?.join(','),
+        'current': current?.join(','),
+        'elevation': elevation,
+        'temperature_unit': temperature_unit?.name,
+        'windspeed_unit': windspeed_unit?.name,
+        'precipitation_unit': precipitation_unit?.name,
+        'past_days': past_days,
+        'forecast_days': forecast_days,
+        'forecast_hours': forecast_hours,
+        'forecast_minutely_15': forecast_minutely_15,
+        'past_hours': past_hours,
+        'past_minutely_15': past_minutely_15,
+        'start_date': formatDate(start_date),
+        'end_date': formatDate(end_date),
+        'start_hour': formatTime(start_hour),
+        'end_hour': formatTime(end_hour),
+        'start_minutely_15': formatTime(start_minutely_15),
+        'end_minutely_15': formatTime(end_minutely_15),
+        'cell_selection': cell_selection?.name,
+        'apikey': apikey,
+        'latitude': latitude,
+        'longitude': longitude,
+        'timeformat': 'unixtime',
+        'timezone': 'auto',
+      });
 }
