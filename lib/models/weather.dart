@@ -64,15 +64,15 @@ WeatherData _weatherDataFromJson(Map<String, dynamic> json) {
   if (json.containsKey('hourly')) {
     json['hourlyForecastTime'] =
         (json['hourly']['time'] as List<dynamic>).map(_convertTime).toList();
-    json['hourly'] as Map<String, dynamic>..remove('time');
-    json['hourly_units'] as Map<String, dynamic>..remove('time');
+    (json['hourly'] as Map<String, dynamic>).remove('time');
+    (json['hourly_units'] as Map<String, dynamic>).remove('time');
   }
 
   if (json.containsKey('daily')) {
     json['dailyForecastTime'] =
         (json['daily']['time'] as List<dynamic>).map(_convertTime).toList();
-    json['daily'] as Map<String, dynamic>..remove('time');
-    json['daily_units'] as Map<String, dynamic>..remove('time');
+    (json['daily'] as Map<String, dynamic>).remove('time');
+    (json['daily_units'] as Map<String, dynamic>).remove('time');
   }
 
   return WeatherData.fromJson(json);
