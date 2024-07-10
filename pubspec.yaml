@@ -7,6 +7,7 @@ environment:
   sdk: '>=2.19.0 <4.0.0'
 
 dependencies:
+  flat_buffers: ^23.5.26
   http: ^1.2.1
 dev_dependencies:
   lints: ^4.0.0
