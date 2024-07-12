@@ -24,5 +24,6 @@ Future<Map<String, dynamic>> sendHttpRequest(
       .map((entry) => '${entry.key}=${entry.value}')
       .join('&');
   Uri url = Uri.parse('$baseUrl$path?$query');
+  print("[open_meteo] Parsed URL: ${url.toString()}");
   return jsonDecode((await http.get(url)).body);
 }

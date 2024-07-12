@@ -1,4 +1,5 @@
 import '../enums/ensemble_model.dart';
+import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
 import '../utils.dart';
 
@@ -116,9 +117,11 @@ class Ensemble {
   /// Create a HTTP request. The function will return JSON data as Map if successful.
   Future<Map<String, dynamic>> raw_request({
     required List<EnsembleModel> models,
+    List<Hourly>? hourly,
   }) =>
       sendHttpRequest(apiUrl, 'ensemble', {
         'models': models.map((value) => value.name).toList().join(','),
+        'hourly': hourly?.map((value) => value.name).toList().join(','),
         'elevation': elevation,
         'temperature_unit': temperature_unit?.name,
         'windspeed_unit': windspeed_unit?.name,

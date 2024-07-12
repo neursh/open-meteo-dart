@@ -67,7 +67,7 @@ class Marine {
         'length_unit': length_unit?.name,
         'cell_selection': cell_selection?.name,
         'apikey': apikey,
-        'latiude': latitude,
+        'latitude': latitude,
         'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',

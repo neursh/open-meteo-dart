@@ -36,6 +36,5 @@ jobs:
       - name: Analyze project source
         run: dart analyze --fatal-infos
 
-      # Writing tests is now in scope, for now, just check for basic operations.
-      # - name: Run tests
-      #   run: dart test
+      - name: Run tests
+        run: dart test

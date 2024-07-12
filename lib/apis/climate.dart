@@ -78,6 +78,8 @@ class Climate {
     required List<ClimateModel> models,
   }) =>
       sendHttpRequest(apiUrl, 'climate', {
+        'daily': daily.map((value) => value.name).toList().join(','),
+        'models': models.map((value) => value.name).toList().join(','),
         'start_date': formatDate(start_date),
         'end_date': formatDate(end_date),
         'temperature_unit': temperature_unit?.name,
