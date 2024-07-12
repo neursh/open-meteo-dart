@@ -1,29 +1,36 @@
 import 'dart:typed_data';
 
 import 'package:flat_buffers/flat_buffers.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '/enums/current.dart';
 import '/enums/daily.dart';
 import '/enums/hourly.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
-part 'weather.freezed.dart';
+class WeatherResponse {
+  final double latitude;
+  final double longitude;
+  final double elevation;
+  final Duration generationTime;
+  final Duration utcOffset;
+  final String? timezone;
+  final String? timezoneAbbreviation;
+  final Map<Current, WeatherParameterData>? currentWeatherData;
+  final Map<Hourly, WeatherParameterData>? hourlyWeatherData;
+  final Map<Daily, WeatherParameterData>? dailyWeatherData;
 
-@freezed
-sealed class WeatherResponse with _$WeatherResponse {
-  const factory WeatherResponse._({
-    required double latitude,
-    required double longitude,
-    required double elevation,
-    required Duration generationTime,
-    required Duration utcOffset,
-    required String? timezone,
-    required String? timezoneAbbreviation,
-    required Map<Current, WeatherParameterData>? currentWeatherData,
-    required Map<Hourly, WeatherParameterData>? hourlyWeatherData,
-    required Map<Daily, WeatherParameterData>? dailyWeatherData,
-  }) = _WeatherResponse;
+  const WeatherResponse._({
+    required this.latitude,
+    required this.longitude,
+    required this.elevation,
+    required this.generationTime,
+    required this.utcOffset,
+    required this.timezone,
+    required this.timezoneAbbreviation,
+    required this.currentWeatherData,
+    required this.hourlyWeatherData,
+    required this.dailyWeatherData,
+  });
 
   factory WeatherResponse.fromFlatBuffer(Uint8List bytes) {
     int prefixed =
@@ -48,12 +55,14 @@ sealed class WeatherResponse with _$WeatherResponse {
   }
 }
 
-@freezed
-class WeatherParameterData with _$WeatherParameterData {
-  factory WeatherParameterData({
-    required String? unit,
-    required Map<DateTime, double>? data,
-  }) = _WeatherParameterData;
+class WeatherParameterData {
+  final String? unit;
+  final Map<DateTime, double>? data;
+
+  WeatherParameterData._({
+    required this.unit,
+    required this.data,
+  });
 }
 
 Map<Parameter, WeatherParameterData>? processSingle<Parameter extends Enum>(
@@ -72,7 +81,7 @@ Map<Parameter, WeatherParameterData>? processSingle<Parameter extends Enum>(
 
     return MapEntry(
       variable,
-      WeatherParameterData(
+      WeatherParameterData._(
         unit: unitsMap[v.unit],
         data: {timestamp: v.value},
       ),
@@ -106,7 +115,7 @@ Map<Parameter, WeatherParameterData>? processMultiple<Parameter extends Enum>(
 
     return MapEntry(
       variable,
-      WeatherParameterData(
+      WeatherParameterData._(
         unit: unitsMap[v.unit],
         data: {
           for (int i = 0; i < timestamps.length && i < values.length; i++)
