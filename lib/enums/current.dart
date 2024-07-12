@@ -1,3 +1,5 @@
+import '../weather_api_openmeteo_sdk_generated.dart';
+
 /// Current enums provided by Open-Meteo. Storing all parameters available from documentation.
 enum Current {
   temperature_2m,
@@ -46,5 +48,56 @@ enum Current {
   grass_pollen,
   mugwort_pollen,
   olive_pollen,
-  ragweed_pollen
+  ragweed_pollen;
+
+  static Current? fromVariable(VariableWithValues v) => switch (v.variable) {
+        Variable.pm2p5 => Current.pm2_5,
+        Variable.apparent_temperature => Current.apparent_temperature,
+        Variable.is_day => Current.is_day,
+        Variable.precipitation => Current.precipitation,
+        Variable.rain => Current.rain,
+        Variable.showers => Current.showers,
+        Variable.snowfall => Current.snowfall,
+        Variable.weather_code => Current.weather_code,
+        Variable.cloud_cover => Current.cloud_cover,
+        Variable.pressure_msl => Current.pressure_msl,
+        Variable.surface_pressure => Current.surface_pressure,
+        Variable.wave_height => Current.wave_height,
+        Variable.wind_wave_height => Current.wind_wave_height,
+        Variable.swell_wave_height => Current.swell_wave_height,
+        Variable.wave_direction => Current.wave_direction,
+        Variable.wind_wave_direction => Current.wind_wave_direction,
+        Variable.swell_wave_direction => Current.swell_wave_direction,
+        Variable.wave_period => Current.wave_period,
+        Variable.wind_wave_period => Current.wind_wave_period,
+        Variable.swell_wave_period => Current.swell_wave_period,
+        Variable.wind_wave_peak_period => Current.wind_wave_peak_period,
+        Variable.swell_wave_peak_period => Current.swell_wave_peak_period,
+        Variable.ocean_current_velocity => Current.ocean_current_velocity,
+        Variable.ocean_current_direction => Current.ocean_current_direction,
+        Variable.european_aqi => Current.european_aqi,
+        Variable.us_aqi => Current.us_aqi,
+        Variable.pm10 => Current.pm10,
+        Variable.carbon_monoxide => Current.carbon_monoxide,
+        Variable.nitrogen_dioxide => Current.nitrogen_dioxide,
+        Variable.sulphur_dioxide => Current.sulphur_dioxide,
+        Variable.ozone => Current.ozone,
+        Variable.aerosol_optical_depth => Current.aerosol_optical_depth,
+        Variable.dust => Current.dust,
+        Variable.uv_index => Current.uv_index,
+        Variable.uv_index_clear_sky => Current.uv_index_clear_sky,
+        Variable.ammonia => Current.ammonia,
+        Variable.alder_pollen => Current.alder_pollen,
+        Variable.birch_pollen => Current.birch_pollen,
+        Variable.grass_pollen => Current.grass_pollen,
+        Variable.mugwort_pollen => Current.mugwort_pollen,
+        Variable.olive_pollen => Current.olive_pollen,
+        Variable.ragweed_pollen => Current.ragweed_pollen,
+        Variable.temperature => Current.temperature_2m,
+        Variable.relative_humidity => Current.relative_humidity_2m,
+        Variable.wind_speed => Current.wind_speed_10m,
+        Variable.wind_direction => Current.wind_direction_10m,
+        Variable.wind_gusts => Current.wind_gusts_10m,
+        _ => null,
+      };
 }

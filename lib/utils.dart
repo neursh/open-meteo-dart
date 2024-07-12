@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 
-import 'exceptions/invalid_data.dart';
+import 'exceptions.dart';
 
 String? formatDate(DateTime? date) => date?.toIso8601String().substring(0, 10);
 String? formatTime(DateTime? time) => time?.toIso8601String();
@@ -29,8 +29,11 @@ Future<Map<String, dynamic>> sendHttpRequest(
   return jsonDecode((await http.get(url)).body);
 }
 
-Future<Uint8List> sendFlatBuffersRequest(
-    String baseUrl, String path, Map<String, dynamic> queryParams) async {
+Future<Uint8List> sendApiRequest(
+  String baseUrl,
+  String path,
+  Map<String, dynamic> queryParams,
+) async {
   String query = queryParams.entries
       .followedBy({
         'format': 'flatbuffers',
@@ -38,7 +41,14 @@ Future<Uint8List> sendFlatBuffersRequest(
       .where((entry) => entry.value != null)
       .map((entry) => '${entry.key}=${entry.value}')
       .join('&');
+
   Uri url = Uri.parse('$baseUrl$path?$query');
   print("[open_meteo] Parsed URL: ${url.toString()}");
-  return (await http.get(url)).bodyBytes;
+
+  http.Response response = await http.get(url);
+  if (response.statusCode != 200) {
+    throw OpenMeteoApiError(jsonDecode(response.body)['reason']);
+  }
+
+  return response.bodyBytes;
 }
