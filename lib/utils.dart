@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 
@@ -26,4 +27,18 @@ Future<Map<String, dynamic>> sendHttpRequest(
   Uri url = Uri.parse('$baseUrl$path?$query');
   print("[open_meteo] Parsed URL: ${url.toString()}");
   return jsonDecode((await http.get(url)).body);
+}
+
+Future<Uint8List> sendFlatBuffersRequest(
+    String baseUrl, String path, Map<String, dynamic> queryParams) async {
+  String query = queryParams.entries
+      .followedBy({
+        'format': 'flatbuffers',
+      }.entries)
+      .where((entry) => entry.value != null)
+      .map((entry) => '${entry.key}=${entry.value}')
+      .join('&');
+  Uri url = Uri.parse('$baseUrl$path?$query');
+  print("[open_meteo] Parsed URL: ${url.toString()}");
+  return (await http.get(url)).bodyBytes;
 }
