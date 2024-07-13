@@ -6,7 +6,6 @@ library openmeteo_sdk;
 import 'dart:typed_data' show Uint8List;
 import 'package:flat_buffers/flat_buffers.dart' as fb;
 
-
 class Unit {
   final int value;
   const Unit._(this.value);
@@ -14,12 +13,12 @@ class Unit {
   factory Unit.fromValue(int value) {
     final result = values[value];
     if (result == null) {
-        throw StateError('Invalid value $value for bit flag enum Unit');
+      throw StateError('Invalid value $value for bit flag enum Unit');
     }
     return result;
   }
 
-  static Unit? _createOrNull(int? value) => 
+  static Unit? _createOrNull(int? value) =>
       value == null ? null : Unit.fromValue(value);
 
   static const int minValue = 0;
@@ -108,7 +107,8 @@ class Unit {
     37: unix_time,
     38: us_air_quality_index,
     39: watt_per_square_metre,
-    40: wmo_code};
+    40: wmo_code
+  };
 
   static const fb.Reader<Unit> reader = _UnitReader();
 
@@ -136,12 +136,12 @@ class Model {
   factory Model.fromValue(int value) {
     final result = values[value];
     if (result == null) {
-        throw StateError('Invalid value $value for bit flag enum Model');
+      throw StateError('Invalid value $value for bit flag enum Model');
     }
     return result;
   }
 
-  static Model? _createOrNull(int? value) => 
+  static Model? _createOrNull(int? value) =>
       value == null ? null : Model.fromValue(value);
 
   static const int minValue = 0;
@@ -300,7 +300,8 @@ class Model {
     72: knmi_harmonie_arome_netherlands,
     73: dmi_seamless,
     74: dmi_harmonie_arome_europe,
-    75: metno_seamless};
+    75: metno_seamless
+  };
 
   static const fb.Reader<Model> reader = _ModelReader();
 
@@ -328,12 +329,12 @@ class Variable {
   factory Variable.fromValue(int value) {
     final result = values[value];
     if (result == null) {
-        throw StateError('Invalid value $value for bit flag enum Variable');
+      throw StateError('Invalid value $value for bit flag enum Variable');
     }
     return result;
   }
 
-  static Variable? _createOrNull(int? value) => 
+  static Variable? _createOrNull(int? value) =>
       value == null ? null : Variable.fromValue(value);
 
   static const int minValue = 0;
@@ -564,7 +565,8 @@ class Variable {
     108: ocean_current_velocity,
     109: ocean_current_direction,
     110: cloud_base,
-    111: cloud_top};
+    111: cloud_top
+  };
 
   static const fb.Reader<Variable> reader = _VariableReader();
 
@@ -592,12 +594,12 @@ class Aggregation {
   factory Aggregation.fromValue(int value) {
     final result = values[value];
     if (result == null) {
-        throw StateError('Invalid value $value for bit flag enum Aggregation');
+      throw StateError('Invalid value $value for bit flag enum Aggregation');
     }
     return result;
   }
 
-  static Aggregation? _createOrNull(int? value) => 
+  static Aggregation? _createOrNull(int? value) =>
       value == null ? null : Aggregation.fromValue(value);
 
   static const int minValue = 0;
@@ -626,7 +628,8 @@ class Aggregation {
     7: p75,
     8: p90,
     9: dominant,
-    10: sum};
+    10: sum
+  };
 
   static const fb.Reader<Aggregation> reader = _AggregationReader();
 
@@ -654,27 +657,37 @@ class VariableWithValues {
     return reader.read(rootRef, 0);
   }
 
-  static const fb.Reader<VariableWithValues> reader = _VariableWithValuesReader();
+  static const fb.Reader<VariableWithValues> reader =
+      _VariableWithValuesReader();
 
   final fb.BufferContext _bc;
   final int _bcOffset;
 
-  Variable get variable => Variable.fromValue(const fb.Uint8Reader().vTableGet(_bc, _bcOffset, 4, 0));
-  Unit get unit => Unit.fromValue(const fb.Uint8Reader().vTableGet(_bc, _bcOffset, 6, 0));
-  double get value => const fb.Float32Reader().vTableGet(_bc, _bcOffset, 8, 0.0);
-  List<double>? get values => const fb.ListReader<double>(fb.Float32Reader()).vTableGetNullable(_bc, _bcOffset, 10);
-  List<int>? get valuesInt64 => const fb.ListReader<int>(fb.Int64Reader()).vTableGetNullable(_bc, _bcOffset, 12);
+  Variable get variable => Variable.fromValue(
+      const fb.Uint8Reader().vTableGet(_bc, _bcOffset, 4, 0));
+  Unit get unit =>
+      Unit.fromValue(const fb.Uint8Reader().vTableGet(_bc, _bcOffset, 6, 0));
+  double get value =>
+      const fb.Float32Reader().vTableGet(_bc, _bcOffset, 8, 0.0);
+  List<double>? get values => const fb.ListReader<double>(fb.Float32Reader())
+      .vTableGetNullable(_bc, _bcOffset, 10);
+  List<int>? get valuesInt64 => const fb.ListReader<int>(fb.Int64Reader())
+      .vTableGetNullable(_bc, _bcOffset, 12);
   int get altitude => const fb.Int16Reader().vTableGet(_bc, _bcOffset, 14, 0);
-  Aggregation get aggregation => Aggregation.fromValue(const fb.Uint8Reader().vTableGet(_bc, _bcOffset, 16, 0));
-  int get pressureLevel => const fb.Int16Reader().vTableGet(_bc, _bcOffset, 18, 0);
+  Aggregation get aggregation => Aggregation.fromValue(
+      const fb.Uint8Reader().vTableGet(_bc, _bcOffset, 16, 0));
+  int get pressureLevel =>
+      const fb.Int16Reader().vTableGet(_bc, _bcOffset, 18, 0);
   int get depth => const fb.Int16Reader().vTableGet(_bc, _bcOffset, 20, 0);
   int get depthTo => const fb.Int16Reader().vTableGet(_bc, _bcOffset, 22, 0);
-  int get ensembleMember => const fb.Int16Reader().vTableGet(_bc, _bcOffset, 24, 0);
-  int get previousDay => const fb.Int16Reader().vTableGet(_bc, _bcOffset, 26, 0);
+  int get ensembleMember =>
+      const fb.Int16Reader().vTableGet(_bc, _bcOffset, 24, 0);
+  int get previousDay =>
+      const fb.Int16Reader().vTableGet(_bc, _bcOffset, 26, 0);
 
   @override
   String toString() {
-    return 'VariableWithValues{variable: ${variable}, unit: ${unit}, value: ${value}, values: ${values}, valuesInt64: ${valuesInt64}, altitude: ${altitude}, aggregation: ${aggregation}, pressureLevel: ${pressureLevel}, depth: ${depth}, depthTo: ${depthTo}, ensembleMember: ${ensembleMember}, previousDay: ${previousDay}}';
+    return 'VariableWithValues{variable: $variable, unit: $unit, value: $value, values: $values, valuesInt64: $valuesInt64, altitude: $altitude, aggregation: $aggregation, pressureLevel: $pressureLevel, depth: $depth, depthTo: $depthTo, ensembleMember: $ensembleMember, previousDay: $previousDay}';
   }
 }
 
@@ -682,8 +695,8 @@ class _VariableWithValuesReader extends fb.TableReader<VariableWithValues> {
   const _VariableWithValuesReader();
 
   @override
-  VariableWithValues createObject(fb.BufferContext bc, int offset) => 
-    VariableWithValues._(bc, offset);
+  VariableWithValues createObject(fb.BufferContext bc, int offset) =>
+      VariableWithValues._(bc, offset);
 }
 
 class VariableWithValuesBuilder {
@@ -699,46 +712,57 @@ class VariableWithValuesBuilder {
     fbBuilder.addUint8(0, variable?.value);
     return fbBuilder.offset;
   }
+
   int addUnit(Unit? unit) {
     fbBuilder.addUint8(1, unit?.value);
     return fbBuilder.offset;
   }
+
   int addValue(double? value) {
     fbBuilder.addFloat32(2, value);
     return fbBuilder.offset;
   }
+
   int addValuesOffset(int? offset) {
     fbBuilder.addOffset(3, offset);
     return fbBuilder.offset;
   }
+
   int addValuesInt64Offset(int? offset) {
     fbBuilder.addOffset(4, offset);
     return fbBuilder.offset;
   }
+
   int addAltitude(int? altitude) {
     fbBuilder.addInt16(5, altitude);
     return fbBuilder.offset;
   }
+
   int addAggregation(Aggregation? aggregation) {
     fbBuilder.addUint8(6, aggregation?.value);
     return fbBuilder.offset;
   }
+
   int addPressureLevel(int? pressureLevel) {
     fbBuilder.addInt16(7, pressureLevel);
     return fbBuilder.offset;
   }
+
   int addDepth(int? depth) {
     fbBuilder.addInt16(8, depth);
     return fbBuilder.offset;
   }
+
   int addDepthTo(int? depthTo) {
     fbBuilder.addInt16(9, depthTo);
     return fbBuilder.offset;
   }
+
   int addEnsembleMember(int? ensembleMember) {
     fbBuilder.addInt16(10, ensembleMember);
     return fbBuilder.offset;
   }
+
   int addPreviousDay(int? previousDay) {
     fbBuilder.addInt16(11, previousDay);
     return fbBuilder.offset;
@@ -776,8 +800,7 @@ class VariableWithValuesObjectBuilder extends fb.ObjectBuilder {
     int? depthTo,
     int? ensembleMember,
     int? previousDay,
-  })
-      : _variable = variable,
+  })  : _variable = variable,
         _unit = unit,
         _value = value,
         _values = values,
@@ -793,10 +816,10 @@ class VariableWithValuesObjectBuilder extends fb.ObjectBuilder {
   /// Finish building, and store into the [fbBuilder].
   @override
   int finish(fb.Builder fbBuilder) {
-    final int? valuesOffset = _values == null ? null
-        : fbBuilder.writeListFloat32(_values!);
-    final int? valuesInt64Offset = _valuesInt64 == null ? null
-        : fbBuilder.writeListInt64(_valuesInt64!);
+    final int? valuesOffset =
+        _values == null ? null : fbBuilder.writeListFloat32(_values!);
+    final int? valuesInt64Offset =
+        _valuesInt64 == null ? null : fbBuilder.writeListInt64(_valuesInt64!);
     fbBuilder.startTable(12);
     fbBuilder.addUint8(0, _variable?.value);
     fbBuilder.addUint8(1, _unit?.value);
@@ -821,6 +844,7 @@ class VariableWithValuesObjectBuilder extends fb.ObjectBuilder {
     return fbBuilder.buffer;
   }
 }
+
 class VariablesWithTime {
   VariablesWithTime._(this._bc, this._bcOffset);
   factory VariablesWithTime(List<int> bytes) {
@@ -836,11 +860,13 @@ class VariablesWithTime {
   int get time => const fb.Int64Reader().vTableGet(_bc, _bcOffset, 4, 0);
   int get timeEnd => const fb.Int64Reader().vTableGet(_bc, _bcOffset, 6, 0);
   int get interval => const fb.Int32Reader().vTableGet(_bc, _bcOffset, 8, 0);
-  List<VariableWithValues>? get variables => const fb.ListReader<VariableWithValues>(VariableWithValues.reader).vTableGetNullable(_bc, _bcOffset, 10);
+  List<VariableWithValues>? get variables =>
+      const fb.ListReader<VariableWithValues>(VariableWithValues.reader)
+          .vTableGetNullable(_bc, _bcOffset, 10);
 
   @override
   String toString() {
-    return 'VariablesWithTime{time: ${time}, timeEnd: ${timeEnd}, interval: ${interval}, variables: ${variables}}';
+    return 'VariablesWithTime{time: $time, timeEnd: $timeEnd, interval: $interval, variables: $variables}';
   }
 }
 
@@ -848,8 +874,8 @@ class _VariablesWithTimeReader extends fb.TableReader<VariablesWithTime> {
   const _VariablesWithTimeReader();
 
   @override
-  VariablesWithTime createObject(fb.BufferContext bc, int offset) => 
-    VariablesWithTime._(bc, offset);
+  VariablesWithTime createObject(fb.BufferContext bc, int offset) =>
+      VariablesWithTime._(bc, offset);
 }
 
 class VariablesWithTimeBuilder {
@@ -865,14 +891,17 @@ class VariablesWithTimeBuilder {
     fbBuilder.addInt64(0, time);
     return fbBuilder.offset;
   }
+
   int addTimeEnd(int? timeEnd) {
     fbBuilder.addInt64(1, timeEnd);
     return fbBuilder.offset;
   }
+
   int addInterval(int? interval) {
     fbBuilder.addInt32(2, interval);
     return fbBuilder.offset;
   }
+
   int addVariablesOffset(int? offset) {
     fbBuilder.addOffset(3, offset);
     return fbBuilder.offset;
@@ -894,8 +923,7 @@ class VariablesWithTimeObjectBuilder extends fb.ObjectBuilder {
     int? timeEnd,
     int? interval,
     List<VariableWithValuesObjectBuilder>? variables,
-  })
-      : _time = time,
+  })  : _time = time,
         _timeEnd = timeEnd,
         _interval = interval,
         _variables = variables;
@@ -903,8 +931,10 @@ class VariablesWithTimeObjectBuilder extends fb.ObjectBuilder {
   /// Finish building, and store into the [fbBuilder].
   @override
   int finish(fb.Builder fbBuilder) {
-    final int? variablesOffset = _variables == null ? null
-        : fbBuilder.writeList(_variables!.map((b) => b.getOrCreateOffset(fbBuilder)).toList());
+    final int? variablesOffset = _variables == null
+        ? null
+        : fbBuilder.writeList(
+            _variables!.map((b) => b.getOrCreateOffset(fbBuilder)).toList());
     fbBuilder.startTable(4);
     fbBuilder.addInt64(0, _time);
     fbBuilder.addInt64(1, _timeEnd);
@@ -921,6 +951,7 @@ class VariablesWithTimeObjectBuilder extends fb.ObjectBuilder {
     return fbBuilder.buffer;
   }
 }
+
 class WeatherApiResponse {
   WeatherApiResponse._(this._bc, this._bcOffset);
   factory WeatherApiResponse(List<int> bytes) {
@@ -928,29 +959,43 @@ class WeatherApiResponse {
     return reader.read(rootRef, 0);
   }
 
-  static const fb.Reader<WeatherApiResponse> reader = _WeatherApiResponseReader();
+  static const fb.Reader<WeatherApiResponse> reader =
+      _WeatherApiResponseReader();
 
   final fb.BufferContext _bc;
   final int _bcOffset;
 
-  double get latitude => const fb.Float32Reader().vTableGet(_bc, _bcOffset, 4, 0.0);
-  double get longitude => const fb.Float32Reader().vTableGet(_bc, _bcOffset, 6, 0.0);
-  double get elevation => const fb.Float32Reader().vTableGet(_bc, _bcOffset, 8, 0.0);
-  double get generationTimeMilliseconds => const fb.Float32Reader().vTableGet(_bc, _bcOffset, 10, 0.0);
+  double get latitude =>
+      const fb.Float32Reader().vTableGet(_bc, _bcOffset, 4, 0.0);
+  double get longitude =>
+      const fb.Float32Reader().vTableGet(_bc, _bcOffset, 6, 0.0);
+  double get elevation =>
+      const fb.Float32Reader().vTableGet(_bc, _bcOffset, 8, 0.0);
+  double get generationTimeMilliseconds =>
+      const fb.Float32Reader().vTableGet(_bc, _bcOffset, 10, 0.0);
   int get locationId => const fb.Int64Reader().vTableGet(_bc, _bcOffset, 12, 0);
-  Model get model => Model.fromValue(const fb.Uint8Reader().vTableGet(_bc, _bcOffset, 14, 0));
-  int get utcOffsetSeconds => const fb.Int32Reader().vTableGet(_bc, _bcOffset, 16, 0);
-  String? get timezone => const fb.StringReader().vTableGetNullable(_bc, _bcOffset, 18);
-  String? get timezoneAbbreviation => const fb.StringReader().vTableGetNullable(_bc, _bcOffset, 20);
-  VariablesWithTime? get current => VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 22);
-  VariablesWithTime? get daily => VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 24);
-  VariablesWithTime? get hourly => VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 26);
-  VariablesWithTime? get minutely15 => VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 28);
-  VariablesWithTime? get sixHourly => VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 30);
+  Model get model =>
+      Model.fromValue(const fb.Uint8Reader().vTableGet(_bc, _bcOffset, 14, 0));
+  int get utcOffsetSeconds =>
+      const fb.Int32Reader().vTableGet(_bc, _bcOffset, 16, 0);
+  String? get timezone =>
+      const fb.StringReader().vTableGetNullable(_bc, _bcOffset, 18);
+  String? get timezoneAbbreviation =>
+      const fb.StringReader().vTableGetNullable(_bc, _bcOffset, 20);
+  VariablesWithTime? get current =>
+      VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 22);
+  VariablesWithTime? get daily =>
+      VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 24);
+  VariablesWithTime? get hourly =>
+      VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 26);
+  VariablesWithTime? get minutely15 =>
+      VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 28);
+  VariablesWithTime? get sixHourly =>
+      VariablesWithTime.reader.vTableGetNullable(_bc, _bcOffset, 30);
 
   @override
   String toString() {
-    return 'WeatherApiResponse{latitude: ${latitude}, longitude: ${longitude}, elevation: ${elevation}, generationTimeMilliseconds: ${generationTimeMilliseconds}, locationId: ${locationId}, model: ${model}, utcOffsetSeconds: ${utcOffsetSeconds}, timezone: ${timezone}, timezoneAbbreviation: ${timezoneAbbreviation}, current: ${current}, daily: ${daily}, hourly: ${hourly}, minutely15: ${minutely15}, sixHourly: ${sixHourly}}';
+    return 'WeatherApiResponse{latitude: $latitude, longitude: $longitude, elevation: $elevation, generationTimeMilliseconds: $generationTimeMilliseconds, locationId: $locationId, model: $model, utcOffsetSeconds: $utcOffsetSeconds, timezone: $timezone, timezoneAbbreviation: $timezoneAbbreviation, current: $current, daily: $daily, hourly: $hourly, minutely15: $minutely15, sixHourly: $sixHourly}';
   }
 }
 
@@ -958,8 +1003,8 @@ class _WeatherApiResponseReader extends fb.TableReader<WeatherApiResponse> {
   const _WeatherApiResponseReader();
 
   @override
-  WeatherApiResponse createObject(fb.BufferContext bc, int offset) => 
-    WeatherApiResponse._(bc, offset);
+  WeatherApiResponse createObject(fb.BufferContext bc, int offset) =>
+      WeatherApiResponse._(bc, offset);
 }
 
 class WeatherApiResponseBuilder {
@@ -975,54 +1020,67 @@ class WeatherApiResponseBuilder {
     fbBuilder.addFloat32(0, latitude);
     return fbBuilder.offset;
   }
+
   int addLongitude(double? longitude) {
     fbBuilder.addFloat32(1, longitude);
     return fbBuilder.offset;
   }
+
   int addElevation(double? elevation) {
     fbBuilder.addFloat32(2, elevation);
     return fbBuilder.offset;
   }
+
   int addGenerationTimeMilliseconds(double? generationTimeMilliseconds) {
     fbBuilder.addFloat32(3, generationTimeMilliseconds);
     return fbBuilder.offset;
   }
+
   int addLocationId(int? locationId) {
     fbBuilder.addInt64(4, locationId);
     return fbBuilder.offset;
   }
+
   int addModel(Model? model) {
     fbBuilder.addUint8(5, model?.value);
     return fbBuilder.offset;
   }
+
   int addUtcOffsetSeconds(int? utcOffsetSeconds) {
     fbBuilder.addInt32(6, utcOffsetSeconds);
     return fbBuilder.offset;
   }
+
   int addTimezoneOffset(int? offset) {
     fbBuilder.addOffset(7, offset);
     return fbBuilder.offset;
   }
+
   int addTimezoneAbbreviationOffset(int? offset) {
     fbBuilder.addOffset(8, offset);
     return fbBuilder.offset;
   }
+
   int addCurrentOffset(int? offset) {
     fbBuilder.addOffset(9, offset);
     return fbBuilder.offset;
   }
+
   int addDailyOffset(int? offset) {
     fbBuilder.addOffset(10, offset);
     return fbBuilder.offset;
   }
+
   int addHourlyOffset(int? offset) {
     fbBuilder.addOffset(11, offset);
     return fbBuilder.offset;
   }
+
   int addMinutely15Offset(int? offset) {
     fbBuilder.addOffset(12, offset);
     return fbBuilder.offset;
   }
+
   int addSixHourlyOffset(int? offset) {
     fbBuilder.addOffset(13, offset);
     return fbBuilder.offset;
@@ -1064,8 +1122,7 @@ class WeatherApiResponseObjectBuilder extends fb.ObjectBuilder {
     VariablesWithTimeObjectBuilder? hourly,
     VariablesWithTimeObjectBuilder? minutely15,
     VariablesWithTimeObjectBuilder? sixHourly,
-  })
-      : _latitude = latitude,
+  })  : _latitude = latitude,
         _longitude = longitude,
         _elevation = elevation,
         _generationTimeMilliseconds = generationTimeMilliseconds,
@@ -1083,9 +1140,10 @@ class WeatherApiResponseObjectBuilder extends fb.ObjectBuilder {
   /// Finish building, and store into the [fbBuilder].
   @override
   int finish(fb.Builder fbBuilder) {
-    final int? timezoneOffset = _timezone == null ? null
-        : fbBuilder.writeString(_timezone!);
-    final int? timezoneAbbreviationOffset = _timezoneAbbreviation == null ? null
+    final int? timezoneOffset =
+        _timezone == null ? null : fbBuilder.writeString(_timezone!);
+    final int? timezoneAbbreviationOffset = _timezoneAbbreviation == null
+        ? null
         : fbBuilder.writeString(_timezoneAbbreviation!);
     final int? currentOffset = _current?.getOrCreateOffset(fbBuilder);
     final int? dailyOffset = _daily?.getOrCreateOffset(fbBuilder);
