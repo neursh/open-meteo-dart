@@ -312,7 +312,10 @@ enum Hourly {
         Variable.us_aqi_ozone => Hourly.us_aqi_ozone,
         Variable.us_aqi_sulphur_dioxide => Hourly.us_aqi_sulphur_dioxide,
         Variable.us_aqi_carbon_monoxide => Hourly.us_aqi_carbon_monoxide,
-        Variable.temperature => Hourly.temperature_2m,
+        Variable.temperature => switch (v.altitude) {
+            2 => Hourly.temperature_2m,
+            _ => null,
+          },
         Variable.relative_humidity => Hourly.relative_humidity_2m,
         Variable.dew_point => Hourly.dew_point_2m,
         Variable.wind_gusts => Hourly.wind_gusts_10m,
