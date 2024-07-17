@@ -26,6 +26,7 @@ final regexSuffixes = {
   'v.altitude': r'_(\d+)m$',
   '(v.depth, v.depthTo)': r'_(\d+)_to_(\d+)cm$',
   'v.depth': r'_(\d+)cm$',
+  'v.pressureLevel': r'_(\d+)hPa',
 }.map((key, regex) => MapEntry(key, RegExp(regex)));
 
 Map<String, Map<String, Map<String, String>>> buildIndex(List<String> inputs) {
