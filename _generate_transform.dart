@@ -29,24 +29,25 @@ final regexSuffixes = {
   'v.pressureLevel': r'_(\d+)hPa',
 }.map((key, regex) => MapEntry(key, RegExp(regex)));
 
-Map<String, Map<String, Map<String, String>>> buildIndex(List<String> inputs) {
-  Map<String, Map<String, Map<String, String>>> data = {};
-  for (String input in inputs) {
+typedef Index = Map<String, Map<String, Map<String, String>>>;
+
+Index buildIndex(List<String> inputs) {
+  Index index = {};
+  for (final input in inputs) {
     Map<String, String> properties = {};
     String root = computeRoot(input, properties);
 
-    data.putIfAbsent(root, () => {});
-    data[root]![input] = properties;
+    index.putIfAbsent(root, () => {});
+    index[root]![input] = properties;
   }
-  return data;
+  return index;
 }
 
 String computeRoot(String root, Map<String, String> properties) {
-  for (MapEntry<String, Map<String, String>> suffixGroup
-      in staticSuffixes.entries) {
+  for (final suffixGroup in staticSuffixes.entries) {
     if (properties.containsKey(suffixGroup.key)) continue;
 
-    for (MapEntry<String, String> suffix in suffixGroup.value.entries) {
+    for (final suffix in suffixGroup.value.entries) {
       if (!root.endsWith(suffix.key)) continue;
 
       properties[suffixGroup.key] = suffix.value;
@@ -55,7 +56,7 @@ String computeRoot(String root, Map<String, String> properties) {
     }
   }
 
-  for (MapEntry<String, RegExp> regexSuffix in regexSuffixes.entries) {
+  for (final regexSuffix in regexSuffixes.entries) {
     if (properties.containsKey(regexSuffix.key)) continue;
 
     RegExpMatch? match = regexSuffix.value.firstMatch(root);
@@ -67,13 +68,9 @@ String computeRoot(String root, Map<String, String> properties) {
     return computeRoot(root.substring(0, match.start), properties);
   }
 
-  for (var replacement in replacements.entries) {
+  for (final replacement in replacements.entries) {
     root = root.replaceAll(replacement.key, replacement.value);
   }
 
   return root;
-}
-
-void main() {
-  print(buildIndex([]));
 }
