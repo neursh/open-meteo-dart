@@ -92,8 +92,7 @@
 
 ## 1.1.0
 
-* Add request() method.
-* Now support typing using request().
+* Now support typing using .request() method.
 * Patch up many small mistakes.
 * Introduce unit testing.
 * TODO: Integrate transform generator.
