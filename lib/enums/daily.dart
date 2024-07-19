@@ -67,8 +67,8 @@ enum Daily {
         Variable.daylight_duration => Daily.daylight_duration,
         Variable.et0_fao_evapotranspiration => Daily.et0_fao_evapotranspiration,
         Variable.temperature => switch (v.aggregation) {
-            Aggregation.minimum => Daily.temperature_2m_max,
-            Aggregation.maximum => Daily.temperature_2m_min,
+            Aggregation.minimum => Daily.temperature_2m_min,
+            Aggregation.maximum => Daily.temperature_2m_max,
             Aggregation.mean => Daily.temperature_2m_mean,
             _ => null,
           },
