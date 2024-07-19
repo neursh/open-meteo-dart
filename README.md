@@ -11,6 +11,19 @@ All parameters are shipped from the official [Open-Meteo's docs](https://open-me
 > [!CAUTION]
 This SDK simplified hourly and daily values in across all 7 features that needed it into 2 enum files. Remember to read the docs carefully before using it.
 
+## Contributors
+ <table>
+  <tr>
+    <td align="center">
+      <img valign="top" width="80px" src="https://avatars.githubusercontent.com/u/89086035?v=4" />
+      <br>
+      <a href="https://github.com/MathNerd28">MathNerd28</a>
+      <br>
+      <a href="https://github.com/neursh/open-meteo-dart/pulls?q=is%3Apr+author%3AMathNerd28">🛠️</a> | 💛
+    </td>
+  </tr>
+</table> 
+
 ## Usage & Docs
 > [!NOTE]
 There're 9 classes represent 9 features available in Open-Meteo API: `Weather`, `Historical`, `Ensemble`, `Climate`, `Marine`, `AirQuality`, `Geocoding`, `Elevation` and `Flood`.

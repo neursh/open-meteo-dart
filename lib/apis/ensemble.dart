@@ -1,6 +1,7 @@
 import '../enums/ensemble_model.dart';
 import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
+import '../models/weather.dart';
 import '../utils.dart';
 
 /// Hundreds Of Weather Forecasts, Every time, Everywhere, All at Once.
@@ -119,7 +120,27 @@ class Ensemble {
     required List<EnsembleModel> models,
     List<Hourly>? hourly,
   }) =>
-      sendHttpRequest(apiUrl, 'ensemble', {
+      sendHttpRequest(
+        apiUrl,
+        'ensemble',
+        _queryParamMap(models: models, hourly: hourly),
+      );
+
+  Future<WeatherResponse> request({
+    required List<EnsembleModel> models,
+    List<Hourly>? hourly,
+  }) =>
+      sendApiRequest(
+        apiUrl,
+        'ensemble',
+        _queryParamMap(models: models, hourly: hourly),
+      ).then(WeatherResponse.fromFlatBuffer);
+
+  Map<String, dynamic> _queryParamMap({
+    required List<EnsembleModel> models,
+    List<Hourly>? hourly,
+  }) =>
+      {
         'models': models.map((value) => value.name).toList().join(','),
         'hourly': hourly?.map((value) => value.name).toList().join(','),
         'elevation': elevation,
@@ -144,5 +165,5 @@ class Ensemble {
         'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
-      });
+      };
 }

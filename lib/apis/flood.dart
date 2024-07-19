@@ -1,5 +1,6 @@
 import '../enums/daily.dart';
 import '../enums/prefcls.dart';
+import '../models/weather.dart';
 import '../utils.dart';
 
 /// Simulated river discharge at 5 km resolution from 1984 up to 7 months forecast.
@@ -62,7 +63,19 @@ class Flood {
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
   Future<Map<String, dynamic>> raw_request({List<Daily>? daily}) =>
-      sendHttpRequest(apiUrl, 'flood', {
+      sendHttpRequest(
+        apiUrl,
+        'flood',
+        _queryParamMap(daily: daily),
+      );
+
+  Future<WeatherResponse> request({List<Daily>? daily}) => sendApiRequest(
+        apiUrl,
+        'flood',
+        _queryParamMap(daily: daily),
+      ).then(WeatherResponse.fromFlatBuffer);
+
+  Map<String, dynamic> _queryParamMap({List<Daily>? daily}) => {
         'daily': daily?.map((option) => option.name).join(","),
         'past_days': past_days,
         'forecast_days': forecast_days,
@@ -75,5 +88,5 @@ class Flood {
         'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
-      });
+      };
 }

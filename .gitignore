@@ -17,3 +17,9 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+
+# Don't include pubspec.lock in a library
+pubspec.lock
+
+# Ignore generated dart files
+*.*.dart

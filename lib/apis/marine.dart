@@ -2,6 +2,7 @@ import '../enums/current.dart';
 import '../enums/daily.dart';
 import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
+import '../models/weather.dart';
 import '../utils.dart';
 
 /// Hourly wave forecasts at 5 km resolution
@@ -50,7 +51,29 @@ class Marine {
     List<Daily>? daily,
     List<Current>? current,
   }) =>
-      sendHttpRequest(apiUrl, 'marine', {
+      sendHttpRequest(
+        apiUrl,
+        'marine',
+        _queryParamMap(daily: daily, current: current, hourly: hourly),
+      );
+
+  Future<WeatherResponse> request({
+    List<Hourly>? hourly,
+    List<Daily>? daily,
+    List<Current>? current,
+  }) =>
+      sendApiRequest(
+        apiUrl,
+        'marine',
+        _queryParamMap(hourly: hourly, daily: daily, current: current),
+      ).then(WeatherResponse.fromFlatBuffer);
+
+  Map<String, dynamic> _queryParamMap({
+    List<Hourly>? hourly,
+    List<Daily>? daily,
+    List<Current>? current,
+  }) =>
+      {
         'daily': daily?.map((option) => option.name).join(","),
         'hourly': hourly?.map((option) => option.name).join(","),
         'current': current?.map((option) => option.name).join(","),
@@ -71,5 +94,5 @@ class Marine {
         'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
-      });
+      };
 }

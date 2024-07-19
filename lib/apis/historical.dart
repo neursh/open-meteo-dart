@@ -1,6 +1,7 @@
 import '../enums/daily.dart';
 import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
+import '../models/weather.dart';
 import '../utils.dart';
 
 /// Discover how weather has shaped our world from 1940 until now.
@@ -38,7 +39,25 @@ class Historical {
     List<Hourly>? hourly,
     List<Daily>? daily,
   }) =>
-      sendHttpRequest(apiUrl, 'archive', {
+      sendHttpRequest(
+        apiUrl,
+        'archive',
+        _queryParamMap(daily: daily, hourly: hourly),
+      );
+
+  Future<WeatherResponse> request({
+    List<Hourly>? hourly,
+    List<Daily>? daily,
+  }) =>
+      sendApiRequest(
+              apiUrl, 'archive', _queryParamMap(daily: daily, hourly: hourly))
+          .then(WeatherResponse.fromFlatBuffer);
+
+  Map<String, dynamic> _queryParamMap({
+    List<Daily>? daily,
+    List<Hourly>? hourly,
+  }) =>
+      {
         'daily': daily?.map((option) => option.name).join(","),
         'hourly': hourly?.map((option) => option.name).join(","),
         'elevation': elevation,
@@ -53,5 +72,5 @@ class Historical {
         'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
-      });
+      };
 }

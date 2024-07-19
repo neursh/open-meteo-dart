@@ -1,13 +1,14 @@
 name: open_meteo
 description: A simple, fast, asynchronous Dart/Flutter client package for Open-Meteo weather APIs.
-version: 1.0.8
+version: 1.1.0
 homepage: https://github.com/neursh/open-meteo-dart
 repository: https://github.com/neursh/open-meteo-dart
 
 environment:
-  sdk: '>=2.19.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  flat_buffers: ^23.5.26
   http: ^1.2.1
 dev_dependencies:
   lints: ^4.0.0
