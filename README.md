@@ -11,7 +11,7 @@ All parameters are shipped from the official [Open-Meteo's docs](https://open-me
 > [!CAUTION]
 This SDK simplified hourly and daily values in across all 7 features that needed it into 2 enum files. Remember to read the docs carefully before using it.
 
-## Contributors
+## Top Contributors
  <table>
   <tr>
     <td align="center">
@@ -19,7 +19,7 @@ This SDK simplified hourly and daily values in across all 7 features that needed
       <br>
       <a href="https://github.com/MathNerd28">MathNerd28</a>
       <br>
-      <a href="https://github.com/neursh/open-meteo-dart/pulls?q=is%3Apr+author%3AMathNerd28">🛠️</a> | 💛
+      <a href="https://github.com/neursh/open-meteo-dart/pulls?q=is%3Apr+author%3AMathNerd28">🛠️</a> | 💛 v1.1.0
     </td>
   </tr>
 </table> 
