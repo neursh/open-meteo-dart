@@ -89,3 +89,11 @@
 
 * Merge pull request #2 from alvaroarino/main
 * Missing "&" on hourly params
+
+## 1.1.0
+
+* Add request() method.
+* Now support typing using request().
+* Patch up many small mistakes.
+* Introduce unit testing.
+* TODO: Integrate transform generator.
