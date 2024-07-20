@@ -1,6 +1,7 @@
 import '../enums/climate_model.dart';
 import '../enums/daily.dart';
 import '../enums/prefcls.dart';
+import '../models/weather.dart';
 import '../utils.dart';
 
 /// Explore Climate Change on a Local Level with High-Resolution Climate Data
@@ -77,7 +78,20 @@ class Climate {
     required List<Daily> daily,
     required List<ClimateModel> models,
   }) =>
-      sendHttpRequest(apiUrl, 'climate', {
+      sendHttpRequest(apiUrl, 'climate', _queryParamMap(daily, models));
+
+  Future<WeatherResponse> request({
+    required List<Daily> daily,
+    required List<ClimateModel> models,
+  }) =>
+      sendApiRequest(apiUrl, 'climate', _queryParamMap(daily, models))
+          .then(WeatherResponse.fromFlatBuffer);
+
+  Map<String, dynamic> _queryParamMap(
+    List<Daily> daily,
+    List<ClimateModel> models,
+  ) =>
+      {
         'daily': daily.map((value) => value.name).toList().join(','),
         'models': models.map((value) => value.name).toList().join(','),
         'start_date': formatDate(start_date),
@@ -92,5 +106,5 @@ class Climate {
         'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
-      });
+      };
 }

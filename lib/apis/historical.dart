@@ -39,24 +39,19 @@ class Historical {
     List<Hourly>? hourly,
     List<Daily>? daily,
   }) =>
-      sendHttpRequest(
-        apiUrl,
-        'archive',
-        _queryParamMap(daily: daily, hourly: hourly),
-      );
+      sendHttpRequest(apiUrl, 'archive', _queryParamMap(daily, hourly));
 
   Future<WeatherResponse> request({
     List<Hourly>? hourly,
     List<Daily>? daily,
   }) =>
-      sendApiRequest(
-              apiUrl, 'archive', _queryParamMap(daily: daily, hourly: hourly))
+      sendApiRequest(apiUrl, 'archive', _queryParamMap(daily, hourly))
           .then(WeatherResponse.fromFlatBuffer);
 
-  Map<String, dynamic> _queryParamMap({
+  Map<String, dynamic> _queryParamMap(
     List<Daily>? daily,
     List<Hourly>? hourly,
-  }) =>
+  ) =>
       {
         'daily': daily?.map((option) => option.name).join(","),
         'hourly': hourly?.map((option) => option.name).join(","),

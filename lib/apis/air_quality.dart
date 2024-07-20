@@ -2,6 +2,7 @@ import '../enums/air_quality_domain.dart';
 import '../enums/current.dart';
 import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
+import '../models/weather.dart';
 import '../utils.dart';
 
 /// Pollutants and pollen forecast in 11 km resolution.
@@ -84,7 +85,20 @@ class AirQuality {
     List<Hourly>? hourly,
     List<Current>? current,
   }) =>
-      sendHttpRequest(apiUrl, 'air-quality', {
+      sendHttpRequest(apiUrl, 'air-quality', _queryParamMap(hourly, current));
+
+  Future<WeatherResponse> request({
+    List<Hourly>? hourly,
+    List<Current>? current,
+  }) =>
+      sendApiRequest(apiUrl, 'air-quality', _queryParamMap(hourly, current))
+          .then(WeatherResponse.fromFlatBuffer);
+
+  Map<String, dynamic> _queryParamMap(
+    List<Hourly>? hourly,
+    List<Current>? current,
+  ) =>
+      {
         'hourly': hourly?.map((option) => option.name).join(","),
         'current': current?.map((option) => option.name).join(","),
         'domains': domains?.name,
@@ -102,5 +116,5 @@ class AirQuality {
         'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
-      });
+      };
 }

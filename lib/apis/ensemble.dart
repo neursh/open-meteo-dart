@@ -120,26 +120,19 @@ class Ensemble {
     required List<EnsembleModel> models,
     List<Hourly>? hourly,
   }) =>
-      sendHttpRequest(
-        apiUrl,
-        'ensemble',
-        _queryParamMap(models: models, hourly: hourly),
-      );
+      sendHttpRequest(apiUrl, 'ensemble', _queryParamMap(models, hourly));
 
   Future<WeatherResponse> request({
     required List<EnsembleModel> models,
     List<Hourly>? hourly,
   }) =>
-      sendApiRequest(
-        apiUrl,
-        'ensemble',
-        _queryParamMap(models: models, hourly: hourly),
-      ).then(WeatherResponse.fromFlatBuffer);
+      sendApiRequest(apiUrl, 'ensemble', _queryParamMap(models, hourly))
+          .then(WeatherResponse.fromFlatBuffer);
 
-  Map<String, dynamic> _queryParamMap({
-    required List<EnsembleModel> models,
+  Map<String, dynamic> _queryParamMap(
+    List<EnsembleModel> models,
     List<Hourly>? hourly,
-  }) =>
+  ) =>
       {
         'models': models.map((value) => value.name).toList().join(','),
         'hourly': hourly?.map((value) => value.name).toList().join(','),

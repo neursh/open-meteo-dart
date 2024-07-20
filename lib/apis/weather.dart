@@ -60,7 +60,7 @@ class Weather {
       sendHttpRequest(
         apiUrl,
         'forecast',
-        _queryParamMap(daily: daily, current: current, hourly: hourly),
+        _queryParamMap(hourly, daily, current),
       );
 
   Future<WeatherResponse> request({
@@ -68,17 +68,14 @@ class Weather {
     List<Daily>? daily,
     List<Current>? current,
   }) =>
-      sendApiRequest(
-        apiUrl,
-        'forecast',
-        _queryParamMap(hourly: hourly, daily: daily, current: current),
-      ).then(WeatherResponse.fromFlatBuffer);
+      sendApiRequest(apiUrl, 'forecast', _queryParamMap(hourly, daily, current))
+          .then(WeatherResponse.fromFlatBuffer);
 
-  Map<String, dynamic> _queryParamMap({
+  Map<String, dynamic> _queryParamMap(
     List<Hourly>? hourly,
     List<Daily>? daily,
     List<Current>? current,
-  }) =>
+  ) =>
       {
         'hourly': hourly?.map((option) => option.name).join(","),
         'daily': daily?.map((option) => option.name).join(","),

@@ -63,19 +63,13 @@ class Flood {
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
   Future<Map<String, dynamic>> raw_request({List<Daily>? daily}) =>
-      sendHttpRequest(
-        apiUrl,
-        'flood',
-        _queryParamMap(daily: daily),
-      );
+      sendHttpRequest(apiUrl, 'flood', _queryParamMap(daily));
 
-  Future<WeatherResponse> request({List<Daily>? daily}) => sendApiRequest(
-        apiUrl,
-        'flood',
-        _queryParamMap(daily: daily),
-      ).then(WeatherResponse.fromFlatBuffer);
+  Future<WeatherResponse> request({List<Daily>? daily}) =>
+      sendApiRequest(apiUrl, 'flood', _queryParamMap(daily))
+          .then(WeatherResponse.fromFlatBuffer);
 
-  Map<String, dynamic> _queryParamMap({List<Daily>? daily}) => {
+  Map<String, dynamic> _queryParamMap(List<Daily>? daily) => {
         'daily': daily?.map((option) => option.name).join(","),
         'past_days': past_days,
         'forecast_days': forecast_days,

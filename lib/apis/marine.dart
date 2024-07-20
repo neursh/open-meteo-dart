@@ -51,28 +51,21 @@ class Marine {
     List<Daily>? daily,
     List<Current>? current,
   }) =>
-      sendHttpRequest(
-        apiUrl,
-        'marine',
-        _queryParamMap(daily: daily, current: current, hourly: hourly),
-      );
+      sendHttpRequest(apiUrl, 'marine', _queryParamMap(hourly, daily, current));
 
   Future<WeatherResponse> request({
     List<Hourly>? hourly,
     List<Daily>? daily,
     List<Current>? current,
   }) =>
-      sendApiRequest(
-        apiUrl,
-        'marine',
-        _queryParamMap(hourly: hourly, daily: daily, current: current),
-      ).then(WeatherResponse.fromFlatBuffer);
+      sendApiRequest(apiUrl, 'marine', _queryParamMap(hourly, daily, current))
+          .then(WeatherResponse.fromFlatBuffer);
 
-  Map<String, dynamic> _queryParamMap({
+  Map<String, dynamic> _queryParamMap(
     List<Hourly>? hourly,
     List<Daily>? daily,
     List<Current>? current,
-  }) =>
+  ) =>
       {
         'daily': daily?.map((option) => option.name).join(","),
         'hourly': hourly?.map((option) => option.name).join(","),
