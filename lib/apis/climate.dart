@@ -9,32 +9,37 @@ import '../utils.dart';
 /// https://open-meteo.com/en/docs/climate-api/
 class Climate {
   /// Custom API URL, format: `https://<domain>/<version>/`.
-  String apiUrl;
+  final String apiUrl;
+
+  /// Only required to commercial use to access reserved API resources for customers.
+  ///
+  /// https://open-meteo.com/en/docs/climate-api/
+  final String? apikey;
 
   /// Geographical WGS84 coordinates of the location.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
   final double latitude, longitude;
 
-  /// The time interval to get weather data.
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
-  DateTime start_date, end_date;
-
   /// If `TemperatureUnit.fahrenheit` is set, all temperature values are converted to Fahrenheit.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  TemperatureUnit? temperature_unit;
+  final TemperatureUnit? temperature_unit;
 
   /// Other wind speed speed units: `WindspeedUnit.ms`, `WindspeedUnit.mph` and `WindspeedUnit.kn`.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  WindspeedUnit? windspeed_unit;
+  final WindspeedUnit? windspeed_unit;
 
   /// Other precipitation amount units: `PrecipitationUnit.inch`
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  PrecipitationUnit? precipitation_unit;
+  final PrecipitationUnit? precipitation_unit;
+
+  /// Set a preference how grid-cells are selected.
+  ///
+  /// https://open-meteo.com/en/docs/climate-api/
+  final CellSelection? cell_selection;
 
   /// Setting disable_bias_correction to true disables statistical downscaling
   /// and bias correction onto ERA5-Land. By default, all data is corrected
@@ -43,17 +48,12 @@ class Climate {
   /// not affected by linear bias correction.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  bool? disable_bias_correction;
+  final bool? disable_bias_correction;
 
-  /// Set a preference how grid-cells are selected.
+  /// The time interval to get weather data.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  CellSelection? cell_selection;
-
-  /// Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
-  String? apikey;
+  final DateTime start_date, end_date;
 
   Climate({
     this.apiUrl = 'https://climate-api.open-meteo.com/v1/',

@@ -8,7 +8,12 @@ import '../utils.dart';
 /// https://open-meteo.com/en/docs/flood-api/
 class Flood {
   /// Custom API URL, format: `https://<domain>/<version>/`.
-  String apiUrl;
+  final String apiUrl;
+
+  /// Only required to commercial use to access reserved API resources for customers.
+  ///
+  /// https://open-meteo.com/en/docs/ensemble-api/
+  final String? apikey;
 
   /// Geographical WGS84 coordinates of the location.
   ///
@@ -18,32 +23,27 @@ class Flood {
   /// If `past_days` is set, past weather data can be returned.
   ///
   /// https://open-meteo.com/en/docs/flood-api/
-  int? past_days;
+  final int? past_days;
 
   /// Per default, only 92 days are returned. Up to 210 days of forecast are possible.
   ///
   /// https://open-meteo.com/en/docs/flood-api/
-  int? forecast_days;
+  final int? forecast_days;
 
   /// The time interval to get data. Data are available from 1984-01-01 until 7 month forecast.
   ///
   /// https://open-meteo.com/en/docs/flood-api/
-  DateTime? start_date, end_date;
+  final DateTime? start_date, end_date;
 
   /// If `true`, all forecast ensemble members will be returned.
   ///
   /// https://open-meteo.com/en/docs/flood-api/
-  bool? ensemble;
+  final bool? ensemble;
 
   /// Set a preference how grid-cells are selected.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  CellSelection? cell_selection;
-
-  /// Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  String? apikey;
+  final CellSelection? cell_selection;
 
   Flood({
     this.apiUrl = 'https://flood-api.open-meteo.com/v1/',
@@ -55,6 +55,7 @@ class Flood {
     this.end_date,
     this.cell_selection,
     this.apikey,
+    this.ensemble,
   }) {
     Uri.parse(apiUrl);
 

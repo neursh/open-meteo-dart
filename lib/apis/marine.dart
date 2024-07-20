@@ -9,18 +9,22 @@ import '../utils.dart';
 ///
 /// https://open-meteo.com/en/docs/marine-weather-api/
 class Marine {
-  String apiUrl;
+  final String apiUrl;
+  final String? apikey;
+
   final double latitude, longitude;
-  TemperatureUnit? temperature_unit;
-  WindspeedUnit? windspeed_unit;
-  PrecipitationUnit? precipitation_unit;
-  int? past_days;
-  int? forecast_days, forecast_hours, past_hours;
-  DateTime? start_date, end_date;
-  DateTime? start_hour, end_hour;
-  LengthUnit? length_unit;
-  CellSelection? cell_selection;
-  String? apikey;
+
+  final TemperatureUnit? temperature_unit;
+  final WindspeedUnit? windspeed_unit;
+  final PrecipitationUnit? precipitation_unit;
+  final LengthUnit? length_unit;
+  final CellSelection? cell_selection;
+
+  final int? past_days;
+  final int? forecast_days, forecast_hours, past_hours;
+
+  final DateTime? start_date, end_date;
+  final DateTime? start_hour, end_hour;
 
   Marine({
     this.apiUrl = 'https://marine-api.open-meteo.com/v1/',

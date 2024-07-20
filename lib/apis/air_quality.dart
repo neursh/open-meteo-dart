@@ -10,54 +10,54 @@ import '../utils.dart';
 /// https://open-meteo.com/en/docs/air-quality-api/
 class AirQuality {
   /// Custom API URL, format: `https://<domain>/<version>/`
-  String apiUrl;
+  final String apiUrl;
+
+  /// Only required to commercial use to access reserved API resources for customers.
+  ///
+  /// https://open-meteo.com/en/docs/air-quality-api/
+  final String? apikey;
 
   /// Geographical WGS84 coordinates of the location.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
   final double latitude, longitude;
 
+  /// Set a preference how grid-cells are selected.
+  ///
+  /// https://open-meteo.com/en/docs/air-quality-api/
+  final CellSelection? cell_selection;
+
   /// Automatically combine both domains or specifically select
   /// the European `AirQualityDomains.cams_europe` or global domain `AirQualityDomains.cams_global`.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  AirQualityDomains? domains;
+  final AirQualityDomains? domains;
 
   /// If set, yesterday or the day before yesterday data are also returned.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  int? past_days;
+  final int? past_days;
 
   /// Per default, 5 days are returned. Up to 7 days of forecast are possible.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  int? forecast_days;
+  final int? forecast_days;
 
   /// Similar to forecast_days, the number of timesteps of hourly data can controlled.
   /// Instead of using the current day as a reference, the current hour is used.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  int? forecast_hours, past_hours;
+  final int? forecast_hours, past_hours;
 
   /// The time interval to get weather data.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  DateTime? start_date, end_date;
+  final DateTime? start_date, end_date;
 
   /// The time interval to get weather data for hourly data.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  DateTime? start_hour, end_hour;
-
-  /// Set a preference how grid-cells are selected.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  CellSelection? cell_selection;
-
-  /// Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  String? apikey;
+  final DateTime? start_hour, end_hour;
 
   AirQuality({
     this.apiUrl = 'https://air-quality-api.open-meteo.com/v1/',

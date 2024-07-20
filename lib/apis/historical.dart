@@ -8,15 +8,19 @@ import '../utils.dart';
 ///
 /// https://open-meteo.com/en/docs/historical-weather-api/
 class Historical {
-  String apiUrl;
+  final String apiUrl;
+  final String? apikey;
+
   final double latitude, longitude;
-  double? elevation;
-  DateTime? start_date, end_date;
-  TemperatureUnit? temperature_unit;
-  WindspeedUnit? windspeed_unit;
-  PrecipitationUnit? precipitation_unit;
-  CellSelection? cell_selection;
-  String? apikey;
+
+  final TemperatureUnit? temperature_unit;
+  final WindspeedUnit? windspeed_unit;
+  final PrecipitationUnit? precipitation_unit;
+  final CellSelection? cell_selection;
+
+  final double? elevation;
+  
+  final DateTime? start_date, end_date;
 
   Historical({
     this.apiUrl = 'https://archive-api.open-meteo.com/v1/',
@@ -28,6 +32,7 @@ class Historical {
     this.temperature_unit,
     this.windspeed_unit,
     this.precipitation_unit,
+    this.cell_selection,
     this.apikey,
   }) {
     Uri.parse(apiUrl);

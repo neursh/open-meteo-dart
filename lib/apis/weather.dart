@@ -9,20 +9,24 @@ import '../utils.dart';
 ///
 /// https://open-meteo.com/en/docs/
 class Weather {
-  String apiUrl;
+  final String apiUrl;
+  final String? apikey;
+
   final double latitude, longitude;
-  double? elevation;
-  TemperatureUnit? temperature_unit;
-  WindspeedUnit? windspeed_unit;
-  PrecipitationUnit? precipitation_unit;
-  int? past_days;
-  int? forecast_days, forecast_hours, forecast_minutely_15;
-  int? past_hours, past_minutely_15;
-  DateTime? start_date, end_date;
-  DateTime? start_hour, end_hour;
-  DateTime? start_minutely_15, end_minutely_15;
-  CellSelection? cell_selection;
-  String? apikey;
+
+  final TemperatureUnit? temperature_unit;
+  final WindspeedUnit? windspeed_unit;
+  final PrecipitationUnit? precipitation_unit;
+  final CellSelection? cell_selection;
+
+  final double? elevation;
+  final int? past_days;
+  final int? forecast_days, forecast_hours, forecast_minutely_15;
+  final int? past_hours, past_minutely_15;
+
+  final DateTime? start_date, end_date;
+  final DateTime? start_hour, end_hour;
+  final DateTime? start_minutely_15, end_minutely_15;
 
   Weather({
     this.apiUrl = 'https://api.open-meteo.com/v1/',

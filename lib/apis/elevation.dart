@@ -9,7 +9,7 @@ class Elevation {
   /// `apikey`: Only required to commercial use to access reserved API resources for customers.
   ///
   /// https://open-meteo.com/en/docs/elevation-api/
-  static Future<dynamic> search({
+  static Future<Map<String, dynamic>> search({
     String apiUrl = 'https://api.open-meteo.com/v1/',
     required List<double> latitudes,
     required List<double> longitudes,

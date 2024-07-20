@@ -13,7 +13,7 @@ class Geocoding {
   /// `apikey`: Only required to commercial use to access reserved API resources for customers.
   ///
   /// https://open-meteo.com/en/docs/elevation-api/
-  static Future<dynamic> search({
+  static Future<Map> search({
     String apiUrl = 'https://geocoding-api.open-meteo.com/v1/',
     required String name,
     int? count,
