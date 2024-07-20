@@ -1,4 +1,4 @@
-import 'package:open_meteo/weather_api_openmeteo_sdk_generated.dart';
+import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Hourly enums provided by Open-Meteo. Storing all parameters available from documentation.
 enum Hourly {
