@@ -48,9 +48,10 @@ class WeatherResponse {
       utcOffset: Duration(seconds: response.utcOffsetSeconds),
       timezone: response.timezone,
       timezoneAbbreviation: response.timezoneAbbreviation,
-      currentWeatherData: processSingle(response.current, Current.fromVariable),
-      hourlyWeatherData: processMultiple(response.hourly, Hourly.fromVariable),
-      dailyWeatherData: processMultiple(response.daily, Daily.fromVariable),
+      currentWeatherData:
+          _processSingle(response.current, Current.fromVariable),
+      hourlyWeatherData: _processMultiple(response.hourly, Hourly.fromVariable),
+      dailyWeatherData: _processMultiple(response.daily, Daily.fromVariable),
     );
   }
 }
@@ -65,7 +66,7 @@ class WeatherParameterData {
   });
 }
 
-Map<Parameter, WeatherParameterData>? processSingle<Parameter extends Enum>(
+Map<Parameter, WeatherParameterData>? _processSingle<Parameter extends Enum>(
   VariablesWithTime? data,
   Parameter? Function(VariableWithValues) converter,
 ) {
@@ -89,7 +90,7 @@ Map<Parameter, WeatherParameterData>? processSingle<Parameter extends Enum>(
   }).nonNulls);
 }
 
-Map<Parameter, WeatherParameterData>? processMultiple<Parameter extends Enum>(
+Map<Parameter, WeatherParameterData>? _processMultiple<Parameter extends Enum>(
   VariablesWithTime? data,
   Parameter? Function(VariableWithValues) converter,
 ) {
