@@ -5,7 +5,7 @@ void main() async {
   Weather weather = Weather(
     latitude: 52.52,
     longitude: 13.41,
-    temperature_unit: TemperatureUnit.celsius,
+    temperatureUnit: TemperatureUnit.celsius,
   );
   WeatherResponse result = await weather.request(
     current: [Current.temperature_2m],

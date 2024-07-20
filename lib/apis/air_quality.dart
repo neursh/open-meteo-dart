@@ -15,7 +15,7 @@ class AirQuality {
   /// Only required to commercial use to access reserved API resources for customers.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  final String? apikey;
+  final String? apiKey;
 
   /// Geographical WGS84 coordinates of the location.
   ///
@@ -25,7 +25,7 @@ class AirQuality {
   /// Set a preference how grid-cells are selected.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  final CellSelection? cell_selection;
+  final CellSelection? cellSelection;
 
   /// Automatically combine both domains or specifically select
   /// the European `AirQualityDomains.cams_europe` or global domain `AirQualityDomains.cams_global`.
@@ -36,44 +36,44 @@ class AirQuality {
   /// If set, yesterday or the day before yesterday data are also returned.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  final int? past_days;
+  final int? pastDays;
 
   /// Per default, 5 days are returned. Up to 7 days of forecast are possible.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  final int? forecast_days;
+  final int? forecastDays;
 
   /// Similar to forecast_days, the number of timesteps of hourly data can controlled.
   /// Instead of using the current day as a reference, the current hour is used.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  final int? forecast_hours, past_hours;
+  final int? forecastHours, pastHours;
 
   /// The time interval to get weather data.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  final DateTime? start_date, end_date;
+  final DateTime? startDate, endDate;
 
   /// The time interval to get weather data for hourly data.
   ///
   /// https://open-meteo.com/en/docs/air-quality-api/
-  final DateTime? start_hour, end_hour;
+  final DateTime? startHour, endHour;
 
   AirQuality({
     this.apiUrl = 'https://air-quality-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
     this.domains,
-    this.past_days,
-    this.forecast_days,
-    this.forecast_hours,
-    this.past_hours,
-    this.start_date,
-    this.end_date,
-    this.start_hour,
-    this.end_hour,
-    this.cell_selection,
-    this.apikey,
+    this.pastDays,
+    this.forecastDays,
+    this.forecastHours,
+    this.pastHours,
+    this.startDate,
+    this.endDate,
+    this.startHour,
+    this.endHour,
+    this.cellSelection,
+    this.apiKey,
   }) {
     Uri.parse(apiUrl);
 
@@ -81,7 +81,7 @@ class AirQuality {
   }
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request({
+  Future<Map<String, dynamic>> rawRequest({
     List<Hourly>? hourly,
     List<Current>? current,
   }) =>
@@ -102,16 +102,16 @@ class AirQuality {
         'hourly': hourly?.map((option) => option.name).join(","),
         'current': current?.map((option) => option.name).join(","),
         'domains': domains?.name,
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'forecast_hours': forecast_hours,
-        'past_hours': past_hours,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'start_hour': formatTime(start_hour),
-        'end_hour': formatTime(end_hour),
-        'call_selection': cell_selection?.name,
-        'apikey': apikey,
+        'past_days': pastDays,
+        'forecast_days': forecastDays,
+        'forecast_hours': forecastHours,
+        'past_hours': pastHours,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'start_hour': formatTime(startHour),
+        'end_hour': formatTime(endHour),
+        'call_selection': cellSelection?.name,
+        'apikey': apiKey,
         'latitude': latitude,
         'longitude': longitude,
         'timeformat': 'unixtime',

@@ -14,7 +14,7 @@ class Climate {
   /// Only required to commercial use to access reserved API resources for customers.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  final String? apikey;
+  final String? apiKey;
 
   /// Geographical WGS84 coordinates of the location.
   ///
@@ -24,22 +24,22 @@ class Climate {
   /// If `TemperatureUnit.fahrenheit` is set, all temperature values are converted to Fahrenheit.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  final TemperatureUnit? temperature_unit;
+  final TemperatureUnit? temperatureUnit;
 
   /// Other wind speed speed units: `WindspeedUnit.ms`, `WindspeedUnit.mph` and `WindspeedUnit.kn`.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  final WindspeedUnit? windspeed_unit;
+  final WindspeedUnit? windspeedUnit;
 
   /// Other precipitation amount units: `PrecipitationUnit.inch`
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  final PrecipitationUnit? precipitation_unit;
+  final PrecipitationUnit? precipitationUnit;
 
   /// Set a preference how grid-cells are selected.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  final CellSelection? cell_selection;
+  final CellSelection? cellSelection;
 
   /// Setting disable_bias_correction to true disables statistical downscaling
   /// and bias correction onto ERA5-Land. By default, all data is corrected
@@ -48,25 +48,25 @@ class Climate {
   /// not affected by linear bias correction.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  final bool? disable_bias_correction;
+  final bool? disableBiasCorrection;
 
   /// The time interval to get weather data.
   ///
   /// https://open-meteo.com/en/docs/climate-api/
-  final DateTime start_date, end_date;
+  final DateTime startDate, endDate;
 
   Climate({
     this.apiUrl = 'https://climate-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
-    required this.start_date,
-    required this.end_date,
-    this.temperature_unit,
-    this.windspeed_unit,
-    this.precipitation_unit,
-    this.disable_bias_correction,
-    this.cell_selection,
-    this.apikey,
+    required this.startDate,
+    required this.endDate,
+    this.temperatureUnit,
+    this.windspeedUnit,
+    this.precipitationUnit,
+    this.disableBiasCorrection,
+    this.cellSelection,
+    this.apiKey,
   }) {
     Uri.parse(apiUrl);
 
@@ -74,7 +74,7 @@ class Climate {
   }
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request({
+  Future<Map<String, dynamic>> rawRequest({
     required List<Daily> daily,
     required List<ClimateModel> models,
   }) =>
@@ -94,14 +94,14 @@ class Climate {
       {
         'daily': daily.map((value) => value.name).toList().join(','),
         'models': models.map((value) => value.name).toList().join(','),
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'temperature_unit': temperature_unit?.name,
-        'windspeed_unit': windspeed_unit?.name,
-        'precipitation_unit': precipitation_unit?.name,
-        'disable_bias_correction': disable_bias_correction,
-        'cell_selection': cell_selection?.name,
-        'apikey': apikey,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'temperature_unit': temperatureUnit?.name,
+        'windspeed_unit': windspeedUnit?.name,
+        'precipitation_unit': precipitationUnit?.name,
+        'disable_bias_correction': disableBiasCorrection,
+        'cell_selection': cellSelection?.name,
+        'apikey': apiKey,
         'latitude': latitude,
         'longitude': longitude,
         'timeformat': 'unixtime',

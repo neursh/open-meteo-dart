@@ -14,7 +14,7 @@ class Ensemble {
   /// Only required to commercial use to access reserved API resources for customers.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final String? apikey;
+  final String? apiKey;
 
   /// Geographical WGS84 coordinates of the location.
   ///
@@ -24,23 +24,23 @@ class Ensemble {
   /// If `TemperatureUnit.fahrenheit` is set, all temperature values are converted to Fahrenheit.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final TemperatureUnit? temperature_unit;
+  final TemperatureUnit? temperatureUnit;
 
   ///Other wind speed speed units: `WindspeedUnit.ms`, `WindspeedUnit.mph` and `WindspeedUnit.kn`.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final WindspeedUnit? windspeed_unit;
+  final WindspeedUnit? windspeedUnit;
 
   /// Other precipitation amount units: `PrecipitationUnit.inch`
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final PrecipitationUnit? precipitation_unit;
+  final PrecipitationUnit? precipitationUnit;
 
   /// The elevation used for statistical downscaling. Per default,
   /// Set a preference how grid-cells are selected.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final CellSelection? cell_selection;
+  final CellSelection? cellSelection;
 
   /// a 90 meter digital elevation model is used.
   /// You can manually set the elevation to correctly match mountain peaks.
@@ -51,64 +51,64 @@ class Ensemble {
   /// If `past_days` is set, past weather data can be returned.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final int? past_days;
+  final int? pastDays;
 
   /// Per default, only 7 days are returned. Up to 35 days of forecast are possible.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final int? forecast_days;
+  final int? forecastDays;
 
   /// Similar to forecast_days, the number of timesteps of hourly and 15-minutely
   /// data can controlled. Instead of using the current day as a reference,
   /// the current hour or the current 15-minute time-step is used.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final int? forecast_hours, forecast_minutely_15;
+  final int? forecastHours, forecastMinutely15;
 
   /// Similar to forecast_days, the number of timesteps of hourly and 15-minutely
   /// data can controlled. Instead of using the current day as a reference,
   /// the current hour or the current 15-minute time-step is used.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final int? past_hours, past_minutely_15;
+  final int? pastHours, pastMinutely15;
 
   /// The time interval to get weather data.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final DateTime? start_date, end_date;
+  final DateTime? startDate, endDate;
 
   /// The time interval to get weather data for hourly or 15 minutely data.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final DateTime? start_hour, end_hour;
+  final DateTime? startHour, endHour;
 
   /// The time interval to get weather data for hourly or 15 minutely data.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final DateTime? start_minutely_15, end_minutely_15;
+  final DateTime? startMinutely15, endMinutely15;
 
   Ensemble({
     this.apiUrl = 'https://ensemble-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
     this.elevation,
-    this.temperature_unit,
-    this.windspeed_unit,
-    this.precipitation_unit,
-    this.past_days,
-    this.forecast_days,
-    this.forecast_hours,
-    this.forecast_minutely_15,
-    this.past_hours,
-    this.past_minutely_15,
-    this.start_date,
-    this.end_date,
-    this.start_hour,
-    this.end_hour,
-    this.start_minutely_15,
-    this.end_minutely_15,
-    this.cell_selection,
-    this.apikey,
+    this.temperatureUnit,
+    this.windspeedUnit,
+    this.precipitationUnit,
+    this.pastDays,
+    this.forecastDays,
+    this.forecastHours,
+    this.forecastMinutely15,
+    this.pastHours,
+    this.pastMinutely15,
+    this.startDate,
+    this.endDate,
+    this.startHour,
+    this.endHour,
+    this.startMinutely15,
+    this.endMinutely15,
+    this.cellSelection,
+    this.apiKey,
   }) {
     Uri.parse(apiUrl);
 
@@ -116,7 +116,7 @@ class Ensemble {
   }
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request({
+  Future<Map<String, dynamic>> requestJson({
     required List<EnsembleModel> models,
     List<Hourly>? hourly,
   }) =>
@@ -137,23 +137,23 @@ class Ensemble {
         'models': models.map((value) => value.name).toList().join(','),
         'hourly': hourly?.map((value) => value.name).toList().join(','),
         'elevation': elevation,
-        'temperature_unit': temperature_unit?.name,
-        'windspeed_unit': windspeed_unit?.name,
-        'precipitation_unit': precipitation_unit?.name,
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'forecast_hours': forecast_hours,
-        'forecast_minutely_15': forecast_minutely_15,
-        'past_hours': past_hours,
-        'past_minutely_15': past_minutely_15,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'start_hour': formatTime(start_hour),
-        'end_hour': formatTime(end_hour),
-        'start_minytely_15': formatTime(start_minutely_15),
-        'end_minutely_15': formatTime(end_minutely_15),
-        'cell_selection': cell_selection?.name,
-        'apikey': apikey,
+        'temperature_unit': temperatureUnit?.name,
+        'windspeed_unit': windspeedUnit?.name,
+        'precipitation_unit': precipitationUnit?.name,
+        'past_days': pastDays,
+        'forecast_days': forecastDays,
+        'forecast_hours': forecastHours,
+        'forecast_minutely_15': forecastMinutely15,
+        'past_hours': pastHours,
+        'past_minutely_15': pastMinutely15,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'start_hour': formatTime(startHour),
+        'end_hour': formatTime(endHour),
+        'start_minytely_15': formatTime(startMinutely15),
+        'end_minutely_15': formatTime(endMinutely15),
+        'cell_selection': cellSelection?.name,
+        'apikey': apiKey,
         'latitude': latitude,
         'longitude': longitude,
         'timeformat': 'unixtime',

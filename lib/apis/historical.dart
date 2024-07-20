@@ -13,26 +13,26 @@ class Historical {
 
   final double latitude, longitude;
 
-  final TemperatureUnit? temperature_unit;
-  final WindspeedUnit? windspeed_unit;
-  final PrecipitationUnit? precipitation_unit;
-  final CellSelection? cell_selection;
+  final TemperatureUnit? temperatureUnit;
+  final WindspeedUnit? windspeedUnit;
+  final PrecipitationUnit? precipitationUnit;
+  final CellSelection? cellSelection;
 
   final double? elevation;
-  
-  final DateTime? start_date, end_date;
+
+  final DateTime? startDate, endDate;
 
   Historical({
     this.apiUrl = 'https://archive-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
     this.elevation,
-    this.start_date,
-    this.end_date,
-    this.temperature_unit,
-    this.windspeed_unit,
-    this.precipitation_unit,
-    this.cell_selection,
+    this.startDate,
+    this.endDate,
+    this.temperatureUnit,
+    this.windspeedUnit,
+    this.precipitationUnit,
+    this.cellSelection,
     this.apikey,
   }) {
     Uri.parse(apiUrl);
@@ -40,7 +40,7 @@ class Historical {
     throwCheckLatLng(latitude, longitude);
   }
 
-  Future<Map<String, dynamic>> raw_request({
+  Future<Map<String, dynamic>> rawRequest({
     List<Hourly>? hourly,
     List<Daily>? daily,
   }) =>
@@ -61,12 +61,12 @@ class Historical {
         'daily': daily?.map((option) => option.name).join(","),
         'hourly': hourly?.map((option) => option.name).join(","),
         'elevation': elevation,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'temperature_unit': temperature_unit?.name,
-        'windspeed_unit': windspeed_unit?.name,
-        'precipitaion_unit': precipitation_unit?.name,
-        'cell_selection': cell_selection?.name,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'temperature_unit': temperatureUnit?.name,
+        'windspeed_unit': windspeedUnit?.name,
+        'precipitaion_unit': precipitationUnit?.name,
+        'cell_selection': cellSelection?.name,
         'apikey': apikey,
         'latitude': latitude,
         'longitude': longitude,

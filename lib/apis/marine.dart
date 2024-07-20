@@ -14,35 +14,35 @@ class Marine {
 
   final double latitude, longitude;
 
-  final TemperatureUnit? temperature_unit;
-  final WindspeedUnit? windspeed_unit;
-  final PrecipitationUnit? precipitation_unit;
-  final LengthUnit? length_unit;
-  final CellSelection? cell_selection;
+  final TemperatureUnit? temperatureUnit;
+  final WindspeedUnit? windspeedUnit;
+  final PrecipitationUnit? precipitationUnit;
+  final LengthUnit? lengthUnit;
+  final CellSelection? cellSelection;
 
-  final int? past_days;
-  final int? forecast_days, forecast_hours, past_hours;
+  final int? pastDays;
+  final int? forecastDays, forecastHours, pastHours;
 
-  final DateTime? start_date, end_date;
-  final DateTime? start_hour, end_hour;
+  final DateTime? startDate, endDate;
+  final DateTime? startHour, endHour;
 
   Marine({
     this.apiUrl = 'https://marine-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
-    this.temperature_unit,
-    this.windspeed_unit,
-    this.precipitation_unit,
-    this.past_days,
-    this.forecast_days,
-    this.forecast_hours,
-    this.past_hours,
-    this.start_date,
-    this.end_date,
-    this.start_hour,
-    this.end_hour,
-    this.length_unit,
-    this.cell_selection,
+    this.temperatureUnit,
+    this.windspeedUnit,
+    this.precipitationUnit,
+    this.pastDays,
+    this.forecastDays,
+    this.forecastHours,
+    this.pastHours,
+    this.startDate,
+    this.endDate,
+    this.startHour,
+    this.endHour,
+    this.lengthUnit,
+    this.cellSelection,
     this.apikey,
   }) {
     Uri.parse(apiUrl);
@@ -50,7 +50,7 @@ class Marine {
     throwCheckLatLng(latitude, longitude);
   }
 
-  Future<Map<String, dynamic>> raw_request({
+  Future<Map<String, dynamic>> rawRequest({
     List<Hourly>? hourly,
     List<Daily>? daily,
     List<Current>? current,
@@ -74,18 +74,18 @@ class Marine {
         'daily': daily?.map((option) => option.name).join(","),
         'hourly': hourly?.map((option) => option.name).join(","),
         'current': current?.map((option) => option.name).join(","),
-        'temperature_unit': temperature_unit?.name,
-        'windspeed_unit': windspeed_unit?.name,
-        'precipitation_unit': precipitation_unit?.name,
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'past_hours': past_hours,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'start_hour': formatTime(start_hour),
-        'end_hour': formatTime(end_hour),
-        'length_unit': length_unit?.name,
-        'cell_selection': cell_selection?.name,
+        'temperature_unit': temperatureUnit?.name,
+        'windspeed_unit': windspeedUnit?.name,
+        'precipitation_unit': precipitationUnit?.name,
+        'past_days': pastDays,
+        'forecast_days': forecastDays,
+        'past_hours': pastHours,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'start_hour': formatTime(startHour),
+        'end_hour': formatTime(endHour),
+        'length_unit': lengthUnit?.name,
+        'cell_selection': cellSelection?.name,
         'apikey': apikey,
         'latitude': latitude,
         'longitude': longitude,

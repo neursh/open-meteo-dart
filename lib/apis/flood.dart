@@ -20,20 +20,20 @@ class Flood {
   /// https://open-meteo.com/en/docs/flood-api/
   final double latitude, longitude;
 
-  /// If `past_days` is set, past weather data can be returned.
+  /// If `pastDays` is set, past weather data can be returned.
   ///
   /// https://open-meteo.com/en/docs/flood-api/
-  final int? past_days;
+  final int? pastDays;
 
   /// Per default, only 92 days are returned. Up to 210 days of forecast are possible.
   ///
   /// https://open-meteo.com/en/docs/flood-api/
-  final int? forecast_days;
+  final int? forecastDays;
 
   /// The time interval to get data. Data are available from 1984-01-01 until 7 month forecast.
   ///
   /// https://open-meteo.com/en/docs/flood-api/
-  final DateTime? start_date, end_date;
+  final DateTime? startDate, endDate;
 
   /// If `true`, all forecast ensemble members will be returned.
   ///
@@ -43,17 +43,17 @@ class Flood {
   /// Set a preference how grid-cells are selected.
   ///
   /// https://open-meteo.com/en/docs/ensemble-api/
-  final CellSelection? cell_selection;
+  final CellSelection? cellSelection;
 
   Flood({
     this.apiUrl = 'https://flood-api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
-    this.past_days,
-    this.forecast_days,
-    this.start_date,
-    this.end_date,
-    this.cell_selection,
+    this.pastDays,
+    this.forecastDays,
+    this.startDate,
+    this.endDate,
+    this.cellSelection,
     this.apikey,
     this.ensemble,
   }) {
@@ -63,7 +63,7 @@ class Flood {
   }
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request({List<Daily>? daily}) =>
+  Future<Map<String, dynamic>> rawRequest({List<Daily>? daily}) =>
       sendHttpRequest(apiUrl, 'flood', _queryParamMap(daily));
 
   Future<WeatherResponse> request({List<Daily>? daily}) =>
@@ -72,12 +72,12 @@ class Flood {
 
   Map<String, dynamic> _queryParamMap(List<Daily>? daily) => {
         'daily': daily?.map((option) => option.name).join(","),
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
+        'past_days': pastDays,
+        'forecast_days': forecastDays,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
         'ensemble': ensemble,
-        'cell_selection': cell_selection?.name,
+        'cell_selection': cellSelection?.name,
         'apikey': apikey,
         'latitude': latitude,
         'longitude': longitude,

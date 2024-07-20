@@ -14,41 +14,41 @@ class Weather {
 
   final double latitude, longitude;
 
-  final TemperatureUnit? temperature_unit;
-  final WindspeedUnit? windspeed_unit;
-  final PrecipitationUnit? precipitation_unit;
-  final CellSelection? cell_selection;
+  final TemperatureUnit? temperatureUnit;
+  final WindspeedUnit? windspeedUnit;
+  final PrecipitationUnit? precipitationUnit;
+  final CellSelection? cellSelection;
 
   final double? elevation;
-  final int? past_days;
-  final int? forecast_days, forecast_hours, forecast_minutely_15;
-  final int? past_hours, past_minutely_15;
+  final int? pastDays;
+  final int? forecastDays, forecastHours, forecastMinutely15;
+  final int? pastHours, pastMinutely15;
 
-  final DateTime? start_date, end_date;
-  final DateTime? start_hour, end_hour;
-  final DateTime? start_minutely_15, end_minutely_15;
+  final DateTime? startDate, endDate;
+  final DateTime? startHour, endHour;
+  final DateTime? startMinutely15, endMinutely15;
 
   Weather({
     this.apiUrl = 'https://api.open-meteo.com/v1/',
     required this.latitude,
     required this.longitude,
     this.elevation,
-    this.temperature_unit,
-    this.windspeed_unit,
-    this.precipitation_unit,
-    this.past_days,
-    this.forecast_days,
-    this.forecast_hours,
-    this.forecast_minutely_15,
-    this.past_hours,
-    this.past_minutely_15,
-    this.start_date,
-    this.end_date,
-    this.start_hour,
-    this.end_hour,
-    this.start_minutely_15,
-    this.end_minutely_15,
-    this.cell_selection,
+    this.temperatureUnit,
+    this.windspeedUnit,
+    this.precipitationUnit,
+    this.pastDays,
+    this.forecastDays,
+    this.forecastHours,
+    this.forecastMinutely15,
+    this.pastHours,
+    this.pastMinutely15,
+    this.startDate,
+    this.endDate,
+    this.startHour,
+    this.endHour,
+    this.startMinutely15,
+    this.endMinutely15,
+    this.cellSelection,
     this.apikey,
   }) {
     Uri.parse(apiUrl);
@@ -56,7 +56,7 @@ class Weather {
     throwCheckLatLng(latitude, longitude);
   }
 
-  Future<Map<String, dynamic>> raw_request({
+  Future<Map<String, dynamic>> rawRequest({
     List<Hourly>? hourly,
     List<Daily>? daily,
     List<Current>? current,
@@ -85,22 +85,22 @@ class Weather {
         'daily': daily?.map((option) => option.name).join(","),
         'current': current?.map((option) => option.name).join(","),
         'elevation': elevation,
-        'temperature_unit': temperature_unit?.name,
-        'windspeed_unit': windspeed_unit?.name,
-        'precipitation_unit': precipitation_unit?.name,
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'forecast_hours': forecast_hours,
-        'forecast_minutely_15': forecast_minutely_15,
-        'past_hours': past_hours,
-        'past_minutely_15': past_minutely_15,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'start_hour': formatTime(start_hour),
-        'end_hour': formatTime(end_hour),
-        'start_minutely_15': formatTime(start_minutely_15),
-        'end_minutely_15': formatTime(end_minutely_15),
-        'cell_selection': cell_selection?.name,
+        'temperature_unit': temperatureUnit?.name,
+        'windspeed_unit': windspeedUnit?.name,
+        'precipitation_unit': precipitationUnit?.name,
+        'past_days': pastDays,
+        'forecast_days': forecastDays,
+        'forecast_hours': forecastHours,
+        'forecast_minutely_15': forecastMinutely15,
+        'past_hours': pastHours,
+        'past_minutely_15': pastMinutely15,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'start_hour': formatTime(startHour),
+        'end_hour': formatTime(endHour),
+        'start_minutely_15': formatTime(startMinutely15),
+        'end_minutely_15': formatTime(endMinutely15),
+        'cell_selection': cellSelection?.name,
         'apikey': apikey,
         'latitude': latitude,
         'longitude': longitude,

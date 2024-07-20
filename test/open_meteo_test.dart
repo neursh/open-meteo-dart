@@ -6,32 +6,32 @@ void main() {
     var weather = Weather(
         latitude: 52.52,
         longitude: 13.41,
-        temperature_unit: TemperatureUnit.celsius);
+        temperatureUnit: TemperatureUnit.celsius);
     var hourly = [Hourly.temperature_2m];
     var daily = [Daily.temperature_2m_max];
     var current = [Current.temperature_2m];
     test('Hourly temperature from current time.', () async {
-      var result = await weather.raw_request(hourly: hourly);
+      var result = await weather.rawRequest(hourly: hourly);
       expect(result['error'], isNot(true));
       expect(result['hourly'], isNot(null));
       expect(result['hourly']['time'].length,
           result['hourly']['temperature_2m'].length);
     });
     test('Daily temperature from current time.', () async {
-      var result = await weather.raw_request(daily: daily);
+      var result = await weather.rawRequest(daily: daily);
       expect(result['error'], isNot(true));
       expect(result['daily'], isNot(null));
       expect(result['daily']['time'].length,
           result['daily']['temperature_2m_max'].length);
     });
     test('Current temperature.', () async {
-      var result = await weather.raw_request(current: current);
+      var result = await weather.rawRequest(current: current);
       expect(result['error'], isNot(true));
       expect(result['current'], isNot(null));
     });
 
     test('Combined from all options', () async {
-      var result = await weather.raw_request(
+      var result = await weather.rawRequest(
           hourly: hourly, daily: daily, current: current);
       expect(result['error'], isNot(true));
       expect(result['hourly'], isNot(null));
@@ -48,27 +48,27 @@ void main() {
     var historical = Historical(
         latitude: 52.52,
         longitude: 13.41,
-        start_date: DateTime(2022, 1, 1),
-        end_date: DateTime(2022, 1, 2),
-        temperature_unit: TemperatureUnit.celsius);
+        startDate: DateTime(2022, 1, 1),
+        endDate: DateTime(2022, 1, 2),
+        temperatureUnit: TemperatureUnit.celsius);
     var hourly = [Hourly.temperature_2m];
     var daily = [Daily.temperature_2m_max];
     test('Hourly temperature', () async {
-      var result = await historical.raw_request(hourly: hourly);
+      var result = await historical.rawRequest(hourly: hourly);
       expect(result['error'], isNot(true));
       expect(result['hourly'], isNot(null));
       expect(result['hourly']['time'].length,
           result['hourly']['temperature_2m'].length);
     });
     test('Daily temperature.', () async {
-      var result = await historical.raw_request(daily: daily);
+      var result = await historical.rawRequest(daily: daily);
       expect(result['error'], isNot(true));
       expect(result['daily'], isNot(null));
       expect(result['daily']['time'].length,
           result['daily']['temperature_2m_max'].length);
     });
     test('Combined from all options', () async {
-      var result = await historical.raw_request(hourly: hourly, daily: daily);
+      var result = await historical.rawRequest(hourly: hourly, daily: daily);
       expect(result['error'], isNot(true));
       expect(result['hourly'], isNot(null));
       expect(result['hourly']['time'].length,
@@ -84,7 +84,7 @@ void main() {
     var models = [EnsembleModel.icon_seamless];
     var hourly = [Hourly.temperature_2m];
     test('Hourly temperature', () async {
-      var result = await ensemble.raw_request(models: models, hourly: hourly);
+      var result = await ensemble.requestJson(models: models, hourly: hourly);
       expect(result['error'], isNot(true));
       expect(result['hourly'], isNot(null));
       expect(result['hourly']['time'].length,
@@ -96,13 +96,13 @@ void main() {
     var climate = Climate(
       latitude: 52.52,
       longitude: 13.41,
-      start_date: DateTime(2022, 1, 1),
-      end_date: DateTime(2022, 1, 2),
+      startDate: DateTime(2022, 1, 1),
+      endDate: DateTime(2022, 1, 2),
     );
     var models = [ClimateModel.CMCC_CM2_VHR4];
     var daily = [Daily.temperature_2m_max];
     test('Daily temperature', () async {
-      var result = await climate.raw_request(models: models, daily: daily);
+      var result = await climate.rawRequest(models: models, daily: daily);
       expect(result['error'], isNot(true));
       expect(result['daily'], isNot(null));
       expect(result['daily']['time'].length,
@@ -117,27 +117,27 @@ void main() {
     var current = [Current.wave_height];
 
     test('Hourly wave height from current time.', () async {
-      var result = await marine.raw_request(hourly: hourly);
+      var result = await marine.rawRequest(hourly: hourly);
       expect(result['error'], isNot(true));
       expect(result['hourly'], isNot(null));
       expect(result['hourly']['time'].length,
           result['hourly']['wave_height'].length);
     });
     test('Daily wave height from current time.', () async {
-      var result = await marine.raw_request(daily: daily);
+      var result = await marine.rawRequest(daily: daily);
       expect(result['error'], isNot(true));
       expect(result['daily'], isNot(null));
       expect(result['daily']['time'].length,
           result['daily']['wave_height_max'].length);
     });
     test('Current wave height.', () async {
-      var result = await marine.raw_request(current: current);
+      var result = await marine.rawRequest(current: current);
       expect(result['error'], isNot(true));
       expect(result['current'], isNot(null));
     });
 
     test('Combined from all options', () async {
-      var result = await marine.raw_request(
+      var result = await marine.rawRequest(
           hourly: hourly, daily: daily, current: current);
       expect(result['error'], isNot(true));
       expect(result['hourly'], isNot(null));
@@ -156,21 +156,21 @@ void main() {
     var current = [Current.pm10];
 
     test('Hourly air quality from current time.', () async {
-      var result = await airQuality.raw_request(hourly: hourly);
+      var result = await airQuality.rawRequest(hourly: hourly);
       expect(result['error'], isNot(true));
       expect(result['hourly'], isNot(null));
       expect(result['hourly']['time'].length, result['hourly']['pm10'].length);
     });
 
     test('Current air quality.', () async {
-      var result = await airQuality.raw_request(current: current);
+      var result = await airQuality.rawRequest(current: current);
       expect(result['error'], isNot(true));
       expect(result['current'], isNot(null));
     });
 
     test('Combined from all options', () async {
       var result =
-          await airQuality.raw_request(hourly: hourly, current: current);
+          await airQuality.rawRequest(hourly: hourly, current: current);
       expect(result['error'], isNot(true));
       expect(result['hourly'], isNot(null));
       expect(result['hourly']['time'].length, result['hourly']['pm10'].length);
