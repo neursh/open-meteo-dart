@@ -2,9 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flat_buffers/flat_buffers.dart';
 
-import '/enums/current.dart';
-import '/enums/daily.dart';
-import '/enums/hourly.dart';
+import '../enums/current.dart';
+import '../enums/daily.dart';
+import '../enums/hourly.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
 class WeatherResponse {
