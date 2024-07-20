@@ -12,7 +12,7 @@ class Elevation {
   static Future<dynamic> search({
     String apiUrl = 'https://api.open-meteo.com/v1/',
     required List<double> latitudes,
-    longitudes,
+    required List<double> longitudes,
     String? apikey,
   }) =>
       sendHttpRequest(apiUrl, 'elevation', {
