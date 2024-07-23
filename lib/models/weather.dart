@@ -56,10 +56,10 @@ class WeatherResponse {
 }
 
 class WeatherParameterData {
-  final String? unit;
-  final Map<DateTime, double>? data;
+  final String unit;
+  final Map<DateTime, double> data;
 
-  WeatherParameterData._({
+  const WeatherParameterData._({
     required this.unit,
     required this.data,
   });
@@ -82,7 +82,7 @@ Map<Parameter, WeatherParameterData>? processSingle<Parameter extends Enum>(
     return MapEntry(
       variable,
       WeatherParameterData._(
-        unit: unitsMap[v.unit],
+        unit: unitsMap[v.unit]!,
         data: {timestamp: v.value},
       ),
     );
@@ -116,7 +116,7 @@ Map<Parameter, WeatherParameterData>? processMultiple<Parameter extends Enum>(
     return MapEntry(
       variable,
       WeatherParameterData._(
-        unit: unitsMap[v.unit],
+        unit: unitsMap[v.unit]!,
         data: {
           for (int i = 0; i < timestamps.length && i < values.length; i++)
             timestamps[i]: values[i]
