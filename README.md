@@ -29,6 +29,10 @@ Each of the nine features available in Open-Meteo is represented by its own clas
 
 For example, to get the hourly temperature in London, 2 meters above sea level using `Weather`:
 
+> [!NOTE]
+All inputs to the API have been adapted to Dart-friendly variables.
+Time arguments are `DateTime` objects, and many parameters have enum representations.
+
 ```dart
 Weather weather = Weather(
   latitude: 52.52,
@@ -43,18 +47,22 @@ WeatherParameterData? temperature =
 double? currentTemperature = temperature?.data?.values.first;
 ```
 
-> [!NOTE]
-All inputs to the API have been adapted to Dart-friendly variables.
-Time arguments are `DateTime` objects, and many parameters have enum representations.
-
 > [!TIP]
-`request` returns a Dart object, and throws an exception if the API returns an error response.
-`raw_request` returns a JSON map, containing either the data or the raw error response.
+> - `request` returns a Dart object, and throws an exception if the API returns an error response, recommended for most use cases.
+> 
+> - `raw_request` returns a JSON map, containing either the data or the raw error response. This method exists solely for debug purposes, do not use in production.
 
 > [!NOTE]
-The `Geocoding` and `Elevation` endpoints use static methods instead of first constructing an instance of that object.
-Additionally, they only have a `search` method available, returning a JSON map because the upstream API doesn't implement FlatBuffers.
+> The `Geocoding` and `Elevation` endpoints use static methods instead of first constructing an instance of that object.
+> 
+> Additionally, they only have a `search` method available, returning a JSON map because the upstream API doesn't implement FlatBuffers.
 
+```dart
+var result = await Geocoding.search(name: "Somewhere");
+```
+```dart
+var result = await Elevation.search(latitudes: [52.52], longitudes: [13.41]);
+```
 
 ## Bugs & Pull requests
 Before reporting an issue, please check Open-Meteo's docs to make sure you're calling the correct endpoint with the correct arguments.
