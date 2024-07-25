@@ -1,4 +1,3 @@
-import 'package:open_meteo/models/weather.dart';
 import 'package:open_meteo/open_meteo.dart';
 
 void main() async {
