@@ -51,7 +51,10 @@ class BaseApi {
   final String apiUrl;
   final String? apiKey;
 
-  const BaseApi({
+  http.Client? _client;
+  http.Client get client => (_client ??= http.Client());
+
+  BaseApi({
     required this.apiUrl,
     required this.apiKey,
   });
@@ -67,7 +70,7 @@ Future<Map<String, dynamic>> requestJson(
     }),
   );
   print("[open_meteo] Parsed URL: ${url.toString()}");
-  return jsonDecode((await http.get(url)).body);
+  return jsonDecode((await api.client.get(url)).body);
 }
 
 Future<Uint8List> requestFlatBuffer(
@@ -82,7 +85,7 @@ Future<Uint8List> requestFlatBuffer(
   );
   print("[open_meteo] Parsed URL: ${url.toString()}");
 
-  http.Response response = await http.get(url);
+  http.Response response = await api.client.get(url);
   if (response.statusCode != 200) {
     throw OpenMeteoApiError(jsonDecode(response.body)['reason']);
   }
