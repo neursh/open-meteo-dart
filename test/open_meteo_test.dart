@@ -189,9 +189,11 @@ void main() {
   });
 
   group('Elevation API checks', () {
+    var elevation = Elevation();
+
     test('Check elevation', () async {
       var result =
-          await Elevation.search(latitudes: [52.52], longitudes: [13.41]);
+          await elevation.request(latitudes: [52.52], longitudes: [13.41]);
       expect(result['error'], isNot(true));
       expect(result['elevation'][0], 38);
     });
