@@ -179,8 +179,10 @@ void main() {
   });
 
   group('Geocoding API checks', () {
+    var geocoding = Geocoding(language: 'en');
+
     test('Look for Berlin', () async {
-      var result = await Geocoding.search(name: 'Berlin', language: 'en');
+      var result = await geocoding.request(name: 'Berlin');
       expect(result['error'], isNot(true));
       expect(result['results'][0]['name'], 'Berlin');
     });
