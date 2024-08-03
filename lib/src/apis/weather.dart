@@ -1,19 +1,13 @@
-import '../enums/current.dart';
-import '../enums/daily.dart';
-import '../enums/hourly.dart';
 import '../enums/prefcls.dart';
-import '../models/weather.dart';
+import '../response.dart';
 import '../utils.dart';
+import '../weather_api_openmeteo_sdk_generated.dart';
+import 'api.dart';
 
 /// Seamless integration of high-resolution weather models with up 16 days forecast.
 ///
 /// https://open-meteo.com/en/docs/
-class Weather {
-  final String apiUrl;
-  final String? apikey;
-
-  final double latitude, longitude;
-
+class WeatherApi extends BaseApi {
   final TemperatureUnit? temperatureUnit;
   final WindspeedUnit? windspeedUnit;
   final PrecipitationUnit? precipitationUnit;
@@ -26,16 +20,15 @@ class Weather {
 
   final DateTime? startDate, endDate;
   final DateTime? startHour, endHour;
-  final DateTime? startMinutely15, endMinutely15;
 
-  Weather({
-    this.apiUrl = 'https://api.open-meteo.com/v1/',
-    required this.latitude,
-    required this.longitude,
-    this.elevation,
+  WeatherApi({
+    super.apiUrl = 'https://api.open-meteo.com/v1/forecast',
+    super.apiKey,
     this.temperatureUnit,
     this.windspeedUnit,
     this.precipitationUnit,
+    this.cellSelection,
+    this.elevation,
     this.pastDays,
     this.forecastDays,
     this.forecastHours,
@@ -46,44 +39,47 @@ class Weather {
     this.endDate,
     this.startHour,
     this.endHour,
-    this.startMinutely15,
-    this.endMinutely15,
-    this.cellSelection,
-    this.apikey,
   }) {
     Uri.parse(apiUrl);
-
-    throwCheckLatLng(latitude, longitude);
   }
 
   Future<Map<String, dynamic>> rawRequest({
-    List<Hourly>? hourly,
-    List<Daily>? daily,
-    List<Current>? current,
+    required double latitude,
+    required double longitude,
+    List<HourlyWeather>? hourly,
+    List<DailyWeather>? daily,
+    List<CurrentWeather>? current,
   }) =>
-      sendHttpRequest(
-        apiUrl,
-        'forecast',
-        _queryParamMap(hourly, daily, current),
-      );
+      requestJson(
+          this, _queryParamMap(latitude, longitude, hourly, daily, current));
 
-  Future<WeatherResponse> request({
-    List<Hourly>? hourly,
-    List<Daily>? daily,
-    List<Current>? current,
+  Future<Response<WeatherApi>> request({
+    required double latitude,
+    required double longitude,
+    List<HourlyWeather>? hourly,
+    List<DailyWeather>? daily,
+    List<CurrentWeather>? current,
   }) =>
-      sendApiRequest(apiUrl, 'forecast', _queryParamMap(hourly, daily, current))
-          .then(WeatherResponse.fromFlatBuffer);
+      requestFlatBuffer(
+              this, _queryParamMap(latitude, longitude, hourly, daily, current))
+          .then((data) => Response.fromFlatBuffer(
+                data,
+                currentHashes: CurrentWeather.hashes,
+                hourlyHashes: HourlyWeather.hashes,
+                dailyHashes: DailyWeather.hashes,
+              ));
 
   Map<String, dynamic> _queryParamMap(
-    List<Hourly>? hourly,
-    List<Daily>? daily,
-    List<Current>? current,
+    double latitude,
+    double longitude,
+    List<HourlyWeather>? hourly,
+    List<DailyWeather>? daily,
+    List<CurrentWeather>? current,
   ) =>
       {
-        'hourly': hourly?.map((option) => option.name).join(","),
-        'daily': daily?.map((option) => option.name).join(","),
-        'current': current?.map((option) => option.name).join(","),
+        'hourly': hourly?.map((option) => option.name),
+        'daily': daily?.map((option) => option.name),
+        'current': current?.map((option) => option.name),
         'elevation': elevation,
         'temperature_unit': temperatureUnit?.name,
         'windspeed_unit': windspeedUnit?.name,
@@ -98,13 +94,50 @@ class Weather {
         'end_date': formatDate(endDate),
         'start_hour': formatTime(startHour),
         'end_hour': formatTime(endHour),
-        'start_minutely_15': formatTime(startMinutely15),
-        'end_minutely_15': formatTime(endMinutely15),
         'cell_selection': cellSelection?.name,
-        'apikey': apikey,
         'latitude': latitude,
         'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };
+}
+
+// typedef WeatherResponse = Response<WeatherApi>;
+
+enum CurrentWeather with WeatherParameter<WeatherApi, Current> {
+  temperature_2m(Variable.temperature, altitude: 2);
+
+  @override
+  final Variable variable;
+
+  @override
+  final int altitude;
+
+  const CurrentWeather(this.variable, {this.altitude = 0});
+
+  static final Map<int, CurrentWeather> hashes =
+      makeHashes(CurrentWeather.values);
+}
+
+enum HourlyWeather with WeatherParameter<WeatherApi, Hourly> {
+  x(Variable.aerosol_optical_depth);
+
+  @override
+  final Variable variable;
+
+  const HourlyWeather(this.variable);
+
+  static final Map<int, HourlyWeather> hashes =
+      makeHashes(HourlyWeather.values);
+}
+
+enum DailyWeather with WeatherParameter<WeatherApi, Daily> {
+  x(Variable.aerosol_optical_depth);
+
+  @override
+  final Variable variable;
+
+  const DailyWeather(this.variable);
+
+  static final Map<int, DailyWeather> hashes = makeHashes(DailyWeather.values);
 }

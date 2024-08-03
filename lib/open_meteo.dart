@@ -19,3 +19,5 @@ export 'src/enums/prefcls.dart';
 export 'src/models/weather.dart';
 
 export 'src/exceptions.dart';
+
+export 'src/response.dart' show Response;
