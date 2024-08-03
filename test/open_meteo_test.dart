@@ -179,17 +179,21 @@ void main() {
   });
 
   group('Geocoding API checks', () {
+    var geocoding = Geocoding(language: 'en');
+
     test('Look for Berlin', () async {
-      var result = await Geocoding.search(name: 'Berlin', language: 'en');
+      var result = await geocoding.request(name: 'Berlin');
       expect(result['error'], isNot(true));
       expect(result['results'][0]['name'], 'Berlin');
     });
   });
 
   group('Elevation API checks', () {
+    var elevation = Elevation();
+
     test('Check elevation', () async {
       var result =
-          await Elevation.search(latitudes: [52.52], longitudes: [13.41]);
+          await elevation.request(latitudes: [52.52], longitudes: [13.41]);
       expect(result['error'], isNot(true));
       expect(result['elevation'][0], 38);
     });
