@@ -1,8 +1,8 @@
+import '../api.dart';
 import '../enums/prefcls.dart';
 import '../response.dart';
 import '../utils.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
-import 'api.dart';
 
 /// Seamless integration of high-resolution weather models with up 16 days forecast.
 ///

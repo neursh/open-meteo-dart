@@ -3,8 +3,8 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 
-import '../exceptions.dart';
-import '../weather_api_openmeteo_sdk_generated.dart';
+import 'exceptions.dart';
+import 'weather_api_openmeteo_sdk_generated.dart';
 
 mixin WeatherParameter<Api extends BaseApi, Time extends TimeType> on Enum {
   Variable get variable;

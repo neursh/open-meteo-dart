@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flat_buffers/flat_buffers.dart';
 
-import 'apis/api.dart';
+import 'api.dart';
 import 'weather_api_openmeteo_sdk_generated.dart';
 
 class Response<Api extends BaseApi> {
