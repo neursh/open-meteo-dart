@@ -13,12 +13,9 @@ class Response<Api extends BaseApi> {
   final Duration utcOffset;
   final String? timezone;
   final String? timezoneAbbreviation;
-  final Map<WeatherParameter<Api, Current>, WeatherParameterData>?
-      currentWeatherData;
-  final Map<WeatherParameter<Api, Hourly>, WeatherParameterData>?
-      hourlyWeatherData;
-  final Map<WeatherParameter<Api, Daily>, WeatherParameterData>?
-      dailyWeatherData;
+  final Map<WeatherParameter<Api, Current>, WeatherParameterData> currentData;
+  final Map<WeatherParameter<Api, Hourly>, WeatherParameterData> hourlyData;
+  final Map<WeatherParameter<Api, Daily>, WeatherParameterData> dailyData;
 
   const Response._({
     required this.latitude,
@@ -28,9 +25,9 @@ class Response<Api extends BaseApi> {
     required this.utcOffset,
     required this.timezone,
     required this.timezoneAbbreviation,
-    required this.currentWeatherData,
-    required this.hourlyWeatherData,
-    required this.dailyWeatherData,
+    required this.currentData,
+    required this.hourlyData,
+    required this.dailyData,
   });
 
   factory Response.fromFlatBuffer(
@@ -54,9 +51,9 @@ class Response<Api extends BaseApi> {
       utcOffset: Duration(seconds: response.utcOffsetSeconds),
       timezone: response.timezone,
       timezoneAbbreviation: response.timezoneAbbreviation,
-      currentWeatherData: _deserializeSingle(response.current, currentHashes),
-      hourlyWeatherData: _deserializeMultiple(response.hourly, hourlyHashes),
-      dailyWeatherData: _deserializeMultiple(response.daily, dailyHashes),
+      currentData: _deserializeSingle(response.current, currentHashes),
+      hourlyData: _deserializeMultiple(response.hourly, hourlyHashes),
+      dailyData: _deserializeMultiple(response.daily, dailyHashes),
     );
   }
 }
@@ -80,13 +77,13 @@ int _computeHash(VariableWithValues v) => computeHash(
       depthTo: v.depthTo,
     );
 
-Map<ApiParameter, WeatherParameterData>? _deserializeSingle<ApiParameter>(
+Map<ApiParameter, WeatherParameterData> _deserializeSingle<ApiParameter>(
   VariablesWithTime? data,
   Map<int, ApiParameter> hashes,
 ) {
-  if (data == null) return null;
+  if (data == null) return {};
   List<VariableWithValues>? variables = data.variables;
-  if (variables == null) return null;
+  if (variables == null) return {};
 
   DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(data.time * 1000);
 
@@ -104,13 +101,13 @@ Map<ApiParameter, WeatherParameterData>? _deserializeSingle<ApiParameter>(
   }).nonNulls);
 }
 
-Map<ApiParameter, WeatherParameterData>? _deserializeMultiple<ApiParameter>(
+Map<ApiParameter, WeatherParameterData> _deserializeMultiple<ApiParameter>(
   VariablesWithTime? data,
   Map<int, ApiParameter> hashes,
 ) {
-  if (data == null) return null;
+  if (data == null) return {};
   List<VariableWithValues>? variables = data.variables;
-  if (variables == null) return null;
+  if (variables == null) return {};
 
   DateTime startTime = DateTime.fromMillisecondsSinceEpoch(data.time * 1000);
   DateTime endTime = DateTime.fromMillisecondsSinceEpoch(data.timeEnd * 1000);

@@ -7,10 +7,9 @@ void main() async {
   Response<WeatherApi> result = await weather.request(
     latitude: 52.52,
     longitude: 13.41,
-    // current: [Current.temperature_2m],
     current: [CurrentWeather.temperature_2m],
   );
-  print(result.currentWeatherData);
+  print(result.currentData);
   // WeatherParameterData temperature =
   //     result.currentWeatherData![Current.temperature_2m]!;
   // double currentTemperature = temperature.data.values.first;
