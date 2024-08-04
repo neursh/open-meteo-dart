@@ -14,9 +14,8 @@ class WeatherApi extends BaseApi {
   final CellSelection? cellSelection;
 
   final double? elevation;
-  final int? pastDays;
+  final int? pastDays, pastHours, pastMinutely15;
   final int? forecastDays, forecastHours, forecastMinutely15;
-  final int? pastHours, pastMinutely15;
 
   final DateTime? startDate, endDate;
   final DateTime? startHour, endHour;
@@ -30,18 +29,55 @@ class WeatherApi extends BaseApi {
     this.cellSelection,
     this.elevation,
     this.pastDays,
+    this.pastHours,
+    this.pastMinutely15,
     this.forecastDays,
     this.forecastHours,
     this.forecastMinutely15,
-    this.pastHours,
-    this.pastMinutely15,
     this.startDate,
     this.endDate,
     this.startHour,
     this.endHour,
-  }) {
-    Uri.parse(apiUrl);
-  }
+  });
+
+  WeatherApi copyWith({
+    String? apiUrl,
+    String? apiKey,
+    TemperatureUnit? temperatureUnit,
+    WindspeedUnit? windspeedUnit,
+    PrecipitationUnit? precipitationUnit,
+    CellSelection? cellSelection,
+    double? elevation,
+    int? pastDays,
+    int? pastHours,
+    int? pastMinutely15,
+    int? forecastDays,
+    int? forecastHours,
+    int? forecastMinutely15,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
+  }) =>
+      WeatherApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        temperatureUnit: temperatureUnit ?? this.temperatureUnit,
+        windspeedUnit: windspeedUnit ?? this.windspeedUnit,
+        precipitationUnit: precipitationUnit ?? this.precipitationUnit,
+        cellSelection: cellSelection ?? this.cellSelection,
+        elevation: elevation ?? this.elevation,
+        pastDays: pastDays ?? this.pastDays,
+        pastHours: pastHours ?? this.pastHours,
+        pastMinutely15: pastMinutely15 ?? this.pastMinutely15,
+        forecastDays: forecastDays ?? this.forecastDays,
+        forecastHours: forecastHours ?? this.forecastHours,
+        forecastMinutely15: forecastMinutely15 ?? this.forecastMinutely15,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        startHour: startHour ?? this.startHour,
+        endHour: endHour ?? this.endHour,
+      );
 
   Future<Map<String, dynamic>> rawRequest({
     required double latitude,
