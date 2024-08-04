@@ -9,7 +9,6 @@ export 'src/apis/marine.dart';
 export 'src/apis/weather.dart';
 
 export 'src/enums/air_quality_domain.dart';
-export 'src/enums/climate_model.dart';
 export 'src/enums/current.dart';
 export 'src/enums/daily.dart';
 export 'src/enums/hourly.dart';

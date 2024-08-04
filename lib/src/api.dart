@@ -69,7 +69,6 @@ Future<Map<String, dynamic>> requestJson(
       if (api.apiKey != null) 'apikey': api.apiKey,
     }),
   );
-  print(url.toString());
   return jsonDecode((await api.client.get(url)).body);
 }
 

@@ -1,110 +1,146 @@
-import '../enums/climate_model.dart';
-import '../enums/daily.dart';
+import '../api.dart';
 import '../enums/prefcls.dart';
-import '../models/weather.dart';
+import '../response.dart';
 import '../utils.dart';
+import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Explore Climate Change on a Local Level with High-Resolution Climate Data
 ///
 /// https://open-meteo.com/en/docs/climate-api/
-class Climate {
-  /// Custom API URL, format: `https://<domain>/<version>/`.
-  final String apiUrl;
+class ClimateApi extends BaseApi {
+  final List<ClimateModel> models;
 
-  /// Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
-  final String? apiKey;
-
-  /// Geographical WGS84 coordinates of the location.
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
-  final double latitude, longitude;
-
-  /// If `TemperatureUnit.fahrenheit` is set, all temperature values are converted to Fahrenheit.
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
   final TemperatureUnit? temperatureUnit;
-
-  /// Other wind speed speed units: `WindspeedUnit.ms`, `WindspeedUnit.mph` and `WindspeedUnit.kn`.
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
   final WindspeedUnit? windspeedUnit;
-
-  /// Other precipitation amount units: `PrecipitationUnit.inch`
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
   final PrecipitationUnit? precipitationUnit;
-
-  /// Set a preference how grid-cells are selected.
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
   final CellSelection? cellSelection;
 
-  /// Setting disable_bias_correction to true disables statistical downscaling
-  /// and bias correction onto ERA5-Land. By default, all data is corrected
-  /// using linear bias correction, and coefficients have been calculated for
-  /// each month over a 50-year time series. The climate change signal is
-  /// not affected by linear bias correction.
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
   final bool? disableBiasCorrection;
 
-  /// The time interval to get weather data.
-  ///
-  /// https://open-meteo.com/en/docs/climate-api/
-  final DateTime startDate, endDate;
-
-  Climate({
-    this.apiUrl = 'https://climate-api.open-meteo.com/v1/',
-    required this.latitude,
-    required this.longitude,
-    required this.startDate,
-    required this.endDate,
+  ClimateApi({
+    super.apiUrl = 'https://climate-api.open-meteo.com/v1/climate',
+    super.apiKey,
+    required this.models,
     this.temperatureUnit,
     this.windspeedUnit,
     this.precipitationUnit,
-    this.disableBiasCorrection,
     this.cellSelection,
-    this.apiKey,
-  }) {
-    Uri.parse(apiUrl);
-
-    throwCheckLatLng(latitude, longitude);
-  }
+    this.disableBiasCorrection,
+  });
 
   /// Create a HTTP request. The function will return JSON data as Map if successful.
   Future<Map<String, dynamic>> rawRequest({
-    required List<Daily> daily,
-    required List<ClimateModel> models,
+    required double latitude,
+    required double longitude,
+    required DateTime startDate,
+    required DateTime endDate,
+    required List<DailyClimate> daily,
   }) =>
-      sendHttpRequest(apiUrl, 'climate', _queryParamMap(daily, models));
+      requestJson(
+          this, _queryParamMap(latitude, longitude, startDate, endDate, daily));
 
-  Future<WeatherResponse> request({
-    required List<Daily> daily,
-    required List<ClimateModel> models,
+  Future<Response<ClimateApi>> request({
+    required double latitude,
+    required double longitude,
+    required DateTime startDate,
+    required DateTime endDate,
+    required List<DailyClimate> daily,
   }) =>
-      sendApiRequest(apiUrl, 'climate', _queryParamMap(daily, models))
-          .then(WeatherResponse.fromFlatBuffer);
+      requestFlatBuffer(this,
+              _queryParamMap(latitude, longitude, startDate, endDate, daily))
+          .then((data) => Response.fromFlatBuffer(
+                data,
+                dailyHashes: DailyClimate.hashes,
+              ));
 
   Map<String, dynamic> _queryParamMap(
-    List<Daily> daily,
-    List<ClimateModel> models,
+    double latitude,
+    double longitude,
+    DateTime startDate,
+    DateTime endDate,
+    List<DailyClimate> daily,
   ) =>
       {
-        'daily': daily.map((value) => value.name).toList().join(','),
-        'models': models.map((value) => value.name).toList().join(','),
-        'start_date': formatDate(startDate),
-        'end_date': formatDate(endDate),
-        'temperature_unit': temperatureUnit?.name,
-        'windspeed_unit': windspeedUnit?.name,
-        'precipitation_unit': precipitationUnit?.name,
-        'disable_bias_correction': disableBiasCorrection,
-        'cell_selection': cellSelection?.name,
-        'apikey': apiKey,
         'latitude': latitude,
         'longitude': longitude,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'daily': daily,
+        'models': models,
+        'temperature_unit': temperatureUnit,
+        'windspeed_unit': windspeedUnit,
+        'precipitation_unit': precipitationUnit,
+        'cell_selection': cellSelection,
+        'disable_bias_correction': disableBiasCorrection,
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };
+}
+
+enum DailyClimate with WeatherParameter<ClimateApi, Daily> {
+  temperature_2m_mean(Variable.temperature,
+      altitude: 2, aggregation: Aggregation.mean),
+  temperature_2m_max(Variable.temperature,
+      altitude: 2, aggregation: Aggregation.maximum),
+  temperature_2m_min(Variable.temperature,
+      altitude: 2, aggregation: Aggregation.minimum),
+  wind_speed_10m_mean(Variable.wind_speed,
+      altitude: 10, aggregation: Aggregation.mean),
+  wind_speed_10m_max(Variable.wind_speed,
+      altitude: 10, aggregation: Aggregation.maximum),
+  cloud_cover_mean(Variable.cloud_cover, aggregation: Aggregation.mean),
+  shortwave_radiation_sum(Variable.shortwave_radiation,
+      aggregation: Aggregation.sum),
+  relative_humidity_2m_mean(Variable.relative_humidity,
+      altitude: 2, aggregation: Aggregation.mean),
+  relative_humidity_2m_max(Variable.relative_humidity,
+      altitude: 2, aggregation: Aggregation.maximum),
+  relative_humidity_2m_min(Variable.relative_humidity,
+      altitude: 2, aggregation: Aggregation.minimum),
+  dew_point_2m_mean(Variable.dew_point,
+      altitude: 2, aggregation: Aggregation.mean),
+  dew_point_2m_min(Variable.dew_point,
+      altitude: 2, aggregation: Aggregation.maximum),
+  dew_point_2m_max(Variable.dew_point,
+      altitude: 2, aggregation: Aggregation.minimum),
+  precipitation_sum(Variable.precipitation, aggregation: Aggregation.sum),
+  rain_sum(Variable.rain, aggregation: Aggregation.sum),
+  snowfall_sum(Variable.snowfall, aggregation: Aggregation.sum),
+  pressure_msl_mean(Variable.pressure_msl, aggregation: Aggregation.mean),
+  soil_moisture_0_to_10cm_mean(Variable.soil_moisture,
+      depth: 0, depthTo: 10, aggregation: Aggregation.mean),
+  et0_fao_evapotranspiration_sum(Variable.et0_fao_evapotranspiration,
+      aggregation: Aggregation.sum);
+
+  @override
+  final Variable variable;
+
+  @override
+  final int altitude;
+  @override
+  final Aggregation aggregation;
+  @override
+  final int depth;
+  @override
+  final int depthTo;
+
+  const DailyClimate(
+    this.variable, {
+    this.altitude = 0,
+    this.aggregation = Aggregation.none,
+    this.depth = 0,
+    this.depthTo = 0,
+  });
+
+  static final Map<int, DailyClimate> hashes = makeHashes(DailyClimate.values);
+}
+
+enum ClimateModel {
+  CMCC_CM2_VHR4,
+  FGOALS_f3_H,
+  HiRAM_SIT_HR,
+  MRI_AGCM3_2_S,
+  EC_Earth3P_HR,
+  MPI_ESM1_2_XR,
+  NICAM16_8S,
 }

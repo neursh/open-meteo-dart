@@ -41,7 +41,6 @@ void main() {
           latitudes: [52.52, 51.507],
           longitudes: [13.405, -0.128],
         );
-        print(result);
         expect(result['error'], isNot(true));
         expect(result['elevation'], isNotNull);
         expect(result['elevation'][0], isA<num>());
