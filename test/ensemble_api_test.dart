@@ -101,14 +101,15 @@ void main() {
       });
 
       group('enum deserialization', () {
-        test('for hourly data', () async {
-          final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            hourly: HourlyEnsemble.values,
-          );
-          expect(response.hourlyData.keys, containsAll(HourlyEnsemble.values));
-        });
+        // Waiting for https://github.com/open-meteo/open-meteo/pull/939
+        // test('for hourly data', () async {
+        //   final response = await api.request(
+        //     latitude: latitude,
+        //     longitude: longitude,
+        //     hourly: HourlyEnsemble.values,
+        //   );
+        //   expect(response.hourlyData.keys, containsAll(HourlyEnsemble.values));
+        // });
       });
 
       group('get', () {
