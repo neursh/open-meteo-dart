@@ -6,12 +6,9 @@ void main() {
     var weather = WeatherApi(temperatureUnit: TemperatureUnit.celsius);
     var latitude = 52.52;
     var longitude = 13.41;
-    // var hourly = [Hourly.temperature_2m];
-    // var daily = [Daily.temperature_2m_max];
-    // var current = [Current.temperature_2m];
-    var hourly = <HourlyWeather>[];
-    var daily = <DailyWeather>[];
-    var current = <CurrentWeather>[];
+    var hourly = [HourlyWeather.temperature_2m];
+    var daily = [DailyWeather.temperature_2m_max];
+    var current = [CurrentWeather.temperature_2m];
 
     test('Hourly temperature from current time.', () async {
       var result = await weather.rawRequest(
