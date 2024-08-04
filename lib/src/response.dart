@@ -32,9 +32,9 @@ class Response<Api extends BaseApi> {
 
   factory Response.fromFlatBuffer(
     Uint8List bytes, {
-    required Map<int, WeatherParameter<Api, Current>> currentHashes,
-    required Map<int, WeatherParameter<Api, Hourly>> hourlyHashes,
-    required Map<int, WeatherParameter<Api, Daily>> dailyHashes,
+    Map<int, WeatherParameter<Api, Current>>? currentHashes,
+    Map<int, WeatherParameter<Api, Hourly>>? hourlyHashes,
+    Map<int, WeatherParameter<Api, Daily>>? dailyHashes,
   }) {
     int prefixed =
         BufferContext.fromBytes(bytes).buffer.getUint32(0, Endian.little);
@@ -79,9 +79,9 @@ int _computeHash(VariableWithValues v) => computeHash(
 
 Map<ApiParameter, WeatherParameterData> _deserializeSingle<ApiParameter>(
   VariablesWithTime? data,
-  Map<int, ApiParameter> hashes,
+  Map<int, ApiParameter>? hashes,
 ) {
-  if (data == null) return {};
+  if (data == null || hashes == null) return {};
   List<VariableWithValues>? variables = data.variables;
   if (variables == null) return {};
 
@@ -103,9 +103,9 @@ Map<ApiParameter, WeatherParameterData> _deserializeSingle<ApiParameter>(
 
 Map<ApiParameter, WeatherParameterData> _deserializeMultiple<ApiParameter>(
   VariablesWithTime? data,
-  Map<int, ApiParameter> hashes,
+  Map<int, ApiParameter>? hashes,
 ) {
-  if (data == null) return {};
+  if (data == null || hashes == null) return {};
   List<VariableWithValues>? variables = data.variables;
   if (variables == null) return {};
 
