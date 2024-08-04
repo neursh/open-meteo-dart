@@ -25,7 +25,6 @@ Future<Map<String, dynamic>> sendHttpRequest(
       .map((entry) => '${entry.key}=${entry.value}')
       .join('&');
   Uri url = Uri.parse('$baseUrl$path?$query');
-  print("[open_meteo] Parsed URL: ${url.toString()}");
   return jsonDecode((await http.get(url)).body);
 }
 
@@ -43,7 +42,6 @@ Future<Uint8List> sendApiRequest(
       .join('&');
 
   Uri url = Uri.parse('$baseUrl$path?$query');
-  print("[open_meteo] Parsed URL: ${url.toString()}");
 
   http.Response response = await http.get(url);
   if (response.statusCode != 200) {
