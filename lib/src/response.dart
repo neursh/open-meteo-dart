@@ -54,9 +54,9 @@ class Response<Api extends BaseApi> {
       utcOffset: Duration(seconds: response.utcOffsetSeconds),
       timezone: response.timezone,
       timezoneAbbreviation: response.timezoneAbbreviation,
-      currentWeatherData: _processSingle(response.current, currentHashes),
-      hourlyWeatherData: _processMultiple(response.hourly, hourlyHashes),
-      dailyWeatherData: _processMultiple(response.daily, dailyHashes),
+      currentWeatherData: _deserializeSingle(response.current, currentHashes),
+      hourlyWeatherData: _deserializeMultiple(response.hourly, hourlyHashes),
+      dailyWeatherData: _deserializeMultiple(response.daily, dailyHashes),
     );
   }
 }
@@ -80,7 +80,7 @@ int _computeHash(VariableWithValues v) => computeHash(
       depthTo: v.depthTo,
     );
 
-Map<ApiParameter, WeatherParameterData>? _processSingle<ApiParameter>(
+Map<ApiParameter, WeatherParameterData>? _deserializeSingle<ApiParameter>(
   VariablesWithTime? data,
   Map<int, ApiParameter> hashes,
 ) {
@@ -91,12 +91,11 @@ Map<ApiParameter, WeatherParameterData>? _processSingle<ApiParameter>(
   DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(data.time * 1000);
 
   return Map.fromEntries(variables.map((v) {
-    int hash = _computeHash(v);
-    ApiParameter? variable = hashes[hash];
-    if (variable == null) return null;
+    ApiParameter? parameter = hashes[_computeHash(v)];
+    if (parameter == null) return null;
 
     return MapEntry(
-      variable,
+      parameter,
       WeatherParameterData._(
         unit: _unitsMap[v.unit]!,
         data: {timestamp: v.value},
@@ -105,7 +104,7 @@ Map<ApiParameter, WeatherParameterData>? _processSingle<ApiParameter>(
   }).nonNulls);
 }
 
-Map<ApiParameter, WeatherParameterData>? _processMultiple<ApiParameter>(
+Map<ApiParameter, WeatherParameterData>? _deserializeMultiple<ApiParameter>(
   VariablesWithTime? data,
   Map<int, ApiParameter> hashes,
 ) {
@@ -124,20 +123,17 @@ Map<ApiParameter, WeatherParameterData>? _processMultiple<ApiParameter>(
   ];
 
   return Map.fromEntries(variables.map((v) {
-    int hash = _computeHash(v);
-    ApiParameter? variable = hashes[hash];
-    if (variable == null) return null;
-    List<double>? values = v.values;
-    if (values == null || values.nonNulls.isEmpty) return null;
+    ApiParameter? parameter = hashes[_computeHash(v)];
+    if (parameter == null) return null;
 
     return MapEntry(
-      variable,
+      parameter,
       WeatherParameterData._(
         unit: _unitsMap[v.unit]!,
-        data: {
-          for (int i = 0; i < timestamps.length && i < values.length; i++)
-            timestamps[i]: values[i]
-        },
+        data: v.values
+                ?.asMap()
+                .map((index, value) => MapEntry(timestamps[index], value)) ??
+            {},
       ),
     );
   }).nonNulls);
