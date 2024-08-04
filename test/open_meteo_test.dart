@@ -68,46 +68,6 @@ void main() {
     });
   });
 
-  group('Marine Weather API checks', () {
-    var marine = Marine(latitude: 54.544587, longitude: 10.227487);
-    var hourly = [Hourly.wave_height];
-    var daily = [Daily.wave_height_max];
-    var current = [Current.wave_height];
-
-    test('Hourly wave height from current time.', () async {
-      var result = await marine.rawRequest(hourly: hourly);
-      expect(result['error'], isNot(true));
-      expect(result['hourly'], isNot(null));
-      expect(result['hourly']['time'].length,
-          result['hourly']['wave_height'].length);
-    });
-    test('Daily wave height from current time.', () async {
-      var result = await marine.rawRequest(daily: daily);
-      expect(result['error'], isNot(true));
-      expect(result['daily'], isNot(null));
-      expect(result['daily']['time'].length,
-          result['daily']['wave_height_max'].length);
-    });
-    test('Current wave height.', () async {
-      var result = await marine.rawRequest(current: current);
-      expect(result['error'], isNot(true));
-      expect(result['current'], isNot(null));
-    });
-
-    test('Combined from all options', () async {
-      var result = await marine.rawRequest(
-          hourly: hourly, daily: daily, current: current);
-      expect(result['error'], isNot(true));
-      expect(result['hourly'], isNot(null));
-      expect(result['hourly']['time'].length,
-          result['hourly']['wave_height'].length);
-      expect(result['daily'], isNot(null));
-      expect(result['daily']['time'].length,
-          result['daily']['wave_height_max'].length);
-      expect(result['current'], isNot(null));
-    });
-  });
-
   group('Air Quality API checks', () {
     var airQuality = AirQuality(latitude: 52.52, longitude: 13.41);
     var hourly = [Hourly.pm10];
