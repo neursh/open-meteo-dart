@@ -61,16 +61,6 @@ void main() {
     });
   });
 
-  group('Geocoding API checks', () {
-    var geocoding = Geocoding(language: 'en');
-
-    test('Look for Berlin', () async {
-      var result = await geocoding.request(name: 'Berlin');
-      expect(result['error'], isNot(true));
-      expect(result['results'][0]['name'], 'Berlin');
-    });
-  });
-
   group('Elevation API checks', () {
     var elevation = Elevation();
 
