@@ -91,16 +91,26 @@ Future<Uint8List> requestFlatBuffer(
   return response.bodyBytes;
 }
 
-Map<String, dynamic> _processQuery(
+Map<String, String> _processQuery(
   Map<String, dynamic> queryParams, [
   Map<String, dynamic> overrides = const {},
 ]) {
-  return {}
-    ..addEntries(queryParams.entries.map((entry) {
-      dynamic value = entry.value;
-      if (value == null) return null;
-      if (value is String || value is Iterable<String>) return entry;
-      return MapEntry(entry.key, value.toString());
-    }).nonNulls)
+  Map<String, dynamic> combined = {}
+    ..addAll(queryParams)
     ..addAll(overrides);
+  return Map.fromEntries(combined.entries.map((entry) {
+    String key = entry.key;
+    dynamic value = entry.value;
+    if (value == null) return null;
+
+    if (value is Enum) return MapEntry(key, value.name);
+    if (value is Iterable<Enum>) {
+      return MapEntry(key, value.map((e) => e.name).join(','));
+    }
+    if (value is Iterable<Object>) {
+      return MapEntry(key, value.map((e) => e.toString()).join(','));
+    }
+
+    return MapEntry(key, value.toString());
+  }).nonNulls);
 }

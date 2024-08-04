@@ -72,15 +72,15 @@ class FloodApi extends BaseApi {
     List<DailyFlood>? daily,
   ) =>
       {
+        'latitude': latitude,
+        'longitude': longitude,
         'daily': daily?.map((option) => option.name),
+        'cell_selection': cellSelection?.name,
+        'ensemble': ensemble,
         'past_days': pastDays,
         'forecast_days': forecastDays,
         'start_date': formatDate(startDate),
         'end_date': formatDate(endDate),
-        'ensemble': ensemble,
-        'cell_selection': cellSelection?.name,
-        'latitude': latitude,
-        'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };
