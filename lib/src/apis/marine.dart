@@ -176,16 +176,3 @@ enum DailyMarine with WeatherParameter<MarineApi, Daily> {
 
   static final Map<int, DailyMarine> hashes = makeHashes(DailyMarine.values);
 }
-
-void main() async {
-  final api = MarineApi();
-  final response = await api.request(
-    latitude: 54.544587,
-    longitude: 10.227487,
-    daily: DailyMarine.values,
-  );
-  print('${DailyMarine.values.length} == ${response.dailyData.keys.length}');
-  print(DailyMarine.values.where((v) => !response.dailyData.keys.contains(v)));
-  print(DailyMarine.hashes);
-  print(DailyMarine.hashes.length);
-}
