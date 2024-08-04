@@ -65,10 +65,11 @@ Future<Map<String, dynamic>> requestJson(
   Map<String, dynamic> queryParams,
 ) async {
   Uri url = Uri.parse(api.apiUrl).replace(
-    queryParameters: _processQuery(queryParams, {
+    query: _encodeQuery(queryParams, {
       if (api.apiKey != null) 'apikey': api.apiKey,
     }),
   );
+  print(url.toString());
   return jsonDecode((await api.client.get(url)).body);
 }
 
@@ -77,7 +78,7 @@ Future<Uint8List> requestFlatBuffer(
   Map<String, dynamic> queryParams,
 ) async {
   Uri url = Uri.parse(api.apiUrl).replace(
-    queryParameters: _processQuery(queryParams, {
+    query: _encodeQuery(queryParams, {
       if (api.apiKey != null) 'apikey': api.apiKey,
       'format': 'flatbuffers',
     }),
@@ -91,26 +92,25 @@ Future<Uint8List> requestFlatBuffer(
   return response.bodyBytes;
 }
 
-Map<String, String> _processQuery(
+// Need this because Uri.encode... replaces commas
+// with %2C, causing Open-Meteo to reject it
+String _encodeQuery(
   Map<String, dynamic> queryParams, [
   Map<String, dynamic> overrides = const {},
-]) {
-  Map<String, dynamic> combined = {}
-    ..addAll(queryParams)
-    ..addAll(overrides);
-  return Map.fromEntries(combined.entries.map((entry) {
-    String key = entry.key;
-    dynamic value = entry.value;
-    if (value == null) return null;
+]) =>
+    queryParams.entries
+        .followedBy(overrides.entries)
+        .map(_convertQueryEntry)
+        .nonNulls
+        .map((entry) => '${entry.key}=${entry.value}')
+        .join('&');
 
-    if (value is Enum) return MapEntry(key, value.name);
-    if (value is Iterable<Enum>) {
-      return MapEntry(key, value.map((e) => e.name).join(','));
-    }
-    if (value is Iterable<Object>) {
-      return MapEntry(key, value.map((e) => e.toString()).join(','));
-    }
-
-    return MapEntry(key, value.toString());
-  }).nonNulls);
-}
+MapEntry<String, String>? _convertQueryEntry(MapEntry<String, dynamic> entry) =>
+    switch (entry.value) {
+      null => null,
+      Enum v => MapEntry(entry.key, v.name),
+      Iterable<Enum> v => MapEntry(entry.key, v.map((e) => e.name).join(',')),
+      Iterable<Object> v =>
+        MapEntry(entry.key, v.map((e) => e.toString()).join(',')),
+      Object v => MapEntry(entry.key, v.toString()),
+    };

@@ -49,7 +49,7 @@ void main() {
   });
 
   group('Elevation API checks', () {
-    var elevation = Elevation();
+    var elevation = ElevationApi();
 
     test('Check elevation', () async {
       var result =
