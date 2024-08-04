@@ -1,87 +1,113 @@
-import '../enums/daily.dart';
+import '../api.dart';
 import '../enums/prefcls.dart';
-import '../models/weather.dart';
+import '../response.dart';
 import '../utils.dart';
+import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Simulated river discharge at 5 km resolution from 1984 up to 7 months forecast.
 ///
 /// https://open-meteo.com/en/docs/flood-api/
-class Flood {
-  /// Custom API URL, format: `https://<domain>/<version>/`.
-  final String apiUrl;
-
-  /// Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  final String? apikey;
-
-  /// Geographical WGS84 coordinates of the location.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  final double latitude, longitude;
-
-  /// If `pastDays` is set, past weather data can be returned.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  final int? pastDays;
-
-  /// Per default, only 92 days are returned. Up to 210 days of forecast are possible.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  final int? forecastDays;
-
-  /// The time interval to get data. Data are available from 1984-01-01 until 7 month forecast.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  final DateTime? startDate, endDate;
-
-  /// If `true`, all forecast ensemble members will be returned.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  final bool? ensemble;
-
-  /// Set a preference how grid-cells are selected.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
+class FloodApi extends BaseApi {
   final CellSelection? cellSelection;
 
-  Flood({
-    this.apiUrl = 'https://flood-api.open-meteo.com/v1/',
-    required this.latitude,
-    required this.longitude,
+  final bool? ensemble;
+
+  final int? pastDays, forecastDays;
+
+  final DateTime? startDate, endDate;
+
+  FloodApi({
+    super.apiUrl = 'https://flood-api.open-meteo.com/v1/flood',
+    super.apiKey,
+    this.cellSelection,
     this.pastDays,
     this.forecastDays,
+    this.ensemble,
     this.startDate,
     this.endDate,
-    this.cellSelection,
-    this.apikey,
-    this.ensemble,
-  }) {
-    Uri.parse(apiUrl);
+  });
 
-    throwCheckLatLng(latitude, longitude);
-  }
+  FloodApi copyWith({
+    String? apiUrl,
+    String? apiKey,
+    CellSelection? cellSelection,
+    int? pastDays,
+    int? forecastDays,
+    bool? ensemble,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) =>
+      FloodApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        cellSelection: cellSelection ?? this.cellSelection,
+        pastDays: pastDays ?? this.pastDays,
+        forecastDays: forecastDays ?? this.forecastDays,
+        ensemble: ensemble ?? this.ensemble,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+      );
 
-  /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> rawRequest({List<Daily>? daily}) =>
-      sendHttpRequest(apiUrl, 'flood', _queryParamMap(daily));
+  Future<Map<String, dynamic>> rawRequest({
+    required double latitude,
+    required double longitude,
+    List<DailyFlood>? daily,
+  }) =>
+      requestJson(this, _queryParamMap(latitude, longitude, daily));
 
-  Future<WeatherResponse> request({List<Daily>? daily}) =>
-      sendApiRequest(apiUrl, 'flood', _queryParamMap(daily))
-          .then(WeatherResponse.fromFlatBuffer);
+  Future<Response<FloodApi>> request({
+    required double latitude,
+    required double longitude,
+    List<DailyFlood>? daily,
+  }) =>
+      requestFlatBuffer(this, _queryParamMap(latitude, longitude, daily))
+          .then((data) => Response.fromFlatBuffer(
+                data,
+                dailyHashes: DailyFlood.hashes,
+              ));
 
-  Map<String, dynamic> _queryParamMap(List<Daily>? daily) => {
-        'daily': daily?.map((option) => option.name).join(","),
+  Map<String, dynamic> _queryParamMap(
+    double latitude,
+    double longitude,
+    List<DailyFlood>? daily,
+  ) =>
+      {
+        'daily': daily?.map((option) => option.name),
         'past_days': pastDays,
         'forecast_days': forecastDays,
         'start_date': formatDate(startDate),
         'end_date': formatDate(endDate),
         'ensemble': ensemble,
         'cell_selection': cellSelection?.name,
-        'apikey': apikey,
         'latitude': latitude,
         'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };
+}
+
+enum DailyFlood with WeatherParameter<FloodApi, Daily> {
+  river_discharge(Variable.river_discharge),
+  river_discharge_mean(Variable.river_discharge, aggregation: Aggregation.mean),
+  river_discharge_median(Variable.river_discharge,
+      aggregation: Aggregation.median),
+  river_discharge_max(Variable.river_discharge,
+      aggregation: Aggregation.maximum),
+  river_discharge_min(Variable.river_discharge,
+      aggregation: Aggregation.minimum),
+  river_discharge_p25(Variable.river_discharge, aggregation: Aggregation.p25),
+  river_discharge_p75(Variable.river_discharge, aggregation: Aggregation.p75);
+
+  @override
+  final Variable variable;
+
+  @override
+  final Aggregation aggregation;
+
+  const DailyFlood(
+    this.variable, {
+    this.aggregation = Aggregation.none,
+  });
+
+  static final Map<int, DailyFlood> hashes = makeHashes(DailyFlood.values);
 }
