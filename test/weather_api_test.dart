@@ -3,10 +3,12 @@ import 'package:test/test.dart';
 
 void main() {
   group('weather api', () {
-    const latitude = 52.52, longitude = 13.41; // Berlin
+    const latitude = 52.52, longitude = 13.405; // Berlin
 
     group('constructor', () {
-      test('with defaults', () {});
+      test('with defaults', () {
+        expect(() => WeatherApi(), returnsNormally);
+      });
       test('with custom url/key', () {
         expect(
           () => WeatherApi(
@@ -64,73 +66,116 @@ void main() {
       });
     });
 
-    group('enum parameters', () {
+    group('flatbuffers', () {
       late WeatherApi api;
       setUp(() {
         api = WeatherApi();
       });
 
-      test('for current data', () async {
-        final response = await api.request(
-          latitude: latitude,
-          longitude: longitude,
-          current: CurrentWeather.values,
-        );
-        expect(response.currentData.length, CurrentWeather.values.length);
+      group('enum deserialization', () {
+        test('for current data', () async {
+          final response = await api.request(
+            latitude: latitude,
+            longitude: longitude,
+            current: CurrentWeather.values,
+          );
+          expect(response.currentData.length, CurrentWeather.values.length);
+        });
+        test('for hourly data', () async {
+          final response = await api.request(
+            latitude: latitude,
+            longitude: longitude,
+            hourly: HourlyWeather.values,
+          );
+          expect(response.hourlyData.length, HourlyWeather.values.length);
+        });
+        test('for daily data', () async {
+          final response = await api.request(
+            latitude: latitude,
+            longitude: longitude,
+            daily: DailyWeather.values,
+          );
+          expect(response.dailyData.length, DailyWeather.values.length);
+        });
       });
-      test('for hourly data', () async {
-        final response = await api.request(
-          latitude: latitude,
-          longitude: longitude,
-          hourly: HourlyWeather.values,
-        );
-        expect(response.hourlyData.length, HourlyWeather.values.length);
-      });
-      test('for daily data', () async {
-        final response = await api.request(
-          latitude: latitude,
-          longitude: longitude,
-          daily: DailyWeather.values,
-        );
-        expect(response.dailyData.length, DailyWeather.values.length);
+
+      group('get data', () {
+        test('for current temperature', () async {
+          final result = await api.request(
+            latitude: latitude,
+            longitude: longitude,
+            current: [CurrentWeather.temperature_2m],
+          );
+          final temperature = result.currentData[CurrentWeather.temperature_2m];
+          expect(temperature, isNotNull);
+          expect(temperature!.data.length, 1);
+        });
+        test('for hourly temperature', () async {
+          final result = await api.request(
+            latitude: latitude,
+            longitude: longitude,
+            hourly: [HourlyWeather.temperature_2m],
+          );
+          final temperature = result.hourlyData[HourlyWeather.temperature_2m];
+          expect(temperature, isNotNull);
+          expect(temperature!.data, isNotEmpty);
+        });
+        test('for daily temperature max', () async {
+          final result = await api.request(
+            latitude: latitude,
+            longitude: longitude,
+            daily: [DailyWeather.temperature_2m_max],
+          );
+          final temperature = result.dailyData[DailyWeather.temperature_2m_max];
+          expect(temperature, isNotNull);
+          expect(temperature!.data, isNotEmpty);
+        });
       });
     });
 
-    group('data', () {
+    group('json get data', () {
       late WeatherApi api;
       setUp(() {
         api = WeatherApi();
       });
 
-      test('get current temperature', () async {
-        final result = await api.request(
+      test('for current temperature', () async {
+        final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
           current: [CurrentWeather.temperature_2m],
         );
-        final temperature = result.currentData[CurrentWeather.temperature_2m];
-        expect(temperature, isNotNull);
-        expect(temperature!.data.length, 1);
+        expect(result['error'], isNot(true));
+        expect(result['current'], isNotNull);
+        expect(result['current']['temperature_2m'], isNotNull);
       });
-      test('get hourly temperature', () async {
-        final result = await api.request(
+      test('for hourly temperature', () async {
+        final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
           hourly: [HourlyWeather.temperature_2m],
         );
-        final temperature = result.hourlyData[HourlyWeather.temperature_2m];
-        expect(temperature, isNotNull);
-        expect(temperature!.data, isNotEmpty);
+        expect(result['error'], isNot(true));
+        expect(result['hourly'], isNotNull);
+        expect(result['hourly']['temperature_2m'], isNotNull);
+        expect(
+          result['hourly']['time'].length,
+          result['hourly']['temperature_2m'].length,
+        );
       });
-      test('get daily temperature max', () async {
-        final result = await api.request(
+      test('for daily temperature max', () async {
+        final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
           daily: [DailyWeather.temperature_2m_max],
         );
-        final temperature = result.dailyData[DailyWeather.temperature_2m_max];
-        expect(temperature, isNotNull);
-        expect(temperature!.data, isNotEmpty);
+        expect(result['error'], isNot(true));
+        expect(result['daily'], isNotNull);
+        expect(result['daily']['temperature_2m_max'], isNotNull);
+        expect(
+          result['daily']['time'].length,
+          result['daily']['temperature_2m_max'].length,
+        );
       });
     });
   });

@@ -2,65 +2,6 @@ import 'package:open_meteo/open_meteo.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Weather Forecast API checks', () {
-    var weather = WeatherApi(temperatureUnit: TemperatureUnit.celsius);
-    var latitude = 52.52;
-    var longitude = 13.41;
-    var hourly = [HourlyWeather.temperature_2m];
-    var daily = [DailyWeather.temperature_2m_max];
-    var current = [CurrentWeather.temperature_2m];
-
-    test('Hourly temperature from current time.', () async {
-      var result = await weather.rawRequest(
-        latitude: latitude,
-        longitude: longitude,
-        hourly: hourly,
-      );
-      expect(result['error'], isNot(true));
-      expect(result['hourly'], isNot(null));
-      expect(result['hourly']['time'].length,
-          result['hourly']['temperature_2m'].length);
-    });
-    test('Daily temperature from current time.', () async {
-      var result = await weather.rawRequest(
-        latitude: latitude,
-        longitude: longitude,
-        daily: daily,
-      );
-      expect(result['error'], isNot(true));
-      expect(result['daily'], isNot(null));
-      expect(result['daily']['time'].length,
-          result['daily']['temperature_2m_max'].length);
-    });
-    test('Current temperature.', () async {
-      var result = await weather.rawRequest(
-        latitude: latitude,
-        longitude: longitude,
-        current: current,
-      );
-      expect(result['error'], isNot(true));
-      expect(result['current'], isNot(null));
-    });
-
-    test('Combined from all options', () async {
-      var result = await weather.rawRequest(
-        latitude: latitude,
-        longitude: longitude,
-        hourly: hourly,
-        daily: daily,
-        current: current,
-      );
-      expect(result['error'], isNot(true));
-      expect(result['hourly'], isNot(null));
-      expect(result['hourly']['time'].length,
-          result['hourly']['temperature_2m'].length);
-      expect(result['daily'], isNot(null));
-      expect(result['daily']['time'].length,
-          result['daily']['temperature_2m_max'].length);
-      expect(result['current'], isNot(null));
-    });
-  });
-
   group('Historical Forecast API checks', () {
     var historical = Historical(
         latitude: 52.52,
