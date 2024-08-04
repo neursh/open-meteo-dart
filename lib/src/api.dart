@@ -69,7 +69,6 @@ Future<Map<String, dynamic>> requestJson(
       if (api.apiKey != null) 'apikey': api.apiKey,
     }),
   );
-  print("[open_meteo] Parsed URL: ${url.toString()}");
   return jsonDecode((await api.client.get(url)).body);
 }
 
@@ -83,7 +82,6 @@ Future<Uint8List> requestFlatBuffer(
       'format': 'flatbuffers',
     }),
   );
-  print("[open_meteo] Parsed URL: ${url.toString()}");
 
   http.Response response = await api.client.get(url);
   if (response.statusCode != 200) {
