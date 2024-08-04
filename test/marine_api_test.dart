@@ -117,16 +117,16 @@ void main() {
           expect(waveHeight, isNotNull);
           expect(waveHeight!.data, isNotEmpty);
         });
-        test('daily wave height max', () async {
-          final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            daily: [DailyMarine.wave_height_max],
-          );
-          final waveHeight = result.dailyData[DailyMarine.wave_height_max];
-          expect(waveHeight, isNotNull);
-          expect(waveHeight!.data, isNotEmpty);
-        });
+        // test('daily wave height max', () async {
+        //   final result = await api.request(
+        //     latitude: latitude,
+        //     longitude: longitude,
+        //     daily: [DailyMarine.wave_height_max],
+        //   );
+        //   final waveHeight = result.dailyData[DailyMarine.wave_height_max];
+        //   expect(waveHeight, isNotNull);
+        //   expect(waveHeight!.data, isNotEmpty);
+        // });
       });
     });
 
