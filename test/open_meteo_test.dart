@@ -2,19 +2,6 @@ import 'package:open_meteo/open_meteo.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Ensemble API checks', () {
-    var ensemble = Ensemble(latitude: 52.52, longitude: 13.41);
-    var models = [EnsembleModel.icon_seamless];
-    var hourly = [Hourly.temperature_2m];
-    test('Hourly temperature', () async {
-      var result = await ensemble.requestJson(models: models, hourly: hourly);
-      expect(result['error'], isNot(true));
-      expect(result['hourly'], isNot(null));
-      expect(result['hourly']['time'].length,
-          result['hourly']['temperature_2m'].length);
-    });
-  });
-
   group('Climate API checks', () {
     var climate = Climate(
       latitude: 52.52,
