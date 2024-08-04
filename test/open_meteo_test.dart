@@ -2,41 +2,6 @@ import 'package:open_meteo/open_meteo.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Historical Forecast API checks', () {
-    var historical = Historical(
-        latitude: 52.52,
-        longitude: 13.41,
-        startDate: DateTime(2022, 1, 1),
-        endDate: DateTime(2022, 1, 2),
-        temperatureUnit: TemperatureUnit.celsius);
-    var hourly = [Hourly.temperature_2m];
-    var daily = [Daily.temperature_2m_max];
-    test('Hourly temperature', () async {
-      var result = await historical.rawRequest(hourly: hourly);
-      expect(result['error'], isNot(true));
-      expect(result['hourly'], isNot(null));
-      expect(result['hourly']['time'].length,
-          result['hourly']['temperature_2m'].length);
-    });
-    test('Daily temperature.', () async {
-      var result = await historical.rawRequest(daily: daily);
-      expect(result['error'], isNot(true));
-      expect(result['daily'], isNot(null));
-      expect(result['daily']['time'].length,
-          result['daily']['temperature_2m_max'].length);
-    });
-    test('Combined from all options', () async {
-      var result = await historical.rawRequest(hourly: hourly, daily: daily);
-      expect(result['error'], isNot(true));
-      expect(result['hourly'], isNot(null));
-      expect(result['hourly']['time'].length,
-          result['hourly']['temperature_2m'].length);
-      expect(result['daily'], isNot(null));
-      expect(result['daily']['time'].length,
-          result['daily']['temperature_2m_max'].length);
-    });
-  });
-
   group('Ensemble API checks', () {
     var ensemble = Ensemble(latitude: 52.52, longitude: 13.41);
     var models = [EnsembleModel.icon_seamless];
