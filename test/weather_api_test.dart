@@ -9,60 +9,63 @@ void main() {
       test('with defaults', () {
         expect(() => WeatherApi(), returnsNormally);
       });
-      test('with custom url/key', () {
-        expect(
-          () => WeatherApi(
-            apiUrl: 'https://api.custom.url/some/path',
-            apiKey: 'idk-the-format-of-open-meteo-api-keys',
-          ),
-          returnsNormally,
-        );
-      });
-      test('with custom units', () {
-        expect(
-          () => WeatherApi(
-            windspeedUnit: WindspeedUnit.mph,
-            temperatureUnit: TemperatureUnit.fahrenheit,
-            precipitationUnit: PrecipitationUnit.inch,
-          ),
-          returnsNormally,
-        );
-      });
-      test('with custom elevation', () {
-        expect(
-          () => WeatherApi(elevation: 10),
-          returnsNormally,
-        );
-      });
-      test('with custom cell selection', () {
-        expect(
-          () => WeatherApi(cellSelection: CellSelection.sea),
-          returnsNormally,
-        );
-      });
-      test('with custom past/forecast range', () {
-        expect(
-          () => WeatherApi(
-            pastDays: 1,
-            pastHours: 1,
-            pastMinutely15: 1,
-            forecastDays: 1,
-            forecastHours: 1,
-            forecastMinutely15: 1,
-          ),
-          returnsNormally,
-        );
-      });
-      test('with custom start/end times', () {
-        expect(
-          () => WeatherApi(
-            startDate: DateTime.now(),
-            endDate: DateTime.now().add(const Duration(days: 1)),
-            startHour: DateTime.now(),
-            endHour: DateTime.now().add(const Duration(hours: 1)),
-          ),
-          returnsNormally,
-        );
+
+      group('with custom', () {
+        test('url/key', () {
+          expect(
+            () => WeatherApi(
+              apiUrl: 'https://api.custom.url/some/path',
+              apiKey: 'idk-the-format-of-open-meteo-api-keys',
+            ),
+            returnsNormally,
+          );
+        });
+        test('units', () {
+          expect(
+            () => WeatherApi(
+              windspeedUnit: WindspeedUnit.mph,
+              temperatureUnit: TemperatureUnit.fahrenheit,
+              precipitationUnit: PrecipitationUnit.inch,
+            ),
+            returnsNormally,
+          );
+        });
+        test('elevation', () {
+          expect(
+            () => WeatherApi(elevation: 10),
+            returnsNormally,
+          );
+        });
+        test('cell selection', () {
+          expect(
+            () => WeatherApi(cellSelection: CellSelection.sea),
+            returnsNormally,
+          );
+        });
+        test('past/forecast range', () {
+          expect(
+            () => WeatherApi(
+              pastDays: 1,
+              pastHours: 1,
+              pastMinutely15: 1,
+              forecastDays: 1,
+              forecastHours: 1,
+              forecastMinutely15: 1,
+            ),
+            returnsNormally,
+          );
+        });
+        test('start/end times', () {
+          expect(
+            () => WeatherApi(
+              startDate: DateTime.now(),
+              endDate: DateTime.now().add(const Duration(days: 1)),
+              startHour: DateTime.now(),
+              endHour: DateTime.now().add(const Duration(hours: 1)),
+            ),
+            returnsNormally,
+          );
+        });
       });
     });
 
@@ -79,7 +82,7 @@ void main() {
             longitude: longitude,
             current: CurrentWeather.values,
           );
-          expect(response.currentData.length, CurrentWeather.values.length);
+          expect(response.currentData.keys, containsAll(CurrentWeather.values));
         });
         test('for hourly data', () async {
           final response = await api.request(
@@ -87,7 +90,7 @@ void main() {
             longitude: longitude,
             hourly: HourlyWeather.values,
           );
-          expect(response.hourlyData.length, HourlyWeather.values.length);
+          expect(response.hourlyData.keys, containsAll(HourlyWeather.values));
         });
         test('for daily data', () async {
           final response = await api.request(
@@ -95,12 +98,12 @@ void main() {
             longitude: longitude,
             daily: DailyWeather.values,
           );
-          expect(response.dailyData.length, DailyWeather.values.length);
+          expect(response.dailyData.keys, containsAll(DailyWeather.values));
         });
       });
 
-      group('get data', () {
-        test('for current temperature', () async {
+      group('get', () {
+        test('current temperature', () async {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
@@ -110,7 +113,7 @@ void main() {
           expect(temperature, isNotNull);
           expect(temperature!.data.length, 1);
         });
-        test('for hourly temperature', () async {
+        test('hourly temperature', () async {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
@@ -120,7 +123,7 @@ void main() {
           expect(temperature, isNotNull);
           expect(temperature!.data, isNotEmpty);
         });
-        test('for daily temperature max', () async {
+        test('daily temperature max', () async {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
@@ -133,13 +136,13 @@ void main() {
       });
     });
 
-    group('json get data', () {
+    group('json get', () {
       late WeatherApi api;
       setUp(() {
         api = WeatherApi();
       });
 
-      test('for current temperature', () async {
+      test('current temperature', () async {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
@@ -149,7 +152,7 @@ void main() {
         expect(result['current'], isNotNull);
         expect(result['current']['temperature_2m'], isNotNull);
       });
-      test('for hourly temperature', () async {
+      test('hourly temperature', () async {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
@@ -163,7 +166,7 @@ void main() {
           result['hourly']['temperature_2m'].length,
         );
       });
-      test('for daily temperature max', () async {
+      test('daily temperature max', () async {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
