@@ -7,15 +7,14 @@ import '../response.dart';
 ///
 /// https://open-meteo.com/en/docs/flood-api/
 class FloodApi extends BaseApi {
-  final CellSelection? cellSelection;
-
-  final bool? ensemble;
+  final CellSelection cellSelection;
+  final bool ensemble;
 
   FloodApi({
     super.apiUrl = 'https://flood-api.open-meteo.com/v1/flood',
     super.apiKey,
-    this.cellSelection,
-    this.ensemble,
+    this.cellSelection = CellSelection.nearest,
+    this.ensemble = false,
   });
 
   FloodApi copyWith({
@@ -34,7 +33,7 @@ class FloodApi extends BaseApi {
   Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
-    List<FloodDaily>? daily,
+    required Set<FloodDaily> daily,
     int? pastDays,
     int? forecastDays,
     DateTime? startDate,
@@ -56,7 +55,7 @@ class FloodApi extends BaseApi {
   Future<ApiResponse<FloodApi>> request({
     required double latitude,
     required double longitude,
-    List<FloodDaily>? daily,
+    required Set<FloodDaily> daily,
     int? pastDays,
     int? forecastDays,
     DateTime? startDate,
@@ -83,7 +82,7 @@ class FloodApi extends BaseApi {
   Map<String, dynamic> _queryParamMap({
     required double latitude,
     required double longitude,
-    required List<FloodDaily>? daily,
+    required Set<FloodDaily> daily,
     required int? pastDays,
     required int? forecastDays,
     required DateTime? startDate,
@@ -92,9 +91,9 @@ class FloodApi extends BaseApi {
       {
         'latitude': latitude,
         'longitude': longitude,
-        'daily': daily?.map((option) => option.name),
-        'cell_selection': cellSelection?.name,
-        'ensemble': ensemble,
+        'daily': daily,
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.nearest),
+        'ensemble': nullIfEqual(ensemble, false),
         'past_days': pastDays,
         'forecast_days': forecastDays,
         'start_date': formatDate(startDate),

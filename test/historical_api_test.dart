@@ -53,10 +53,12 @@ void main() {
             longitude: longitude,
             startDate: startDate,
             endDate: endDate,
-            hourly: HistoricalHourly.values,
+            hourly: HistoricalHourly.values.toSet(),
           );
           expect(
-              response.hourlyData.keys, containsAll(HistoricalHourly.values));
+            response.hourlyData.keys,
+            containsAll(HistoricalHourly.values),
+          );
         });
         test('for daily data', () async {
           final response = await api.request(
@@ -64,9 +66,12 @@ void main() {
             longitude: longitude,
             startDate: startDate,
             endDate: endDate,
-            daily: HistoricalDaily.values,
+            daily: HistoricalDaily.values.toSet(),
           );
-          expect(response.dailyData.keys, containsAll(HistoricalDaily.values));
+          expect(
+            response.dailyData.keys,
+            containsAll(HistoricalDaily.values),
+          );
         });
       });
 
@@ -77,7 +82,7 @@ void main() {
             longitude: longitude,
             startDate: startDate,
             endDate: endDate,
-            hourly: [HistoricalHourly.temperature_2m],
+            hourly: {HistoricalHourly.temperature_2m},
           );
           final temperature =
               result.hourlyData[HistoricalHourly.temperature_2m];
@@ -90,7 +95,7 @@ void main() {
             longitude: longitude,
             startDate: startDate,
             endDate: endDate,
-            daily: [HistoricalDaily.temperature_2m_max],
+            daily: {HistoricalDaily.temperature_2m_max},
           );
           final temperature =
               result.dailyData[HistoricalDaily.temperature_2m_max];
@@ -112,7 +117,7 @@ void main() {
           longitude: longitude,
           startDate: startDate,
           endDate: endDate,
-          hourly: [HistoricalHourly.temperature_2m],
+          hourly: {HistoricalHourly.temperature_2m},
         );
         expect(result['error'], isNot(true));
         expect(result['hourly'], isNotNull);
@@ -128,7 +133,7 @@ void main() {
           longitude: longitude,
           startDate: startDate,
           endDate: endDate,
-          daily: [HistoricalDaily.temperature_2m_max],
+          daily: {HistoricalDaily.temperature_2m_max},
         );
         expect(result['error'], isNot(true));
         expect(result['daily'], isNotNull);

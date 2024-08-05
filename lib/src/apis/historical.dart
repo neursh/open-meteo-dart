@@ -7,18 +7,18 @@ import '../response.dart';
 ///
 /// https://open-meteo.com/en/docs/historical-weather-api/
 class HistoricalApi extends BaseApi {
-  final TemperatureUnit? temperatureUnit;
-  final WindspeedUnit? windspeedUnit;
-  final PrecipitationUnit? precipitationUnit;
-  final CellSelection? cellSelection;
+  final TemperatureUnit temperatureUnit;
+  final WindspeedUnit windspeedUnit;
+  final PrecipitationUnit precipitationUnit;
+  final CellSelection cellSelection;
 
   HistoricalApi({
     super.apiUrl = 'https://archive-api.open-meteo.com/v1/archive',
     super.apiKey,
-    this.temperatureUnit,
-    this.windspeedUnit,
-    this.precipitationUnit,
-    this.cellSelection,
+    this.temperatureUnit = TemperatureUnit.celsius,
+    this.windspeedUnit = WindspeedUnit.kmh,
+    this.precipitationUnit = PrecipitationUnit.mm,
+    this.cellSelection = CellSelection.land,
   });
 
   HistoricalApi copyWith(
@@ -44,8 +44,8 @@ class HistoricalApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    List<HistoricalHourly>? hourly,
-    List<HistoricalDaily>? daily,
+    Set<HistoricalHourly> hourly = const {},
+    Set<HistoricalDaily> daily = const {},
     double? elevation,
   }) =>
       apiRequestJson(
@@ -66,8 +66,8 @@ class HistoricalApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    List<HistoricalHourly>? hourly,
-    List<HistoricalDaily>? daily,
+    Set<HistoricalHourly> hourly = const {},
+    Set<HistoricalDaily> daily = const {},
     double? elevation,
   }) =>
       apiRequestFlatBuffer(
@@ -94,8 +94,8 @@ class HistoricalApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    required List<HistoricalHourly>? hourly,
-    required List<HistoricalDaily>? daily,
+    required Set<HistoricalHourly> hourly,
+    required Set<HistoricalDaily> daily,
     required double? elevation,
   }) =>
       {
@@ -103,12 +103,14 @@ class HistoricalApi extends BaseApi {
         'longitude': longitude,
         'start_date': formatDate(startDate),
         'end_date': formatDate(endDate),
-        'hourly': hourly,
-        'daily': daily,
-        'temperature_unit': temperatureUnit,
-        'windspeed_unit': windspeedUnit,
-        'precipitaion_unit': precipitationUnit,
-        'cell_selection': cellSelection,
+        'hourly': nullIfEqual<Set>(hourly, const {}),
+        'daily': nullIfEqual<Set>(daily, const {}),
+        'temperature_unit':
+            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+        'precipitaion_unit':
+            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
         'elevation': elevation,
         'timeformat': 'unixtime',
         'timezone': 'auto',

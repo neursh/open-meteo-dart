@@ -36,7 +36,8 @@ int computeHash({
         depth, depthTo);
 
 Map<int, ApiParameter> makeHashes<ApiParameter extends Parameter>(
-        List<ApiParameter> values) =>
+  Iterable<ApiParameter> values,
+) =>
     {for (final val in values) val.hash: val};
 
 sealed class TimeType {}
@@ -49,14 +50,14 @@ final class Daily extends TimeType {}
 
 abstract class BaseApi {
   final String apiUrl;
-  final String? apiKey;
+  final String apiKey;
 
   http.Client? _client;
   http.Client get client => (_client ??= http.Client());
 
   BaseApi({
     required this.apiUrl,
-    required this.apiKey,
+    this.apiKey = '',
   });
 }
 
@@ -66,7 +67,7 @@ Future<Map<String, dynamic>> apiRequestJson(
 ) async {
   Uri url = Uri.parse(api.apiUrl).replace(
     query: _encodeQuery(queryParams, {
-      if (api.apiKey != null) 'apikey': api.apiKey,
+      'apikey': nullIfEqual(api.apiKey, ''),
     }),
   );
   return jsonDecode((await api.client.get(url)).body);
@@ -78,7 +79,7 @@ Future<Uint8List> apiRequestFlatBuffer(
 ) async {
   Uri url = Uri.parse(api.apiUrl).replace(
     query: _encodeQuery(queryParams, {
-      if (api.apiKey != null) 'apikey': api.apiKey,
+      'apikey': nullIfEqual(api.apiKey, ''),
       'format': 'flatbuffers',
     }),
   );
@@ -116,3 +117,6 @@ MapEntry<String, String>? _convertQueryEntry(MapEntry<String, dynamic> entry) =>
 
 String? formatDate(DateTime? date) => date?.toIso8601String().substring(0, 10);
 String? formatTime(DateTime? time) => time?.toIso8601String();
+
+T? nullIfEqual<T>(T value, T defaultValue) =>
+    value == defaultValue ? null : value;

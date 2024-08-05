@@ -7,18 +7,18 @@ import '../response.dart';
 ///
 /// https://open-meteo.com/en/docs/
 class WeatherApi extends BaseApi {
-  final TemperatureUnit? temperatureUnit;
-  final WindspeedUnit? windspeedUnit;
-  final PrecipitationUnit? precipitationUnit;
-  final CellSelection? cellSelection;
+  final TemperatureUnit temperatureUnit;
+  final WindspeedUnit windspeedUnit;
+  final PrecipitationUnit precipitationUnit;
+  final CellSelection cellSelection;
 
   WeatherApi({
     super.apiUrl = 'https://api.open-meteo.com/v1/forecast',
     super.apiKey,
-    this.temperatureUnit,
-    this.windspeedUnit,
-    this.precipitationUnit,
-    this.cellSelection,
+    this.temperatureUnit = TemperatureUnit.celsius,
+    this.windspeedUnit = WindspeedUnit.kmh,
+    this.precipitationUnit = PrecipitationUnit.mm,
+    this.cellSelection = CellSelection.land,
   });
 
   WeatherApi copyWith({
@@ -41,9 +41,9 @@ class WeatherApi extends BaseApi {
   Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
-    List<WeatherHourly>? hourly,
-    List<WeatherDaily>? daily,
-    List<WeatherCurrent>? current,
+    Set<WeatherHourly> hourly = const {},
+    Set<WeatherDaily> daily = const {},
+    Set<WeatherCurrent> current = const {},
     double? elevation,
     int? pastDays,
     int? pastHours,
@@ -81,9 +81,9 @@ class WeatherApi extends BaseApi {
   Future<ApiResponse<WeatherApi>> request({
     required double latitude,
     required double longitude,
-    List<WeatherHourly>? hourly,
-    List<WeatherDaily>? daily,
-    List<WeatherCurrent>? current,
+    Set<WeatherHourly> hourly = const {},
+    Set<WeatherDaily> daily = const {},
+    Set<WeatherCurrent> current = const {},
     double? elevation,
     int? pastDays,
     int? pastHours,
@@ -128,9 +128,9 @@ class WeatherApi extends BaseApi {
   Map<String, dynamic> _queryParamMap({
     required double latitude,
     required double longitude,
-    required List<WeatherHourly>? hourly,
-    required List<WeatherDaily>? daily,
-    required List<WeatherCurrent>? current,
+    required Set<WeatherHourly> hourly,
+    required Set<WeatherDaily> daily,
+    required Set<WeatherCurrent> current,
     required double? elevation,
     required int? pastDays,
     required int? pastHours,
@@ -146,13 +146,15 @@ class WeatherApi extends BaseApi {
       {
         'latitude': latitude,
         'longitude': longitude,
-        'current': current,
-        'hourly': hourly,
-        'daily': daily,
-        'temperature_unit': temperatureUnit,
-        'windspeed_unit': windspeedUnit,
-        'precipitation_unit': precipitationUnit,
-        'cell_selection': cellSelection,
+        'current': nullIfEqual<Set>(current, const {}),
+        'hourly': nullIfEqual<Set>(hourly, const {}),
+        'daily': nullIfEqual<Set>(daily, const {}),
+        'temperature_unit':
+            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+        'precipitation_unit':
+            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
         'elevation': elevation,
         'past_days': pastDays,
         'past_hours': pastHours,

@@ -7,30 +7,28 @@ import '../response.dart';
 ///
 /// https://open-meteo.com/en/docs/climate-api/
 class ClimateApi extends BaseApi {
-  final List<ClimateModel> models;
-
-  final TemperatureUnit? temperatureUnit;
-  final WindspeedUnit? windspeedUnit;
-  final PrecipitationUnit? precipitationUnit;
-  final CellSelection? cellSelection;
-
-  final bool? disableBiasCorrection;
+  final Set<ClimateModel> models;
+  final TemperatureUnit temperatureUnit;
+  final WindspeedUnit windspeedUnit;
+  final PrecipitationUnit precipitationUnit;
+  final CellSelection cellSelection;
+  final bool disableBiasCorrection;
 
   ClimateApi({
     super.apiUrl = 'https://climate-api.open-meteo.com/v1/climate',
     super.apiKey,
     required this.models,
-    this.temperatureUnit,
-    this.windspeedUnit,
-    this.precipitationUnit,
-    this.cellSelection,
-    this.disableBiasCorrection,
+    this.temperatureUnit = TemperatureUnit.celsius,
+    this.windspeedUnit = WindspeedUnit.kmh,
+    this.precipitationUnit = PrecipitationUnit.mm,
+    this.cellSelection = CellSelection.land,
+    this.disableBiasCorrection = false,
   });
 
   ClimateApi copyWith({
     String? apiUrl,
     String? apiKey,
-    List<ClimateModel>? models,
+    Set<ClimateModel>? models,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,
@@ -54,7 +52,7 @@ class ClimateApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    required List<ClimateDaily> daily,
+    required Set<ClimateDaily> daily,
   }) =>
       apiRequestJson(
         this,
@@ -72,7 +70,7 @@ class ClimateApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    required List<ClimateDaily> daily,
+    required Set<ClimateDaily> daily,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -95,20 +93,22 @@ class ClimateApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    required List<ClimateDaily> daily,
+    required Set<ClimateDaily> daily,
   }) =>
       {
+        'models': models,
         'latitude': latitude,
         'longitude': longitude,
+        'daily': daily,
+        'temperature_unit':
+            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+        'precipitation_unit':
+            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
+        'disable_bias_correction': nullIfEqual(disableBiasCorrection, false),
         'start_date': formatDate(startDate),
         'end_date': formatDate(endDate),
-        'daily': daily,
-        'models': models,
-        'temperature_unit': temperatureUnit,
-        'windspeed_unit': windspeedUnit,
-        'precipitation_unit': precipitationUnit,
-        'cell_selection': cellSelection,
-        'disable_bias_correction': disableBiasCorrection,
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };

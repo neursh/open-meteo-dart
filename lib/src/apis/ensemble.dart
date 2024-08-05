@@ -7,27 +7,26 @@ import '../response.dart';
 ///
 /// https://open-meteo.com/en/docs/ensemble-api/
 class EnsembleApi extends BaseApi {
-  final List<EnsembleModel> models;
-
-  final TemperatureUnit? temperatureUnit;
-  final WindspeedUnit? windspeedUnit;
-  final PrecipitationUnit? precipitationUnit;
-  final CellSelection? cellSelection;
+  final Set<EnsembleModel> models;
+  final TemperatureUnit temperatureUnit;
+  final WindspeedUnit windspeedUnit;
+  final PrecipitationUnit precipitationUnit;
+  final CellSelection cellSelection;
 
   EnsembleApi({
     super.apiUrl = 'https://ensemble-api.open-meteo.com/v1/ensemble',
     super.apiKey,
     required this.models,
-    this.temperatureUnit,
-    this.windspeedUnit,
-    this.precipitationUnit,
-    this.cellSelection,
+    this.temperatureUnit = TemperatureUnit.celsius,
+    this.windspeedUnit = WindspeedUnit.kmh,
+    this.precipitationUnit = PrecipitationUnit.mm,
+    this.cellSelection = CellSelection.land,
   });
 
   EnsembleApi copyWith(
     String? apiUrl,
     String? apiKey,
-    List<EnsembleModel>? models,
+    Set<EnsembleModel>? models,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,
@@ -46,7 +45,7 @@ class EnsembleApi extends BaseApi {
   Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
-    List<EnsembleHourly>? hourly,
+    required Set<EnsembleHourly> hourly,
     double? elevation,
     int? pastDays,
     int? pastHours,
@@ -86,7 +85,7 @@ class EnsembleApi extends BaseApi {
   Future<ApiResponse<EnsembleApi>> request({
     required double latitude,
     required double longitude,
-    List<EnsembleHourly>? hourly,
+    required Set<EnsembleHourly> hourly,
     double? elevation,
     int? pastDays,
     int? pastHours,
@@ -131,7 +130,7 @@ class EnsembleApi extends BaseApi {
   Map<String, dynamic> _queryParamMap({
     required double latitude,
     required double longitude,
-    required List<EnsembleHourly>? hourly,
+    required Set<EnsembleHourly> hourly,
     required double? elevation,
     required int? pastDays,
     required int? pastHours,
@@ -149,12 +148,14 @@ class EnsembleApi extends BaseApi {
       {
         'latitude': latitude,
         'longitude': longitude,
-        'models': models.map((value) => value.name),
-        'hourly': hourly?.map((value) => value.name),
-        'temperature_unit': temperatureUnit?.name,
-        'windspeed_unit': windspeedUnit?.name,
-        'precipitation_unit': precipitationUnit?.name,
-        'cell_selection': cellSelection?.name,
+        'models': models,
+        'hourly': hourly,
+        'temperature_unit':
+            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+        'precipitation_unit':
+            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
         'elevation': elevation,
         'past_days': pastDays,
         'past_hours': pastHours,

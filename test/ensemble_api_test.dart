@@ -4,21 +4,21 @@ import 'package:test/test.dart';
 void main() {
   group('ensemble api', () {
     const latitude = 52.52, longitude = 13.405; // Berlin
-    const models = [EnsembleModel.icon_seamless];
+    const models = {EnsembleModel.icon_seamless};
 
     group('constructor', () {
       test('with single model', () {
         expect(
-          () => EnsembleApi(models: [EnsembleModel.icon_seamless]),
+          () => EnsembleApi(models: {EnsembleModel.icon_seamless}),
           returnsNormally,
         );
       });
       test('with multiple models', () {
         expect(
-          () => EnsembleApi(models: [
+          () => EnsembleApi(models: {
             EnsembleModel.icon_seamless,
             EnsembleModel.gfs_seamless,
-          ]),
+          }),
           returnsNormally,
         );
       });
@@ -69,9 +69,12 @@ void main() {
         //   final response = await api.request(
         //     latitude: latitude,
         //     longitude: longitude,
-        //     hourly: HourlyEnsemble.values,
+        //     hourly: HourlyEnsemble.values.toSet(),
         //   );
-        //   expect(response.hourlyData.keys, containsAll(HourlyEnsemble.values));
+        //   expect(
+        //     response.hourlyData.keys,
+        //     containsAll(HourlyEnsemble.values),
+        //   );
         // });
       });
 
@@ -80,7 +83,7 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: [EnsembleHourly.temperature_2m],
+            hourly: {EnsembleHourly.temperature_2m},
           );
           final temperature = result.hourlyData[EnsembleHourly.temperature_2m];
           expect(temperature, isNotNull);
@@ -99,7 +102,7 @@ void main() {
         final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
-          hourly: [EnsembleHourly.temperature_2m],
+          hourly: {EnsembleHourly.temperature_2m},
         );
         expect(result['error'], isNot(true));
         expect(result['hourly'], isNotNull);

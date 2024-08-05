@@ -46,19 +46,23 @@ void main() {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            current: AirQualityCurrent.values,
+            current: AirQualityCurrent.values.toSet(),
           );
           expect(
-              response.currentData.keys, containsAll(AirQualityCurrent.values));
+            response.currentData.keys,
+            containsAll(AirQualityCurrent.values),
+          );
         });
         test('for hourly data', () async {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: AirQualityHourly.values,
+            hourly: AirQualityHourly.values.toSet(),
           );
           expect(
-              response.hourlyData.keys, containsAll(AirQualityHourly.values));
+            response.hourlyData.keys,
+            containsAll(AirQualityHourly.values),
+          );
         });
       });
 
@@ -67,7 +71,7 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            current: [AirQualityCurrent.european_aqi],
+            current: {AirQualityCurrent.european_aqi},
           );
           final temperature =
               result.currentData[AirQualityCurrent.european_aqi];
@@ -78,7 +82,7 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: [AirQualityHourly.european_aqi],
+            hourly: {AirQualityHourly.european_aqi},
           );
           final temperature = result.hourlyData[AirQualityHourly.european_aqi];
           expect(temperature, isNotNull);
@@ -97,7 +101,7 @@ void main() {
         final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
-          current: [AirQualityCurrent.european_aqi],
+          current: {AirQualityCurrent.european_aqi},
         );
         expect(result['error'], isNot(true));
         expect(result['current'], isNotNull);
@@ -107,7 +111,7 @@ void main() {
         final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
-          hourly: [AirQualityHourly.european_aqi],
+          hourly: {AirQualityHourly.european_aqi},
         );
         expect(result['error'], isNot(true));
         expect(result['hourly'], isNotNull);

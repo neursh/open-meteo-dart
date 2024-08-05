@@ -74,6 +74,7 @@ enum AirQualityHourly with Parameter<AirQualityApi, Hourly> {
 }
 
 enum AirQualityDomains {
+  auto,
   cams_europe,
   cams_global;
 }

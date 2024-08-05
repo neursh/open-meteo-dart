@@ -7,14 +7,14 @@ import '../response.dart';
 ///
 /// https://open-meteo.com/en/docs/air-quality-api/
 class AirQualityApi extends BaseApi {
-  final CellSelection? cellSelection;
-  final AirQualityDomains? domains;
+  final CellSelection cellSelection;
+  final AirQualityDomains domains;
 
   AirQualityApi({
     super.apiUrl = 'https://air-quality-api.open-meteo.com/v1/air-quality',
     super.apiKey,
-    this.cellSelection,
-    this.domains,
+    this.cellSelection = CellSelection.nearest,
+    this.domains = AirQualityDomains.auto,
   });
 
   AirQualityApi copyWith({
@@ -33,8 +33,8 @@ class AirQualityApi extends BaseApi {
   Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
-    List<AirQualityHourly>? hourly,
-    List<AirQualityCurrent>? current,
+    Set<AirQualityHourly> hourly = const {},
+    Set<AirQualityCurrent> current = const {},
     int? pastDays,
     int? pastHours,
     int? forecastDays,
@@ -65,8 +65,8 @@ class AirQualityApi extends BaseApi {
   Future<ApiResponse<AirQualityApi>> request({
     required double latitude,
     required double longitude,
-    List<AirQualityHourly>? hourly,
-    List<AirQualityCurrent>? current,
+    Set<AirQualityHourly> hourly = const {},
+    Set<AirQualityCurrent> current = const {},
     int? pastDays,
     int? pastHours,
     int? forecastDays,
@@ -103,8 +103,8 @@ class AirQualityApi extends BaseApi {
   Map<String, dynamic> _queryParamMap({
     required double latitude,
     required double longitude,
-    required List<AirQualityHourly>? hourly,
-    required List<AirQualityCurrent>? current,
+    required Set<AirQualityHourly> hourly,
+    required Set<AirQualityCurrent> current,
     required int? pastDays,
     required int? pastHours,
     required int? forecastDays,
@@ -115,21 +115,20 @@ class AirQualityApi extends BaseApi {
     required DateTime? endHour,
   }) =>
       {
-        'hourly': hourly,
-        'current': current,
-        'domains': domains,
+        'latitude': latitude,
+        'longitude': longitude,
+        'call_selection': nullIfEqual(cellSelection, CellSelection.nearest),
+        'domains': nullIfEqual(domains, AirQualityDomains.auto),
+        'hourly': nullIfEqual<Set>(hourly, const {}),
+        'current': nullIfEqual<Set>(current, const {}),
         'past_days': pastDays,
+        'past_hours': pastHours,
         'forecast_days': forecastDays,
         'forecast_hours': forecastHours,
-        'past_hours': pastHours,
         'start_date': formatDate(startDate),
         'end_date': formatDate(endDate),
         'start_hour': formatTime(startHour),
         'end_hour': formatTime(endHour),
-        'call_selection': cellSelection,
-        'apikey': apiKey,
-        'latitude': latitude,
-        'longitude': longitude,
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };

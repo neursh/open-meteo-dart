@@ -7,20 +7,20 @@ import '../response.dart';
 ///
 /// https://open-meteo.com/en/docs/marine-weather-api/
 class MarineApi extends BaseApi {
-  final TemperatureUnit? temperatureUnit;
-  final WindspeedUnit? windspeedUnit;
-  final PrecipitationUnit? precipitationUnit;
-  final LengthUnit? lengthUnit;
-  final CellSelection? cellSelection;
+  final TemperatureUnit temperatureUnit;
+  final WindspeedUnit windspeedUnit;
+  final PrecipitationUnit precipitationUnit;
+  final LengthUnit lengthUnit;
+  final CellSelection cellSelection;
 
   MarineApi({
     super.apiUrl = 'https://marine-api.open-meteo.com/v1/marine',
     super.apiKey,
-    this.temperatureUnit,
-    this.windspeedUnit,
-    this.precipitationUnit,
-    this.lengthUnit,
-    this.cellSelection,
+    this.temperatureUnit = TemperatureUnit.celsius,
+    this.windspeedUnit = WindspeedUnit.kmh,
+    this.precipitationUnit = PrecipitationUnit.mm,
+    this.lengthUnit = LengthUnit.metric,
+    this.cellSelection = CellSelection.sea,
   });
 
   MarineApi copyWith({
@@ -45,9 +45,9 @@ class MarineApi extends BaseApi {
   Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
-    List<MarineCurrent>? current,
-    List<MarineHourly>? hourly,
-    List<MarineDaily>? daily,
+    Set<MarineCurrent> current = const {},
+    Set<MarineHourly> hourly = const {},
+    Set<MarineDaily> daily = const {},
     int? pastDays,
     int? pastHours,
     int? forecastDays,
@@ -79,9 +79,9 @@ class MarineApi extends BaseApi {
   Future<ApiResponse<MarineApi>> request({
     required double latitude,
     required double longitude,
-    List<MarineCurrent>? current,
-    List<MarineHourly>? hourly,
-    List<MarineDaily>? daily,
+    Set<MarineCurrent> current = const {},
+    Set<MarineHourly> hourly = const {},
+    Set<MarineDaily> daily = const {},
     int? pastDays,
     int? pastHours,
     int? forecastDays,
@@ -120,9 +120,9 @@ class MarineApi extends BaseApi {
   Map<String, dynamic> _queryParamMap({
     required double latitude,
     required double longitude,
-    required List<MarineCurrent>? current,
-    required List<MarineHourly>? hourly,
-    required List<MarineDaily>? daily,
+    required Set<MarineCurrent> current,
+    required Set<MarineHourly> hourly,
+    required Set<MarineDaily> daily,
     required int? pastDays,
     required int? pastHours,
     required int? forecastDays,
@@ -135,14 +135,16 @@ class MarineApi extends BaseApi {
       {
         'latitude': latitude,
         'longitude': longitude,
-        'current': current,
-        'hourly': hourly,
-        'daily': daily,
-        'temperature_unit': temperatureUnit,
-        'windspeed_unit': windspeedUnit,
-        'precipitation_unit': precipitationUnit,
-        'length_unit': lengthUnit,
-        'cell_selection': cellSelection,
+        'current': nullIfEqual<Set>(current, const {}),
+        'hourly': nullIfEqual<Set>(hourly, const {}),
+        'daily': nullIfEqual<Set>(daily, const {}),
+        'temperature_unit':
+            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+        'precipitation_unit':
+            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+        'length_unit': nullIfEqual(lengthUnit, LengthUnit.metric),
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.sea),
         'past_days': pastDays,
         'past_hours': pastHours,
         'forecast_days': forecastDays,
