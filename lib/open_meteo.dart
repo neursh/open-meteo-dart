@@ -10,4 +10,4 @@ export 'src/apis/weather.dart';
 
 export 'src/options.dart';
 export 'src/exceptions.dart';
-export 'src/response.dart' show Response;
+export 'src/response.dart';

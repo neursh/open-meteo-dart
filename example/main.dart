@@ -9,10 +9,9 @@ void main() async {
     longitude: 13.41,
     current: [CurrentWeather.temperature_2m],
   );
-  print(result.currentData);
-  // WeatherParameterData temperature =
-  //     result.currentWeatherData![Current.temperature_2m]!;
-  // double currentTemperature = temperature.data.values.first;
+  WeatherParameterData temperature =
+      result.currentData[CurrentWeather.temperature_2m]!;
+  double currentTemperature = temperature.data.values.first;
 
-  // print(currentTemperature);
+  print(currentTemperature);
 }
