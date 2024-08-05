@@ -47,19 +47,19 @@ class FloodApi extends BaseApi {
         endDate: endDate ?? this.endDate,
       );
 
-  Future<Map<String, dynamic>> rawRequest({
+  Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
     List<FloodDaily>? daily,
   }) =>
-      requestJson(this, _queryParamMap(latitude, longitude, daily));
+      apiRequestJson(this, _queryParamMap(latitude, longitude, daily));
 
   Future<ApiResponse<FloodApi>> request({
     required double latitude,
     required double longitude,
     List<FloodDaily>? daily,
   }) =>
-      requestFlatBuffer(this, _queryParamMap(latitude, longitude, daily))
+      apiRequestFlatBuffer(this, _queryParamMap(latitude, longitude, daily))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
                 dailyHashes: FloodDaily.hashes,

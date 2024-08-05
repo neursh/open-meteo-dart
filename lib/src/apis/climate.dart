@@ -49,14 +49,14 @@ class ClimateApi extends BaseApi {
             disableBiasCorrection ?? this.disableBiasCorrection,
       );
 
-  Future<Map<String, dynamic>> rawRequest({
+  Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
     required List<ClimateDaily> daily,
   }) =>
-      requestJson(
+      apiRequestJson(
           this, _queryParamMap(latitude, longitude, startDate, endDate, daily));
 
   Future<ApiResponse<ClimateApi>> request({
@@ -66,7 +66,7 @@ class ClimateApi extends BaseApi {
     required DateTime endDate,
     required List<ClimateDaily> daily,
   }) =>
-      requestFlatBuffer(this,
+      apiRequestFlatBuffer(this,
               _queryParamMap(latitude, longitude, startDate, endDate, daily))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,

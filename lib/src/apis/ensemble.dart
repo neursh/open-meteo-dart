@@ -91,19 +91,19 @@ class EnsembleApi extends BaseApi {
         endMinutely15: endMinutely15 ?? this.endMinutely15,
       );
 
-  Future<Map<String, dynamic>> rawRequest({
+  Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
     List<EnsembleHourly>? hourly,
   }) =>
-      requestJson(this, _queryParamMap(latitude, longitude, hourly));
+      apiRequestJson(this, _queryParamMap(latitude, longitude, hourly));
 
   Future<ApiResponse<EnsembleApi>> request({
     required double latitude,
     required double longitude,
     List<EnsembleHourly>? hourly,
   }) =>
-      requestFlatBuffer(this, _queryParamMap(latitude, longitude, hourly))
+      apiRequestFlatBuffer(this, _queryParamMap(latitude, longitude, hourly))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
                 hourlyHashes: EnsembleHourly.hashes,

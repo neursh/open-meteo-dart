@@ -137,7 +137,7 @@ void main() {
       });
 
       test('current wave height', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           current: [MarineCurrent.wave_height],
@@ -147,7 +147,7 @@ void main() {
         expect(result['current']['wave_height'], isNotNull);
       });
       test('hourly wave height', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           hourly: [MarineHourly.wave_height],
@@ -161,7 +161,7 @@ void main() {
         );
       });
       test('daily wave height max', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           daily: [MarineDaily.wave_height_max],

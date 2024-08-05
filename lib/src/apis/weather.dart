@@ -78,14 +78,14 @@ class WeatherApi extends BaseApi {
         endHour: endHour ?? this.endHour,
       );
 
-  Future<Map<String, dynamic>> rawRequest({
+  Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
     List<WeatherHourly>? hourly,
     List<WeatherDaily>? daily,
     List<WeatherCurrent>? current,
   }) =>
-      requestJson(
+      apiRequestJson(
           this, _queryParamMap(latitude, longitude, hourly, daily, current));
 
   Future<ApiResponse<WeatherApi>> request({
@@ -95,7 +95,7 @@ class WeatherApi extends BaseApi {
     List<WeatherDaily>? daily,
     List<WeatherCurrent>? current,
   }) =>
-      requestFlatBuffer(
+      apiRequestFlatBuffer(
               this, _queryParamMap(latitude, longitude, hourly, daily, current))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,

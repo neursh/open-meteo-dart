@@ -18,11 +18,11 @@ class ElevationApi extends BaseApi {
         apiKey: apiKey ?? this.apiKey,
       );
 
-  Future<Map<String, dynamic>> request({
+  Future<Map<String, dynamic>> requestJson({
     required List<double> latitudes,
     required List<double> longitudes,
   }) =>
-      requestJson(this, {
+      apiRequestJson(this, {
         'latitude': latitudes,
         'longitude': longitudes,
       });

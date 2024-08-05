@@ -34,7 +34,7 @@ void main() {
       });
 
       test('location of Berlin', () async {
-        final result = await api.rawRequest(name: 'Berlin');
+        final result = await api.requestJson(name: 'Berlin');
         expect(result['error'], isNot(true));
         expect(result['results'], isNotNull);
         expect(result['results'][0]['name'], 'Berlin');

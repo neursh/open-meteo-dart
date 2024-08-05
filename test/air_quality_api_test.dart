@@ -116,7 +116,7 @@ void main() {
       });
 
       test('current aqi', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           current: [AirQualityCurrent.european_aqi],
@@ -126,7 +126,7 @@ void main() {
         expect(result['current']['european_aqi'], isNotNull);
       });
       test('hourly aqi', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           hourly: [AirQualityHourly.european_aqi],

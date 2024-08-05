@@ -28,7 +28,7 @@ void main() {
       });
 
       test('single elevation', () async {
-        final result = await api.request(
+        final result = await api.requestJson(
           latitudes: [52.52],
           longitudes: [13.41],
         );
@@ -37,7 +37,7 @@ void main() {
         expect(result['elevation'][0], isA<num>());
       });
       test('multiple elevations', () async {
-        final result = await api.request(
+        final result = await api.requestJson(
           latitudes: [52.52, 51.507],
           longitudes: [13.405, -0.128],
         );

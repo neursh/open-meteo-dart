@@ -23,11 +23,11 @@ class GeocodingApi extends BaseApi {
         language: language ?? this.language,
       );
 
-  Future<Map<String, dynamic>> rawRequest({
+  Future<Map<String, dynamic>> requestJson({
     required String name,
     int? count,
   }) =>
-      requestJson(this, {
+      apiRequestJson(this, {
         'name': name,
         'count': count,
         'language': language,

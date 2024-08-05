@@ -91,7 +91,7 @@ void main() {
       });
 
       test('daily river discharge', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           daily: [FloodDaily.river_discharge],

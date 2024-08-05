@@ -133,7 +133,7 @@ void main() {
       });
 
       test('hourly temperature', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           hourly: [EnsembleHourly.temperature_2m],

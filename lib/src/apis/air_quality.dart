@@ -60,13 +60,13 @@ class AirQualityApi extends BaseApi {
         endHour: endHour ?? this.endHour,
       );
 
-  Future<Map<String, dynamic>> rawRequest({
+  Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
     List<AirQualityHourly>? hourly,
     List<AirQualityCurrent>? current,
   }) =>
-      requestJson(this, _queryParamMap(latitude, longitude, hourly, current));
+      apiRequestJson(this, _queryParamMap(latitude, longitude, hourly, current));
 
   Future<ApiResponse<AirQualityApi>> request({
     required double latitude,
@@ -74,7 +74,7 @@ class AirQualityApi extends BaseApi {
     List<AirQualityHourly>? hourly,
     List<AirQualityCurrent>? current,
   }) =>
-      requestFlatBuffer(
+      apiRequestFlatBuffer(
               this, _queryParamMap(latitude, longitude, hourly, current))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,

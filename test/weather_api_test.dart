@@ -143,7 +143,7 @@ void main() {
       });
 
       test('current temperature', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           current: [WeatherCurrent.temperature_2m],
@@ -153,7 +153,7 @@ void main() {
         expect(result['current']['temperature_2m'], isNotNull);
       });
       test('hourly temperature', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           hourly: [WeatherHourly.temperature_2m],
@@ -167,7 +167,7 @@ void main() {
         );
       });
       test('daily temperature max', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           daily: [WeatherDaily.temperature_2m_max],

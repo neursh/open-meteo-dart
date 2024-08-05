@@ -110,7 +110,7 @@ void main() {
       });
 
       test('daily temperature max', () async {
-        final result = await api.rawRequest(
+        final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
           startDate: startDate,

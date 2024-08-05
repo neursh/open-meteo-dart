@@ -43,7 +43,7 @@ class HistoricalApi extends BaseApi {
         elevation: elevation ?? this.elevation,
       );
 
-  Future<Map<String, dynamic>> rawRequest({
+  Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
     required DateTime startDate,
@@ -51,7 +51,7 @@ class HistoricalApi extends BaseApi {
     List<HistoricalHourly>? hourly,
     List<HistoricalDaily>? daily,
   }) =>
-      requestJson(
+      apiRequestJson(
           this,
           _queryParamMap(
               latitude, longitude, startDate, endDate, hourly, daily));
@@ -64,7 +64,7 @@ class HistoricalApi extends BaseApi {
     List<HistoricalHourly>? hourly,
     List<HistoricalDaily>? daily,
   }) =>
-      requestFlatBuffer(
+      apiRequestFlatBuffer(
               this,
               _queryParamMap(
                   latitude, longitude, startDate, endDate, hourly, daily))

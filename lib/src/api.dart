@@ -60,7 +60,7 @@ class BaseApi {
   });
 }
 
-Future<Map<String, dynamic>> requestJson(
+Future<Map<String, dynamic>> apiRequestJson(
   BaseApi api,
   Map<String, dynamic> queryParams,
 ) async {
@@ -72,7 +72,7 @@ Future<Map<String, dynamic>> requestJson(
   return jsonDecode((await api.client.get(url)).body);
 }
 
-Future<Uint8List> requestFlatBuffer(
+Future<Uint8List> apiRequestFlatBuffer(
   BaseApi api,
   Map<String, dynamic> queryParams,
 ) async {

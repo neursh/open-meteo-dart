@@ -72,14 +72,14 @@ class MarineApi extends BaseApi {
         endHour: endHour ?? this.endHour,
       );
 
-  Future<Map<String, dynamic>> rawRequest({
+  Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
     List<MarineCurrent>? current,
     List<MarineHourly>? hourly,
     List<MarineDaily>? daily,
   }) =>
-      requestJson(
+      apiRequestJson(
           this, _queryParamMap(latitude, longitude, current, hourly, daily));
 
   Future<ApiResponse<MarineApi>> request({
@@ -89,7 +89,7 @@ class MarineApi extends BaseApi {
     List<MarineHourly>? hourly,
     List<MarineDaily>? daily,
   }) =>
-      requestFlatBuffer(
+      apiRequestFlatBuffer(
               this, _queryParamMap(latitude, longitude, current, hourly, daily))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
