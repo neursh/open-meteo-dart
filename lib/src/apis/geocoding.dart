@@ -4,12 +4,12 @@ import '../api.dart';
 ///
 /// https://open-meteo.com/en/docs/geocoding-api/
 class GeocodingApi extends BaseApi {
-  final String? language;
+  final String language;
 
   GeocodingApi({
     super.apiUrl = 'https://geocoding-api.open-meteo.com/v1/search',
     super.apiKey,
-    this.language,
+    this.language = 'en',
   });
 
   GeocodingApi copyWith({
@@ -30,6 +30,6 @@ class GeocodingApi extends BaseApi {
       apiRequestJson(this, {
         'name': name,
         'count': count,
-        'language': language,
+        'language': nullIfEqual(language, 'en'),
       });
 }
