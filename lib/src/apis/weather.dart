@@ -86,7 +86,15 @@ class WeatherApi extends BaseApi {
     List<WeatherCurrent>? current,
   }) =>
       apiRequestJson(
-          this, _queryParamMap(latitude, longitude, hourly, daily, current));
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+          daily: daily,
+          current: current,
+        ),
+      );
 
   Future<ApiResponse<WeatherApi>> request({
     required double latitude,
@@ -96,21 +104,30 @@ class WeatherApi extends BaseApi {
     List<WeatherCurrent>? current,
   }) =>
       apiRequestFlatBuffer(
-              this, _queryParamMap(latitude, longitude, hourly, daily, current))
-          .then((data) => ApiResponse.fromFlatBuffer(
-                data,
-                currentHashes: WeatherCurrent.hashes,
-                hourlyHashes: WeatherHourly.hashes,
-                dailyHashes: WeatherDaily.hashes,
-              ));
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+          daily: daily,
+          current: current,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          currentHashes: WeatherCurrent.hashes,
+          hourlyHashes: WeatherHourly.hashes,
+          dailyHashes: WeatherDaily.hashes,
+        ),
+      );
 
-  Map<String, dynamic> _queryParamMap(
-    double latitude,
-    double longitude,
-    List<WeatherHourly>? hourly,
-    List<WeatherDaily>? daily,
-    List<WeatherCurrent>? current,
-  ) =>
+  Map<String, dynamic> _queryParamMap({
+    required double latitude,
+    required double longitude,
+    required List<WeatherHourly>? hourly,
+    required List<WeatherDaily>? daily,
+    required List<WeatherCurrent>? current,
+  }) =>
       {
         'latitude': latitude,
         'longitude': longitude,

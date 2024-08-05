@@ -96,24 +96,39 @@ class EnsembleApi extends BaseApi {
     required double longitude,
     List<EnsembleHourly>? hourly,
   }) =>
-      apiRequestJson(this, _queryParamMap(latitude, longitude, hourly));
+      apiRequestJson(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+        ),
+      );
 
   Future<ApiResponse<EnsembleApi>> request({
     required double latitude,
     required double longitude,
     List<EnsembleHourly>? hourly,
   }) =>
-      apiRequestFlatBuffer(this, _queryParamMap(latitude, longitude, hourly))
-          .then((data) => ApiResponse.fromFlatBuffer(
-                data,
-                hourlyHashes: EnsembleHourly.hashes,
-              ));
+      apiRequestFlatBuffer(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          hourlyHashes: EnsembleHourly.hashes,
+        ),
+      );
 
-  Map<String, dynamic> _queryParamMap(
-    double latitude,
-    double longitude,
-    List<EnsembleHourly>? hourly,
-  ) =>
+  Map<String, dynamic> _queryParamMap({
+    required double latitude,
+    required double longitude,
+    required List<EnsembleHourly>? hourly,
+  }) =>
       {
         'latitude': latitude,
         'longitude': longitude,

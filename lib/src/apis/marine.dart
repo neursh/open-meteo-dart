@@ -80,7 +80,15 @@ class MarineApi extends BaseApi {
     List<MarineDaily>? daily,
   }) =>
       apiRequestJson(
-          this, _queryParamMap(latitude, longitude, current, hourly, daily));
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          current: current,
+          hourly: hourly,
+          daily: daily,
+        ),
+      );
 
   Future<ApiResponse<MarineApi>> request({
     required double latitude,
@@ -90,21 +98,30 @@ class MarineApi extends BaseApi {
     List<MarineDaily>? daily,
   }) =>
       apiRequestFlatBuffer(
-              this, _queryParamMap(latitude, longitude, current, hourly, daily))
-          .then((data) => ApiResponse.fromFlatBuffer(
-                data,
-                currentHashes: MarineCurrent.hashes,
-                hourlyHashes: MarineHourly.hashes,
-                dailyHashes: MarineDaily.hashes,
-              ));
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          current: current,
+          hourly: hourly,
+          daily: daily,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          currentHashes: MarineCurrent.hashes,
+          hourlyHashes: MarineHourly.hashes,
+          dailyHashes: MarineDaily.hashes,
+        ),
+      );
 
-  Map<String, dynamic> _queryParamMap(
-    double latitude,
-    double longitude,
-    List<MarineCurrent>? current,
-    List<MarineHourly>? hourly,
-    List<MarineDaily>? daily,
-  ) =>
+  Map<String, dynamic> _queryParamMap({
+    required double latitude,
+    required double longitude,
+    required List<MarineCurrent>? current,
+    required List<MarineHourly>? hourly,
+    required List<MarineDaily>? daily,
+  }) =>
       {
         'latitude': latitude,
         'longitude': longitude,

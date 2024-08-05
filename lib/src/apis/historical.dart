@@ -52,9 +52,16 @@ class HistoricalApi extends BaseApi {
     List<HistoricalDaily>? daily,
   }) =>
       apiRequestJson(
-          this,
-          _queryParamMap(
-              latitude, longitude, startDate, endDate, hourly, daily));
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          startDate: startDate,
+          endDate: endDate,
+          hourly: hourly,
+          daily: daily,
+        ),
+      );
 
   Future<ApiResponse<HistoricalApi>> request({
     required double latitude,
@@ -65,23 +72,31 @@ class HistoricalApi extends BaseApi {
     List<HistoricalDaily>? daily,
   }) =>
       apiRequestFlatBuffer(
-              this,
-              _queryParamMap(
-                  latitude, longitude, startDate, endDate, hourly, daily))
-          .then((data) => ApiResponse.fromFlatBuffer(
-                data,
-                hourlyHashes: HistoricalHourly.hashes,
-                dailyHashes: HistoricalDaily.hashes,
-              ));
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          startDate: startDate,
+          endDate: endDate,
+          hourly: hourly,
+          daily: daily,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          hourlyHashes: HistoricalHourly.hashes,
+          dailyHashes: HistoricalDaily.hashes,
+        ),
+      );
 
-  Map<String, dynamic> _queryParamMap(
-    double latitude,
-    double longitude,
-    DateTime startDate,
-    DateTime endDate,
-    List<HistoricalHourly>? hourly,
-    List<HistoricalDaily>? daily,
-  ) =>
+  Map<String, dynamic> _queryParamMap({
+    required double latitude,
+    required double longitude,
+    required DateTime startDate,
+    required DateTime endDate,
+    required List<HistoricalHourly>? hourly,
+    required List<HistoricalDaily>? daily,
+  }) =>
       {
         'latitude': latitude,
         'longitude': longitude,

@@ -52,24 +52,39 @@ class FloodApi extends BaseApi {
     required double longitude,
     List<FloodDaily>? daily,
   }) =>
-      apiRequestJson(this, _queryParamMap(latitude, longitude, daily));
+      apiRequestJson(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          daily: daily,
+        ),
+      );
 
   Future<ApiResponse<FloodApi>> request({
     required double latitude,
     required double longitude,
     List<FloodDaily>? daily,
   }) =>
-      apiRequestFlatBuffer(this, _queryParamMap(latitude, longitude, daily))
-          .then((data) => ApiResponse.fromFlatBuffer(
-                data,
-                dailyHashes: FloodDaily.hashes,
-              ));
+      apiRequestFlatBuffer(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          daily: daily,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          dailyHashes: FloodDaily.hashes,
+        ),
+      );
 
-  Map<String, dynamic> _queryParamMap(
-    double latitude,
-    double longitude,
-    List<FloodDaily>? daily,
-  ) =>
+  Map<String, dynamic> _queryParamMap({
+    required double latitude,
+    required double longitude,
+    required List<FloodDaily>? daily,
+  }) =>
       {
         'latitude': latitude,
         'longitude': longitude,

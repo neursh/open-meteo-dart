@@ -57,7 +57,15 @@ class ClimateApi extends BaseApi {
     required List<ClimateDaily> daily,
   }) =>
       apiRequestJson(
-          this, _queryParamMap(latitude, longitude, startDate, endDate, daily));
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          startDate: startDate,
+          endDate: endDate,
+          daily: daily,
+        ),
+      );
 
   Future<ApiResponse<ClimateApi>> request({
     required double latitude,
@@ -66,20 +74,29 @@ class ClimateApi extends BaseApi {
     required DateTime endDate,
     required List<ClimateDaily> daily,
   }) =>
-      apiRequestFlatBuffer(this,
-              _queryParamMap(latitude, longitude, startDate, endDate, daily))
-          .then((data) => ApiResponse.fromFlatBuffer(
-                data,
-                dailyHashes: ClimateDaily.hashes,
-              ));
+      apiRequestFlatBuffer(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          startDate: startDate,
+          endDate: endDate,
+          daily: daily,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          dailyHashes: ClimateDaily.hashes,
+        ),
+      );
 
-  Map<String, dynamic> _queryParamMap(
-    double latitude,
-    double longitude,
-    DateTime startDate,
-    DateTime endDate,
-    List<ClimateDaily> daily,
-  ) =>
+  Map<String, dynamic> _queryParamMap({
+    required double latitude,
+    required double longitude,
+    required DateTime startDate,
+    required DateTime endDate,
+    required List<ClimateDaily> daily,
+  }) =>
       {
         'latitude': latitude,
         'longitude': longitude,

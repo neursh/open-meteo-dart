@@ -66,7 +66,15 @@ class AirQualityApi extends BaseApi {
     List<AirQualityHourly>? hourly,
     List<AirQualityCurrent>? current,
   }) =>
-      apiRequestJson(this, _queryParamMap(latitude, longitude, hourly, current));
+      apiRequestJson(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+          current: current,
+        ),
+      );
 
   Future<ApiResponse<AirQualityApi>> request({
     required double latitude,
@@ -75,23 +83,31 @@ class AirQualityApi extends BaseApi {
     List<AirQualityCurrent>? current,
   }) =>
       apiRequestFlatBuffer(
-              this, _queryParamMap(latitude, longitude, hourly, current))
-          .then((data) => ApiResponse.fromFlatBuffer(
-                data,
-                hourlyHashes: AirQualityHourly.hashes,
-                currentHashes: AirQualityCurrent.hashes,
-              ));
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+          current: current,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          hourlyHashes: AirQualityHourly.hashes,
+          currentHashes: AirQualityCurrent.hashes,
+        ),
+      );
 
-  Map<String, dynamic> _queryParamMap(
-    double latitude,
-    double longitude,
-    List<AirQualityHourly>? hourly,
-    List<AirQualityCurrent>? current,
-  ) =>
+  Map<String, dynamic> _queryParamMap({
+    required double latitude,
+    required double longitude,
+    required List<AirQualityHourly>? hourly,
+    required List<AirQualityCurrent>? current,
+  }) =>
       {
-        'hourly': hourly?.map((option) => option.name).join(","),
-        'current': current?.map((option) => option.name).join(","),
-        'domains': domains?.name,
+        'hourly': hourly,
+        'current': current,
+        'domains': domains,
         'past_days': pastDays,
         'forecast_days': forecastDays,
         'forecast_hours': forecastHours,
@@ -100,7 +116,7 @@ class AirQualityApi extends BaseApi {
         'end_date': formatDate(endDate),
         'start_hour': formatTime(startHour),
         'end_hour': formatTime(endHour),
-        'call_selection': cellSelection?.name,
+        'call_selection': cellSelection,
         'apikey': apiKey,
         'latitude': latitude,
         'longitude': longitude,
