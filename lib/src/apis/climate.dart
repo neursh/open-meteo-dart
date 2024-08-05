@@ -27,7 +27,28 @@ class ClimateApi extends BaseApi {
     this.disableBiasCorrection,
   });
 
-  /// Create a HTTP request. The function will return JSON data as Map if successful.
+  ClimateApi copyWith({
+    String? apiUrl,
+    String? apiKey,
+    List<ClimateModel>? models,
+    TemperatureUnit? temperatureUnit,
+    WindspeedUnit? windspeedUnit,
+    PrecipitationUnit? precipitationUnit,
+    CellSelection? cellSelection,
+    bool? disableBiasCorrection,
+  }) =>
+      ClimateApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        models: models ?? this.models,
+        temperatureUnit: temperatureUnit ?? this.temperatureUnit,
+        windspeedUnit: windspeedUnit ?? this.windspeedUnit,
+        precipitationUnit: precipitationUnit ?? this.precipitationUnit,
+        cellSelection: cellSelection ?? this.cellSelection,
+        disableBiasCorrection:
+            disableBiasCorrection ?? this.disableBiasCorrection,
+      );
+
   Future<Map<String, dynamic>> rawRequest({
     required double latitude,
     required double longitude,

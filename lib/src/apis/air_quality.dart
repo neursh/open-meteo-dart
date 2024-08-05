@@ -31,6 +31,35 @@ class AirQualityApi extends BaseApi {
     this.endHour,
   });
 
+  AirQualityApi copyWith({
+    String? apiUrl,
+    String? apiKey,
+    CellSelection? cellSelection,
+    AirQualityDomains? domains,
+    int? pastDays,
+    int? pastHours,
+    int? forecastDays,
+    int? forecastHours,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
+  }) =>
+      AirQualityApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        cellSelection: cellSelection ?? this.cellSelection,
+        domains: domains ?? this.domains,
+        pastDays: pastDays ?? this.pastDays,
+        pastHours: pastHours ?? this.pastHours,
+        forecastDays: forecastDays ?? this.forecastDays,
+        forecastHours: forecastHours ?? this.forecastHours,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        startHour: startHour ?? this.startHour,
+        endHour: endHour ?? this.endHour,
+      );
+
   Future<Map<String, dynamic>> rawRequest({
     required double latitude,
     required double longitude,
