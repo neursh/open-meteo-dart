@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'exceptions.dart';
 import 'weather_api_openmeteo_sdk_generated.dart';
 
-mixin WeatherParameter<Api extends BaseApi, Time extends TimeType> on Enum {
+mixin Parameter<Api extends BaseApi, Time extends TimeType> on Enum {
   Variable get variable;
   Aggregation get aggregation => Aggregation.none;
   int get altitude => 0;
@@ -35,7 +35,7 @@ int computeHash({
     Object.hash(variable.value, aggregation.value, altitude, pressureLevel,
         depth, depthTo);
 
-Map<int, ApiParameter> makeHashes<ApiParameter extends WeatherParameter>(
+Map<int, ApiParameter> makeHashes<ApiParameter extends Parameter>(
         List<ApiParameter> values) =>
     {for (final val in values) val.hash: val};
 

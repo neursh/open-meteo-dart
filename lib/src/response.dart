@@ -13,9 +13,9 @@ class ApiResponse<Api extends BaseApi> {
   final Duration utcOffset;
   final String? timezone;
   final String? timezoneAbbreviation;
-  final Map<WeatherParameter<Api, Current>, ParameterData> currentData;
-  final Map<WeatherParameter<Api, Hourly>, ParameterData> hourlyData;
-  final Map<WeatherParameter<Api, Daily>, ParameterData> dailyData;
+  final Map<Parameter<Api, Current>, ParameterData> currentData;
+  final Map<Parameter<Api, Hourly>, ParameterData> hourlyData;
+  final Map<Parameter<Api, Daily>, ParameterData> dailyData;
 
   const ApiResponse._({
     required this.latitude,
@@ -32,9 +32,9 @@ class ApiResponse<Api extends BaseApi> {
 
   factory ApiResponse.fromFlatBuffer(
     Uint8List bytes, {
-    Map<int, WeatherParameter<Api, Current>>? currentHashes,
-    Map<int, WeatherParameter<Api, Hourly>>? hourlyHashes,
-    Map<int, WeatherParameter<Api, Daily>>? dailyHashes,
+    Map<int, Parameter<Api, Current>>? currentHashes,
+    Map<int, Parameter<Api, Hourly>>? hourlyHashes,
+    Map<int, Parameter<Api, Daily>>? dailyHashes,
   }) {
     int prefixed =
         BufferContext.fromBytes(bytes).buffer.getUint32(0, Endian.little);

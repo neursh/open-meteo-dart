@@ -2,7 +2,7 @@ import '../api.dart';
 import '../apis/marine.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
-enum MarineCurrent with WeatherParameter<MarineApi, Current> {
+enum MarineCurrent with Parameter<MarineApi, Current> {
   wave_height(Variable.wave_height),
   wave_direction(Variable.wave_direction),
   wave_period(Variable.wave_period),
@@ -26,7 +26,7 @@ enum MarineCurrent with WeatherParameter<MarineApi, Current> {
       makeHashes(MarineCurrent.values);
 }
 
-enum MarineHourly with WeatherParameter<MarineApi, Hourly> {
+enum MarineHourly with Parameter<MarineApi, Hourly> {
   wave_height(Variable.wave_height),
   wave_direction(Variable.wave_direction),
   wave_period(Variable.wave_period),
@@ -49,7 +49,7 @@ enum MarineHourly with WeatherParameter<MarineApi, Hourly> {
   static final Map<int, MarineHourly> hashes = makeHashes(MarineHourly.values);
 }
 
-enum MarineDaily with WeatherParameter<MarineApi, Daily> {
+enum MarineDaily with Parameter<MarineApi, Daily> {
   wave_height_max(
     Variable.wave_height,
     aggregation: Aggregation.maximum,

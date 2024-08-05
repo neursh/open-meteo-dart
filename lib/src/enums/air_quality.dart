@@ -2,7 +2,7 @@ import '../api.dart';
 import '../apis/air_quality.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
-enum AirQualityCurrent with WeatherParameter<AirQualityApi, Current> {
+enum AirQualityCurrent with Parameter<AirQualityApi, Current> {
   european_aqi(Variable.european_aqi),
   us_aqi(Variable.us_aqi),
   pm10(Variable.pm10),
@@ -32,7 +32,7 @@ enum AirQualityCurrent with WeatherParameter<AirQualityApi, Current> {
       makeHashes(AirQualityCurrent.values);
 }
 
-enum AirQualityHourly with WeatherParameter<AirQualityApi, Hourly> {
+enum AirQualityHourly with Parameter<AirQualityApi, Hourly> {
   pm10(Variable.pm10),
   pm2_5(Variable.pm2p5),
   carbon_monoxide(Variable.carbon_monoxide),

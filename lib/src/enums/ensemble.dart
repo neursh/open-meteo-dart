@@ -2,7 +2,7 @@ import '../api.dart';
 import '../apis/ensemble.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
-enum EnsembleHourly with WeatherParameter<EnsembleApi, Hourly> {
+enum EnsembleHourly with Parameter<EnsembleApi, Hourly> {
   temperature_2m(
     Variable.temperature,
     altitude: 2,

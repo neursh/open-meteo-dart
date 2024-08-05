@@ -2,7 +2,7 @@ import '../api.dart';
 import '../apis/climate.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
-enum ClimateDaily with WeatherParameter<ClimateApi, Daily> {
+enum ClimateDaily with Parameter<ClimateApi, Daily> {
   temperature_2m_mean(
     Variable.temperature,
     altitude: 2,
