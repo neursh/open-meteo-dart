@@ -12,8 +12,6 @@ class WeatherApi extends BaseApi {
   final PrecipitationUnit? precipitationUnit;
   final CellSelection? cellSelection;
 
-  final double? elevation;
-
   WeatherApi({
     super.apiUrl = 'https://api.open-meteo.com/v1/forecast',
     super.apiKey,
@@ -21,7 +19,6 @@ class WeatherApi extends BaseApi {
     this.windspeedUnit,
     this.precipitationUnit,
     this.cellSelection,
-    this.elevation,
   });
 
   WeatherApi copyWith({
@@ -31,7 +28,6 @@ class WeatherApi extends BaseApi {
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,
     CellSelection? cellSelection,
-    double? elevation,
   }) =>
       WeatherApi(
         apiUrl: apiUrl ?? this.apiUrl,
@@ -40,7 +36,6 @@ class WeatherApi extends BaseApi {
         windspeedUnit: windspeedUnit ?? this.windspeedUnit,
         precipitationUnit: precipitationUnit ?? this.precipitationUnit,
         cellSelection: cellSelection ?? this.cellSelection,
-        elevation: elevation ?? this.elevation,
       );
 
   Future<Map<String, dynamic>> requestJson({
@@ -49,6 +44,7 @@ class WeatherApi extends BaseApi {
     List<WeatherHourly>? hourly,
     List<WeatherDaily>? daily,
     List<WeatherCurrent>? current,
+    double? elevation,
     int? pastDays,
     int? pastHours,
     int? pastMinutely15,
@@ -68,6 +64,7 @@ class WeatherApi extends BaseApi {
           hourly: hourly,
           daily: daily,
           current: current,
+          elevation: elevation,
           pastDays: pastDays,
           pastHours: pastHours,
           pastMinutely15: pastMinutely15,
@@ -87,6 +84,7 @@ class WeatherApi extends BaseApi {
     List<WeatherHourly>? hourly,
     List<WeatherDaily>? daily,
     List<WeatherCurrent>? current,
+    double? elevation,
     int? pastDays,
     int? pastHours,
     int? pastMinutely15,
@@ -106,6 +104,7 @@ class WeatherApi extends BaseApi {
           hourly: hourly,
           daily: daily,
           current: current,
+          elevation: elevation,
           pastDays: pastDays,
           pastHours: pastHours,
           pastMinutely15: pastMinutely15,
@@ -132,6 +131,7 @@ class WeatherApi extends BaseApi {
     required List<WeatherHourly>? hourly,
     required List<WeatherDaily>? daily,
     required List<WeatherCurrent>? current,
+    required double? elevation,
     required int? pastDays,
     required int? pastHours,
     required int? pastMinutely15,

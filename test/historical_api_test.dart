@@ -31,12 +31,6 @@ void main() {
             returnsNormally,
           );
         });
-        test('elevation', () {
-          expect(
-            () => HistoricalApi(elevation: 10),
-            returnsNormally,
-          );
-        });
         test('cell selection', () {
           expect(
             () => HistoricalApi(cellSelection: CellSelection.sea),

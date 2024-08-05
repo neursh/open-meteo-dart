@@ -30,12 +30,6 @@ void main() {
             returnsNormally,
           );
         });
-        test('elevation', () {
-          expect(
-            () => WeatherApi(elevation: 10),
-            returnsNormally,
-          );
-        });
         test('cell selection', () {
           expect(
             () => WeatherApi(cellSelection: CellSelection.sea),

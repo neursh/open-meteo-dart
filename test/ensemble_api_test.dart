@@ -54,15 +54,6 @@ void main() {
             returnsNormally,
           );
         });
-        test('elevation', () {
-          expect(
-            () => EnsembleApi(
-              models: models,
-              elevation: 10,
-            ),
-            returnsNormally,
-          );
-        });
       });
     });
 

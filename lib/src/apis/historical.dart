@@ -12,8 +12,6 @@ class HistoricalApi extends BaseApi {
   final PrecipitationUnit? precipitationUnit;
   final CellSelection? cellSelection;
 
-  final double? elevation;
-
   HistoricalApi({
     super.apiUrl = 'https://archive-api.open-meteo.com/v1/archive',
     super.apiKey,
@@ -21,7 +19,6 @@ class HistoricalApi extends BaseApi {
     this.windspeedUnit,
     this.precipitationUnit,
     this.cellSelection,
-    this.elevation,
   });
 
   HistoricalApi copyWith(
@@ -40,7 +37,6 @@ class HistoricalApi extends BaseApi {
         windspeedUnit: windspeedUnit ?? this.windspeedUnit,
         precipitationUnit: precipitationUnit ?? this.precipitationUnit,
         cellSelection: cellSelection ?? this.cellSelection,
-        elevation: elevation ?? this.elevation,
       );
 
   Future<Map<String, dynamic>> requestJson({
@@ -50,6 +46,7 @@ class HistoricalApi extends BaseApi {
     required DateTime endDate,
     List<HistoricalHourly>? hourly,
     List<HistoricalDaily>? daily,
+    double? elevation,
   }) =>
       apiRequestJson(
         this,
@@ -60,6 +57,7 @@ class HistoricalApi extends BaseApi {
           endDate: endDate,
           hourly: hourly,
           daily: daily,
+          elevation: elevation,
         ),
       );
 
@@ -70,6 +68,7 @@ class HistoricalApi extends BaseApi {
     required DateTime endDate,
     List<HistoricalHourly>? hourly,
     List<HistoricalDaily>? daily,
+    double? elevation,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -80,6 +79,7 @@ class HistoricalApi extends BaseApi {
           endDate: endDate,
           hourly: hourly,
           daily: daily,
+          elevation: elevation,
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
@@ -96,6 +96,7 @@ class HistoricalApi extends BaseApi {
     required DateTime endDate,
     required List<HistoricalHourly>? hourly,
     required List<HistoricalDaily>? daily,
+    required double? elevation,
   }) =>
       {
         'latitude': latitude,

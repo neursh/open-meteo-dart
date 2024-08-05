@@ -14,13 +14,10 @@ class EnsembleApi extends BaseApi {
   final PrecipitationUnit? precipitationUnit;
   final CellSelection? cellSelection;
 
-  final double? elevation;
-
   EnsembleApi({
     super.apiUrl = 'https://ensemble-api.open-meteo.com/v1/ensemble',
     super.apiKey,
     required this.models,
-    this.elevation,
     this.temperatureUnit,
     this.windspeedUnit,
     this.precipitationUnit,
@@ -31,7 +28,6 @@ class EnsembleApi extends BaseApi {
     String? apiUrl,
     String? apiKey,
     List<EnsembleModel>? models,
-    double? elevation,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,
@@ -41,7 +37,6 @@ class EnsembleApi extends BaseApi {
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
         models: models ?? this.models,
-        elevation: elevation ?? this.elevation,
         temperatureUnit: temperatureUnit ?? this.temperatureUnit,
         windspeedUnit: windspeedUnit ?? this.windspeedUnit,
         precipitationUnit: precipitationUnit ?? this.precipitationUnit,
@@ -52,6 +47,7 @@ class EnsembleApi extends BaseApi {
     required double latitude,
     required double longitude,
     List<EnsembleHourly>? hourly,
+    double? elevation,
     int? pastDays,
     int? pastHours,
     int? pastMinutely15,
@@ -71,6 +67,7 @@ class EnsembleApi extends BaseApi {
           latitude: latitude,
           longitude: longitude,
           hourly: hourly,
+          elevation: elevation,
           pastDays: pastDays,
           pastHours: pastHours,
           pastMinutely15: pastMinutely15,
@@ -90,6 +87,7 @@ class EnsembleApi extends BaseApi {
     required double latitude,
     required double longitude,
     List<EnsembleHourly>? hourly,
+    double? elevation,
     int? pastDays,
     int? pastHours,
     int? pastMinutely15,
@@ -109,6 +107,7 @@ class EnsembleApi extends BaseApi {
           latitude: latitude,
           longitude: longitude,
           hourly: hourly,
+          elevation: elevation,
           pastDays: pastDays,
           pastHours: pastHours,
           pastMinutely15: pastMinutely15,
@@ -133,6 +132,7 @@ class EnsembleApi extends BaseApi {
     required double latitude,
     required double longitude,
     required List<EnsembleHourly>? hourly,
+    required double? elevation,
     required int? pastDays,
     required int? pastHours,
     required int? pastMinutely15,
