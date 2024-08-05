@@ -10,7 +10,7 @@ class FloodApi extends BaseApi {
   final CellSelection cellSelection;
   final bool ensemble;
 
-  FloodApi({
+  const FloodApi({
     super.apiUrl = 'https://flood-api.open-meteo.com/v1/flood',
     super.apiKey,
     this.cellSelection = CellSelection.nearest,

@@ -10,7 +10,7 @@ class AirQualityApi extends BaseApi {
   final CellSelection cellSelection;
   final AirQualityDomains domains;
 
-  AirQualityApi({
+  const AirQualityApi({
     super.apiUrl = 'https://air-quality-api.open-meteo.com/v1/air-quality',
     super.apiKey,
     this.cellSelection = CellSelection.nearest,

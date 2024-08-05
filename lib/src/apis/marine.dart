@@ -13,7 +13,7 @@ class MarineApi extends BaseApi {
   final LengthUnit lengthUnit;
   final CellSelection cellSelection;
 
-  MarineApi({
+  const MarineApi({
     super.apiUrl = 'https://marine-api.open-meteo.com/v1/marine',
     super.apiKey,
     this.temperatureUnit = TemperatureUnit.celsius,

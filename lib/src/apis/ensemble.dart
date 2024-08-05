@@ -13,7 +13,7 @@ class EnsembleApi extends BaseApi {
   final PrecipitationUnit precipitationUnit;
   final CellSelection cellSelection;
 
-  EnsembleApi({
+  const EnsembleApi({
     super.apiUrl = 'https://ensemble-api.open-meteo.com/v1/ensemble',
     super.apiKey,
     required this.models,

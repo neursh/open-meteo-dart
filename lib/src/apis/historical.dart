@@ -12,7 +12,7 @@ class HistoricalApi extends BaseApi {
   final PrecipitationUnit precipitationUnit;
   final CellSelection cellSelection;
 
-  HistoricalApi({
+  const HistoricalApi({
     super.apiUrl = 'https://archive-api.open-meteo.com/v1/archive',
     super.apiKey,
     this.temperatureUnit = TemperatureUnit.celsius,

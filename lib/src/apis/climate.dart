@@ -14,7 +14,7 @@ class ClimateApi extends BaseApi {
   final CellSelection cellSelection;
   final bool disableBiasCorrection;
 
-  ClimateApi({
+  const ClimateApi({
     super.apiUrl = 'https://climate-api.open-meteo.com/v1/climate',
     super.apiKey,
     required this.models,

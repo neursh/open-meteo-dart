@@ -49,17 +49,26 @@ final class Hourly extends TimeType {}
 final class Daily extends TimeType {}
 
 abstract class BaseApi {
+  static final Finalizer<int> _finalizer = Finalizer((hashCode) {
+    _clients[hashCode]?.close();
+    _clients.remove(hashCode);
+  });
+
   final String apiUrl;
   final String apiKey;
 
-  http.Client? _client;
-  http.Client get client => (_client ??= http.Client());
+  http.Client get _client => _clients.putIfAbsent(hashCode, () {
+        _finalizer.attach(this, hashCode);
+        return http.Client();
+      });
 
-  BaseApi({
+  const BaseApi({
     required this.apiUrl,
     this.apiKey = '',
   });
 }
+
+final Map<int, http.Client> _clients = {};
 
 Future<Map<String, dynamic>> apiRequestJson(
   BaseApi api,
@@ -70,7 +79,7 @@ Future<Map<String, dynamic>> apiRequestJson(
       'apikey': nullIfEqual(api.apiKey, ''),
     }),
   );
-  return jsonDecode((await api.client.get(url)).body);
+  return jsonDecode((await api._client.get(url)).body);
 }
 
 Future<Uint8List> apiRequestFlatBuffer(
@@ -84,7 +93,7 @@ Future<Uint8List> apiRequestFlatBuffer(
     }),
   );
 
-  http.Response response = await api.client.get(url);
+  http.Response response = await api._client.get(url);
   if (response.statusCode != 200) {
     throw OpenMeteoApiError(jsonDecode(response.body)['reason']);
   }

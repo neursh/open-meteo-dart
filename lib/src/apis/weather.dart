@@ -12,7 +12,7 @@ class WeatherApi extends BaseApi {
   final PrecipitationUnit precipitationUnit;
   final CellSelection cellSelection;
 
-  WeatherApi({
+  const WeatherApi({
     super.apiUrl = 'https://api.open-meteo.com/v1/forecast',
     super.apiKey,
     this.temperatureUnit = TemperatureUnit.celsius,

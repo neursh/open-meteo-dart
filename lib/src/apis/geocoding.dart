@@ -6,7 +6,7 @@ import '../api.dart';
 class GeocodingApi extends BaseApi {
   final String language;
 
-  GeocodingApi({
+  const GeocodingApi({
     super.apiUrl = 'https://geocoding-api.open-meteo.com/v1/search',
     super.apiKey,
     this.language = 'en',
