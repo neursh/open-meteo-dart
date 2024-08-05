@@ -102,8 +102,7 @@ void main() {
             longitude: longitude,
             hourly: [HourlyAirQuality.european_aqi],
           );
-          final temperature =
-              result.hourlyData[HourlyAirQuality.european_aqi];
+          final temperature = result.hourlyData[HourlyAirQuality.european_aqi];
           expect(temperature, isNotNull);
           expect(temperature!.data, isNotEmpty);
         });
