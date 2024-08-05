@@ -1,9 +1,7 @@
 import 'package:open_meteo/open_meteo.dart';
 
 void main() async {
-  WeatherApi weather = WeatherApi(
-    temperatureUnit: TemperatureUnit.celsius,
-  );
+  WeatherApi weather = WeatherApi();
   ApiResponse<WeatherApi> result = await weather.request(
     latitude: 52.52,
     longitude: 13.41,
