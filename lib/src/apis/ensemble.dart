@@ -157,10 +157,22 @@ class EnsembleApi extends BaseApi {
 }
 
 enum EnsembleHourly with WeatherParameter<EnsembleApi, Hourly> {
-  temperature_2m(Variable.temperature, altitude: 2),
-  relative_humidity_2m(Variable.relative_humidity, altitude: 2),
-  dew_point_2m(Variable.dew_point, altitude: 2),
-  apparent_temperature(Variable.apparent_temperature, altitude: 2),
+  temperature_2m(
+    Variable.temperature,
+    altitude: 2,
+  ),
+  relative_humidity_2m(
+    Variable.relative_humidity,
+    altitude: 2,
+  ),
+  dew_point_2m(
+    Variable.dew_point,
+    altitude: 2,
+  ),
+  apparent_temperature(
+    Variable.apparent_temperature,
+    altitude: 2,
+  ),
   precipitation(Variable.precipitation),
   rain(Variable.rain),
   snowfall(Variable.snowfall),
@@ -172,33 +184,101 @@ enum EnsembleHourly with WeatherParameter<EnsembleApi, Hourly> {
   visibility(Variable.visibility),
   et0_fao_evapotranspiration(Variable.et0_fao_evapotranspiration),
   vapour_pressure_deficit(Variable.vapour_pressure_deficit),
-  wind_speed_10m(Variable.wind_speed, altitude: 10),
-  wind_speed_80m(Variable.wind_speed, altitude: 80),
-  wind_speed_120m(Variable.wind_speed, altitude: 120),
-  wind_direction_10m(Variable.wind_direction, altitude: 10),
-  wind_direction_80m(Variable.wind_direction, altitude: 80),
-  wind_direction_120m(Variable.wind_direction, altitude: 120),
-  wind_gusts_10m(Variable.wind_gusts, altitude: 10),
-  temperature_80m(Variable.temperature, altitude: 80),
-  temperature_120m(Variable.temperature, altitude: 120),
+  wind_speed_10m(
+    Variable.wind_speed,
+    altitude: 10,
+  ),
+  wind_speed_80m(
+    Variable.wind_speed,
+    altitude: 80,
+  ),
+  wind_speed_120m(
+    Variable.wind_speed,
+    altitude: 120,
+  ),
+  wind_direction_10m(
+    Variable.wind_direction,
+    altitude: 10,
+  ),
+  wind_direction_80m(
+    Variable.wind_direction,
+    altitude: 80,
+  ),
+  wind_direction_120m(
+    Variable.wind_direction,
+    altitude: 120,
+  ),
+  wind_gusts_10m(
+    Variable.wind_gusts,
+    altitude: 10,
+  ),
+  temperature_80m(
+    Variable.temperature,
+    altitude: 80,
+  ),
+  temperature_120m(
+    Variable.temperature,
+    altitude: 120,
+  ),
   surface_temperature(Variable.surface_temperature),
-  soil_temperature_0_to_10cm(Variable.soil_temperature, depth: 0, depthTo: 10),
-  soil_temperature_10_to_40cm(Variable.soil_temperature,
-      depth: 10, depthTo: 40),
-  soil_temperature_40_to_100cm(Variable.soil_temperature,
-      depth: 40, depthTo: 100),
-  soil_temperature_100_to_200cm(Variable.soil_temperature,
-      depth: 100, depthTo: 200),
-  soil_moisture_0_to_10cm(Variable.soil_moisture, depth: 0, depthTo: 10),
-  soil_moisture_10_to_40cm(Variable.soil_moisture, depth: 10, depthTo: 40),
-  soil_moisture_40_to_100cm(Variable.soil_moisture, depth: 40, depthTo: 100),
-  soil_moisture_100_to_200cm(Variable.soil_moisture, depth: 100, depthTo: 200),
+  soil_temperature_0_to_10cm(
+    Variable.soil_temperature,
+    depth: 0,
+    depthTo: 10,
+  ),
+  soil_temperature_10_to_40cm(
+    Variable.soil_temperature,
+    depth: 10,
+    depthTo: 40,
+  ),
+  soil_temperature_40_to_100cm(
+    Variable.soil_temperature,
+    depth: 40,
+    depthTo: 100,
+  ),
+  soil_temperature_100_to_200cm(
+    Variable.soil_temperature,
+    depth: 100,
+    depthTo: 200,
+  ),
+  soil_moisture_0_to_10cm(
+    Variable.soil_moisture,
+    depth: 0,
+    depthTo: 10,
+  ),
+  soil_moisture_10_to_40cm(
+    Variable.soil_moisture,
+    depth: 10,
+    depthTo: 40,
+  ),
+  soil_moisture_40_to_100cm(
+    Variable.soil_moisture,
+    depth: 40,
+    depthTo: 100,
+  ),
+  soil_moisture_100_to_200cm(
+    Variable.soil_moisture,
+    depth: 100,
+    depthTo: 200,
+  ),
   uv_index(Variable.uv_index),
   uv_index_clear_sky(Variable.uv_index_clear_sky),
-  temperature_500hPa(Variable.temperature, pressureLevel: 500),
-  temperature_850hPa(Variable.temperature, pressureLevel: 850),
-  geopotential_height_500hPa(Variable.geopotential_height, pressureLevel: 500),
-  geopotential_height_850hPa(Variable.geopotential_height, pressureLevel: 850),
+  temperature_500hPa(
+    Variable.temperature,
+    pressureLevel: 500,
+  ),
+  temperature_850hPa(
+    Variable.temperature,
+    pressureLevel: 850,
+  ),
+  geopotential_height_500hPa(
+    Variable.geopotential_height,
+    pressureLevel: 500,
+  ),
+  geopotential_height_850hPa(
+    Variable.geopotential_height,
+    pressureLevel: 850,
+  ),
   cape(Variable.cape),
   freezing_level_height(Variable.freezing_level_height),
   sunshine_duration(Variable.sunshine_duration),

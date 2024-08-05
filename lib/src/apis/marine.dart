@@ -194,26 +194,50 @@ enum MarineHourly with WeatherParameter<MarineApi, Hourly> {
 }
 
 enum MarineDaily with WeatherParameter<MarineApi, Daily> {
-  wave_height_max(Variable.wave_height, aggregation: Aggregation.maximum),
-  wave_direction_dominant(Variable.wave_direction,
-      aggregation: Aggregation.dominant),
-  wave_period_max(Variable.wave_period, aggregation: Aggregation.maximum),
-  wind_wave_height_max(Variable.wind_wave_height,
-      aggregation: Aggregation.maximum),
-  wind_wave_direction_dominant(Variable.wind_wave_direction,
-      aggregation: Aggregation.dominant),
-  wind_wave_period_max(Variable.wind_wave_period,
-      aggregation: Aggregation.maximum),
-  wind_wave_peak_period_max(Variable.wind_wave_peak_period,
-      aggregation: Aggregation.maximum),
-  swell_wave_height_max(Variable.swell_wave_height,
-      aggregation: Aggregation.maximum),
-  swell_wave_direction_dominant(Variable.swell_wave_direction,
-      aggregation: Aggregation.dominant),
-  swell_wave_period_max(Variable.swell_wave_period,
-      aggregation: Aggregation.maximum),
-  swell_wave_peak_period_max(Variable.swell_wave_peak_period,
-      aggregation: Aggregation.maximum);
+  wave_height_max(
+    Variable.wave_height,
+    aggregation: Aggregation.maximum,
+  ),
+  wave_direction_dominant(
+    Variable.wave_direction,
+    aggregation: Aggregation.dominant,
+  ),
+  wave_period_max(
+    Variable.wave_period,
+    aggregation: Aggregation.maximum,
+  ),
+  wind_wave_height_max(
+    Variable.wind_wave_height,
+    aggregation: Aggregation.maximum,
+  ),
+  wind_wave_direction_dominant(
+    Variable.wind_wave_direction,
+    aggregation: Aggregation.dominant,
+  ),
+  wind_wave_period_max(
+    Variable.wind_wave_period,
+    aggregation: Aggregation.maximum,
+  ),
+  wind_wave_peak_period_max(
+    Variable.wind_wave_peak_period,
+    aggregation: Aggregation.maximum,
+  ),
+  swell_wave_height_max(
+    Variable.swell_wave_height,
+    aggregation: Aggregation.maximum,
+  ),
+  swell_wave_direction_dominant(
+    Variable.swell_wave_direction,
+    aggregation: Aggregation.dominant,
+  ),
+  swell_wave_period_max(
+    Variable.swell_wave_period,
+    aggregation: Aggregation.maximum,
+  ),
+  swell_wave_peak_period_max(
+    Variable.swell_wave_peak_period,
+    aggregation: Aggregation.maximum,
+  );
 
   @override
   final Variable variable;

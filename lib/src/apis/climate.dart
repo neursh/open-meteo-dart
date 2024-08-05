@@ -115,39 +115,95 @@ class ClimateApi extends BaseApi {
 }
 
 enum ClimateDaily with WeatherParameter<ClimateApi, Daily> {
-  temperature_2m_mean(Variable.temperature,
-      altitude: 2, aggregation: Aggregation.mean),
-  temperature_2m_max(Variable.temperature,
-      altitude: 2, aggregation: Aggregation.maximum),
-  temperature_2m_min(Variable.temperature,
-      altitude: 2, aggregation: Aggregation.minimum),
-  wind_speed_10m_mean(Variable.wind_speed,
-      altitude: 10, aggregation: Aggregation.mean),
-  wind_speed_10m_max(Variable.wind_speed,
-      altitude: 10, aggregation: Aggregation.maximum),
-  cloud_cover_mean(Variable.cloud_cover, aggregation: Aggregation.mean),
-  shortwave_radiation_sum(Variable.shortwave_radiation,
-      aggregation: Aggregation.sum),
-  relative_humidity_2m_mean(Variable.relative_humidity,
-      altitude: 2, aggregation: Aggregation.mean),
-  relative_humidity_2m_max(Variable.relative_humidity,
-      altitude: 2, aggregation: Aggregation.maximum),
-  relative_humidity_2m_min(Variable.relative_humidity,
-      altitude: 2, aggregation: Aggregation.minimum),
-  dew_point_2m_mean(Variable.dew_point,
-      altitude: 2, aggregation: Aggregation.mean),
-  dew_point_2m_min(Variable.dew_point,
-      altitude: 2, aggregation: Aggregation.maximum),
-  dew_point_2m_max(Variable.dew_point,
-      altitude: 2, aggregation: Aggregation.minimum),
-  precipitation_sum(Variable.precipitation, aggregation: Aggregation.sum),
-  rain_sum(Variable.rain, aggregation: Aggregation.sum),
-  snowfall_sum(Variable.snowfall, aggregation: Aggregation.sum),
-  pressure_msl_mean(Variable.pressure_msl, aggregation: Aggregation.mean),
-  soil_moisture_0_to_10cm_mean(Variable.soil_moisture,
-      depth: 0, depthTo: 10, aggregation: Aggregation.mean),
-  et0_fao_evapotranspiration_sum(Variable.et0_fao_evapotranspiration,
-      aggregation: Aggregation.sum);
+  temperature_2m_mean(
+    Variable.temperature,
+    altitude: 2,
+    aggregation: Aggregation.mean,
+  ),
+  temperature_2m_max(
+    Variable.temperature,
+    altitude: 2,
+    aggregation: Aggregation.maximum,
+  ),
+  temperature_2m_min(
+    Variable.temperature,
+    altitude: 2,
+    aggregation: Aggregation.minimum,
+  ),
+  wind_speed_10m_mean(
+    Variable.wind_speed,
+    altitude: 10,
+    aggregation: Aggregation.mean,
+  ),
+  wind_speed_10m_max(
+    Variable.wind_speed,
+    altitude: 10,
+    aggregation: Aggregation.maximum,
+  ),
+  cloud_cover_mean(
+    Variable.cloud_cover,
+    aggregation: Aggregation.mean,
+  ),
+  shortwave_radiation_sum(
+    Variable.shortwave_radiation,
+    aggregation: Aggregation.sum,
+  ),
+  relative_humidity_2m_mean(
+    Variable.relative_humidity,
+    altitude: 2,
+    aggregation: Aggregation.mean,
+  ),
+  relative_humidity_2m_max(
+    Variable.relative_humidity,
+    altitude: 2,
+    aggregation: Aggregation.maximum,
+  ),
+  relative_humidity_2m_min(
+    Variable.relative_humidity,
+    altitude: 2,
+    aggregation: Aggregation.minimum,
+  ),
+  dew_point_2m_mean(
+    Variable.dew_point,
+    altitude: 2,
+    aggregation: Aggregation.mean,
+  ),
+  dew_point_2m_min(
+    Variable.dew_point,
+    altitude: 2,
+    aggregation: Aggregation.maximum,
+  ),
+  dew_point_2m_max(
+    Variable.dew_point,
+    altitude: 2,
+    aggregation: Aggregation.minimum,
+  ),
+  precipitation_sum(
+    Variable.precipitation,
+    aggregation: Aggregation.sum,
+  ),
+  rain_sum(
+    Variable.rain,
+    aggregation: Aggregation.sum,
+  ),
+  snowfall_sum(
+    Variable.snowfall,
+    aggregation: Aggregation.sum,
+  ),
+  pressure_msl_mean(
+    Variable.pressure_msl,
+    aggregation: Aggregation.mean,
+  ),
+  soil_moisture_0_to_10cm_mean(
+    Variable.soil_moisture,
+    depth: 0,
+    depthTo: 10,
+    aggregation: Aggregation.mean,
+  ),
+  et0_fao_evapotranspiration_sum(
+    Variable.et0_fao_evapotranspiration,
+    aggregation: Aggregation.sum,
+  );
 
   @override
   final Variable variable;
