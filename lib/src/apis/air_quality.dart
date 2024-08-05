@@ -1,5 +1,5 @@
 import '../api.dart';
-import '../enums/prefcls.dart';
+import '../options.dart';
 import '../response.dart';
 import '../utils.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
