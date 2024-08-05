@@ -13,12 +13,6 @@ class MarineApi extends BaseApi {
   final LengthUnit? lengthUnit;
   final CellSelection? cellSelection;
 
-  final int? pastDays, pastHours;
-  final int? forecastDays, forecastHours;
-
-  final DateTime? startDate, endDate;
-  final DateTime? startHour, endHour;
-
   MarineApi({
     super.apiUrl = 'https://marine-api.open-meteo.com/v1/marine',
     super.apiKey,
@@ -27,14 +21,6 @@ class MarineApi extends BaseApi {
     this.precipitationUnit,
     this.lengthUnit,
     this.cellSelection,
-    this.pastDays,
-    this.pastHours,
-    this.forecastDays,
-    this.forecastHours,
-    this.startDate,
-    this.endDate,
-    this.startHour,
-    this.endHour,
   });
 
   MarineApi copyWith({
@@ -45,14 +31,6 @@ class MarineApi extends BaseApi {
     PrecipitationUnit? precipitationUnit,
     LengthUnit? lengthUnit,
     CellSelection? cellSelection,
-    int? pastDays,
-    int? pastHours,
-    int? forecastDays,
-    int? forecastHours,
-    DateTime? startDate,
-    DateTime? endDate,
-    DateTime? startHour,
-    DateTime? endHour,
   }) =>
       MarineApi(
         apiUrl: apiUrl ?? this.apiUrl,
@@ -62,14 +40,6 @@ class MarineApi extends BaseApi {
         precipitationUnit: precipitationUnit ?? this.precipitationUnit,
         lengthUnit: lengthUnit ?? this.lengthUnit,
         cellSelection: cellSelection ?? this.cellSelection,
-        pastDays: pastDays ?? this.pastDays,
-        pastHours: pastHours ?? this.pastHours,
-        forecastDays: forecastDays ?? this.forecastDays,
-        forecastHours: forecastHours ?? this.forecastHours,
-        startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate,
-        startHour: startHour ?? this.startHour,
-        endHour: endHour ?? this.endHour,
       );
 
   Future<Map<String, dynamic>> requestJson({
@@ -78,6 +48,14 @@ class MarineApi extends BaseApi {
     List<MarineCurrent>? current,
     List<MarineHourly>? hourly,
     List<MarineDaily>? daily,
+    int? pastDays,
+    int? pastHours,
+    int? forecastDays,
+    int? forecastHours,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
   }) =>
       apiRequestJson(
         this,
@@ -87,6 +65,14 @@ class MarineApi extends BaseApi {
           current: current,
           hourly: hourly,
           daily: daily,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
         ),
       );
 
@@ -96,6 +82,14 @@ class MarineApi extends BaseApi {
     List<MarineCurrent>? current,
     List<MarineHourly>? hourly,
     List<MarineDaily>? daily,
+    int? pastDays,
+    int? pastHours,
+    int? forecastDays,
+    int? forecastHours,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -105,6 +99,14 @@ class MarineApi extends BaseApi {
           current: current,
           hourly: hourly,
           daily: daily,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
@@ -121,6 +123,14 @@ class MarineApi extends BaseApi {
     required List<MarineCurrent>? current,
     required List<MarineHourly>? hourly,
     required List<MarineDaily>? daily,
+    required int? pastDays,
+    required int? pastHours,
+    required int? forecastDays,
+    required int? forecastHours,
+    required DateTime? startDate,
+    required DateTime? endDate,
+    required DateTime? startHour,
+    required DateTime? endHour,
   }) =>
       {
         'latitude': latitude,

@@ -63,34 +63,6 @@ void main() {
             returnsNormally,
           );
         });
-        test('past/forecast range', () {
-          expect(
-            () => EnsembleApi(
-              models: models,
-              pastDays: 1,
-              pastHours: 1,
-              pastMinutely15: 1,
-              forecastDays: 1,
-              forecastHours: 1,
-              forecastMinutely15: 1,
-            ),
-            returnsNormally,
-          );
-        });
-        test('start/end times', () {
-          expect(
-            () => EnsembleApi(
-              models: models,
-              startDate: DateTime.now(),
-              endDate: DateTime.now().add(const Duration(days: 1)),
-              startHour: DateTime.now(),
-              endHour: DateTime.now().add(const Duration(hours: 1)),
-              startMinutely15: DateTime.now(),
-              endMinutely15: DateTime.now().add(const Duration(minutes: 15)),
-            ),
-            returnsNormally,
-          );
-        });
       });
     });
 

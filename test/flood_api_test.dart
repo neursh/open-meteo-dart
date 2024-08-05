@@ -32,24 +32,6 @@ void main() {
             returnsNormally,
           );
         });
-        test('past/forecast range', () {
-          expect(
-            () => FloodApi(
-              pastDays: 1,
-              forecastDays: 1,
-            ),
-            returnsNormally,
-          );
-        });
-        test('start/end times', () {
-          expect(
-            () => FloodApi(
-              startDate: DateTime.now(),
-              endDate: DateTime.now().add(const Duration(days: 1)),
-            ),
-            returnsNormally,
-          );
-        });
       });
     });
 

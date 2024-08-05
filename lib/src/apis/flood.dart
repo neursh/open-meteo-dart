@@ -11,46 +11,34 @@ class FloodApi extends BaseApi {
 
   final bool? ensemble;
 
-  final int? pastDays, forecastDays;
-
-  final DateTime? startDate, endDate;
-
   FloodApi({
     super.apiUrl = 'https://flood-api.open-meteo.com/v1/flood',
     super.apiKey,
     this.cellSelection,
-    this.pastDays,
-    this.forecastDays,
     this.ensemble,
-    this.startDate,
-    this.endDate,
   });
 
   FloodApi copyWith({
     String? apiUrl,
     String? apiKey,
     CellSelection? cellSelection,
-    int? pastDays,
-    int? forecastDays,
     bool? ensemble,
-    DateTime? startDate,
-    DateTime? endDate,
   }) =>
       FloodApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
         cellSelection: cellSelection ?? this.cellSelection,
-        pastDays: pastDays ?? this.pastDays,
-        forecastDays: forecastDays ?? this.forecastDays,
         ensemble: ensemble ?? this.ensemble,
-        startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate,
       );
 
   Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
     List<FloodDaily>? daily,
+    int? pastDays,
+    int? forecastDays,
+    DateTime? startDate,
+    DateTime? endDate,
   }) =>
       apiRequestJson(
         this,
@@ -58,6 +46,10 @@ class FloodApi extends BaseApi {
           latitude: latitude,
           longitude: longitude,
           daily: daily,
+          pastDays: pastDays,
+          forecastDays: forecastDays,
+          startDate: startDate,
+          endDate: endDate,
         ),
       );
 
@@ -65,6 +57,10 @@ class FloodApi extends BaseApi {
     required double latitude,
     required double longitude,
     List<FloodDaily>? daily,
+    int? pastDays,
+    int? forecastDays,
+    DateTime? startDate,
+    DateTime? endDate,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -72,6 +68,10 @@ class FloodApi extends BaseApi {
           latitude: latitude,
           longitude: longitude,
           daily: daily,
+          pastDays: pastDays,
+          forecastDays: forecastDays,
+          startDate: startDate,
+          endDate: endDate,
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
@@ -84,6 +84,10 @@ class FloodApi extends BaseApi {
     required double latitude,
     required double longitude,
     required List<FloodDaily>? daily,
+    required int? pastDays,
+    required int? forecastDays,
+    required DateTime? startDate,
+    required DateTime? endDate,
   }) =>
       {
         'latitude': latitude,

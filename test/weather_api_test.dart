@@ -42,30 +42,6 @@ void main() {
             returnsNormally,
           );
         });
-        test('past/forecast range', () {
-          expect(
-            () => WeatherApi(
-              pastDays: 1,
-              pastHours: 1,
-              pastMinutely15: 1,
-              forecastDays: 1,
-              forecastHours: 1,
-              forecastMinutely15: 1,
-            ),
-            returnsNormally,
-          );
-        });
-        test('start/end times', () {
-          expect(
-            () => WeatherApi(
-              startDate: DateTime.now(),
-              endDate: DateTime.now().add(const Duration(days: 1)),
-              startHour: DateTime.now(),
-              endHour: DateTime.now().add(const Duration(hours: 1)),
-            ),
-            returnsNormally,
-          );
-        });
       });
     });
 

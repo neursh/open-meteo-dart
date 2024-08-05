@@ -13,11 +13,6 @@ class WeatherApi extends BaseApi {
   final CellSelection? cellSelection;
 
   final double? elevation;
-  final int? pastDays, pastHours, pastMinutely15;
-  final int? forecastDays, forecastHours, forecastMinutely15;
-
-  final DateTime? startDate, endDate;
-  final DateTime? startHour, endHour;
 
   WeatherApi({
     super.apiUrl = 'https://api.open-meteo.com/v1/forecast',
@@ -27,16 +22,6 @@ class WeatherApi extends BaseApi {
     this.precipitationUnit,
     this.cellSelection,
     this.elevation,
-    this.pastDays,
-    this.pastHours,
-    this.pastMinutely15,
-    this.forecastDays,
-    this.forecastHours,
-    this.forecastMinutely15,
-    this.startDate,
-    this.endDate,
-    this.startHour,
-    this.endHour,
   });
 
   WeatherApi copyWith({
@@ -47,6 +32,23 @@ class WeatherApi extends BaseApi {
     PrecipitationUnit? precipitationUnit,
     CellSelection? cellSelection,
     double? elevation,
+  }) =>
+      WeatherApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        temperatureUnit: temperatureUnit ?? this.temperatureUnit,
+        windspeedUnit: windspeedUnit ?? this.windspeedUnit,
+        precipitationUnit: precipitationUnit ?? this.precipitationUnit,
+        cellSelection: cellSelection ?? this.cellSelection,
+        elevation: elevation ?? this.elevation,
+      );
+
+  Future<Map<String, dynamic>> requestJson({
+    required double latitude,
+    required double longitude,
+    List<WeatherHourly>? hourly,
+    List<WeatherDaily>? daily,
+    List<WeatherCurrent>? current,
     int? pastDays,
     int? pastHours,
     int? pastMinutely15,
@@ -58,33 +60,6 @@ class WeatherApi extends BaseApi {
     DateTime? startHour,
     DateTime? endHour,
   }) =>
-      WeatherApi(
-        apiUrl: apiUrl ?? this.apiUrl,
-        apiKey: apiKey ?? this.apiKey,
-        temperatureUnit: temperatureUnit ?? this.temperatureUnit,
-        windspeedUnit: windspeedUnit ?? this.windspeedUnit,
-        precipitationUnit: precipitationUnit ?? this.precipitationUnit,
-        cellSelection: cellSelection ?? this.cellSelection,
-        elevation: elevation ?? this.elevation,
-        pastDays: pastDays ?? this.pastDays,
-        pastHours: pastHours ?? this.pastHours,
-        pastMinutely15: pastMinutely15 ?? this.pastMinutely15,
-        forecastDays: forecastDays ?? this.forecastDays,
-        forecastHours: forecastHours ?? this.forecastHours,
-        forecastMinutely15: forecastMinutely15 ?? this.forecastMinutely15,
-        startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate,
-        startHour: startHour ?? this.startHour,
-        endHour: endHour ?? this.endHour,
-      );
-
-  Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
-    List<WeatherHourly>? hourly,
-    List<WeatherDaily>? daily,
-    List<WeatherCurrent>? current,
-  }) =>
       apiRequestJson(
         this,
         _queryParamMap(
@@ -93,6 +68,16 @@ class WeatherApi extends BaseApi {
           hourly: hourly,
           daily: daily,
           current: current,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          pastMinutely15: pastMinutely15,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          forecastMinutely15: forecastMinutely15,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
         ),
       );
 
@@ -102,6 +87,16 @@ class WeatherApi extends BaseApi {
     List<WeatherHourly>? hourly,
     List<WeatherDaily>? daily,
     List<WeatherCurrent>? current,
+    int? pastDays,
+    int? pastHours,
+    int? pastMinutely15,
+    int? forecastDays,
+    int? forecastHours,
+    int? forecastMinutely15,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -111,6 +106,16 @@ class WeatherApi extends BaseApi {
           hourly: hourly,
           daily: daily,
           current: current,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          pastMinutely15: pastMinutely15,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          forecastMinutely15: forecastMinutely15,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
@@ -127,6 +132,16 @@ class WeatherApi extends BaseApi {
     required List<WeatherHourly>? hourly,
     required List<WeatherDaily>? daily,
     required List<WeatherCurrent>? current,
+    required int? pastDays,
+    required int? pastHours,
+    required int? pastMinutely15,
+    required int? forecastDays,
+    required int? forecastHours,
+    required int? forecastMinutely15,
+    required DateTime? startDate,
+    required DateTime? endDate,
+    required DateTime? startHour,
+    required DateTime? endHour,
   }) =>
       {
         'latitude': latitude,

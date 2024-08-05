@@ -16,13 +16,6 @@ class EnsembleApi extends BaseApi {
 
   final double? elevation;
 
-  final int? pastDays, pastHours, pastMinutely15;
-  final int? forecastDays, forecastHours, forecastMinutely15;
-
-  final DateTime? startDate, endDate;
-  final DateTime? startHour, endHour;
-  final DateTime? startMinutely15, endMinutely15;
-
   EnsembleApi({
     super.apiUrl = 'https://ensemble-api.open-meteo.com/v1/ensemble',
     super.apiKey,
@@ -32,18 +25,6 @@ class EnsembleApi extends BaseApi {
     this.windspeedUnit,
     this.precipitationUnit,
     this.cellSelection,
-    this.pastDays,
-    this.pastHours,
-    this.pastMinutely15,
-    this.forecastDays,
-    this.forecastHours,
-    this.forecastMinutely15,
-    this.startDate,
-    this.endDate,
-    this.startHour,
-    this.endHour,
-    this.startMinutely15,
-    this.endMinutely15,
   });
 
   EnsembleApi copyWith(
@@ -55,6 +36,22 @@ class EnsembleApi extends BaseApi {
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,
     CellSelection? cellSelection,
+  ) =>
+      EnsembleApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        models: models ?? this.models,
+        elevation: elevation ?? this.elevation,
+        temperatureUnit: temperatureUnit ?? this.temperatureUnit,
+        windspeedUnit: windspeedUnit ?? this.windspeedUnit,
+        precipitationUnit: precipitationUnit ?? this.precipitationUnit,
+        cellSelection: cellSelection ?? this.cellSelection,
+      );
+
+  Future<Map<String, dynamic>> requestJson({
+    required double latitude,
+    required double longitude,
+    List<EnsembleHourly>? hourly,
     int? pastDays,
     int? pastHours,
     int? pastMinutely15,
@@ -67,34 +64,6 @@ class EnsembleApi extends BaseApi {
     DateTime? endHour,
     DateTime? startMinutely15,
     DateTime? endMinutely15,
-  ) =>
-      EnsembleApi(
-        apiUrl: apiUrl ?? this.apiUrl,
-        apiKey: apiKey ?? this.apiKey,
-        models: models ?? this.models,
-        elevation: elevation ?? this.elevation,
-        temperatureUnit: temperatureUnit ?? this.temperatureUnit,
-        windspeedUnit: windspeedUnit ?? this.windspeedUnit,
-        precipitationUnit: precipitationUnit ?? this.precipitationUnit,
-        cellSelection: cellSelection ?? this.cellSelection,
-        pastDays: pastDays ?? this.pastDays,
-        pastHours: pastHours ?? this.pastHours,
-        pastMinutely15: pastMinutely15 ?? this.pastMinutely15,
-        forecastDays: forecastDays ?? this.forecastDays,
-        forecastHours: forecastHours ?? this.forecastHours,
-        forecastMinutely15: forecastMinutely15 ?? this.forecastMinutely15,
-        startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate,
-        startHour: startHour ?? this.startHour,
-        endHour: endHour ?? this.endHour,
-        startMinutely15: startMinutely15 ?? this.startMinutely15,
-        endMinutely15: endMinutely15 ?? this.endMinutely15,
-      );
-
-  Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
-    List<EnsembleHourly>? hourly,
   }) =>
       apiRequestJson(
         this,
@@ -102,6 +71,18 @@ class EnsembleApi extends BaseApi {
           latitude: latitude,
           longitude: longitude,
           hourly: hourly,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          pastMinutely15: pastMinutely15,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          forecastMinutely15: forecastMinutely15,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
+          startMinutely15: startMinutely15,
+          endMinutely15: endMinutely15,
         ),
       );
 
@@ -109,6 +90,18 @@ class EnsembleApi extends BaseApi {
     required double latitude,
     required double longitude,
     List<EnsembleHourly>? hourly,
+    int? pastDays,
+    int? pastHours,
+    int? pastMinutely15,
+    int? forecastDays,
+    int? forecastHours,
+    int? forecastMinutely15,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
+    DateTime? startMinutely15,
+    DateTime? endMinutely15,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -116,6 +109,18 @@ class EnsembleApi extends BaseApi {
           latitude: latitude,
           longitude: longitude,
           hourly: hourly,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          pastMinutely15: pastMinutely15,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          forecastMinutely15: forecastMinutely15,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
+          startMinutely15: startMinutely15,
+          endMinutely15: endMinutely15,
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
@@ -128,6 +133,18 @@ class EnsembleApi extends BaseApi {
     required double latitude,
     required double longitude,
     required List<EnsembleHourly>? hourly,
+    required int? pastDays,
+    required int? pastHours,
+    required int? pastMinutely15,
+    required int? forecastDays,
+    required int? forecastHours,
+    required int? forecastMinutely15,
+    required DateTime? startDate,
+    required DateTime? endDate,
+    required DateTime? startHour,
+    required DateTime? endHour,
+    required DateTime? startMinutely15,
+    required DateTime? endMinutely15,
   }) =>
       {
         'latitude': latitude,

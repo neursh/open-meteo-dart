@@ -10,25 +10,11 @@ class AirQualityApi extends BaseApi {
   final CellSelection? cellSelection;
   final AirQualityDomains? domains;
 
-  final int? pastDays, pastHours;
-  final int? forecastDays, forecastHours;
-
-  final DateTime? startDate, endDate;
-  final DateTime? startHour, endHour;
-
   AirQualityApi({
     super.apiUrl = 'https://air-quality-api.open-meteo.com/v1/air-quality',
     super.apiKey,
     this.cellSelection,
     this.domains,
-    this.pastDays,
-    this.pastHours,
-    this.forecastDays,
-    this.forecastHours,
-    this.startDate,
-    this.endDate,
-    this.startHour,
-    this.endHour,
   });
 
   AirQualityApi copyWith({
@@ -36,6 +22,19 @@ class AirQualityApi extends BaseApi {
     String? apiKey,
     CellSelection? cellSelection,
     AirQualityDomains? domains,
+  }) =>
+      AirQualityApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        cellSelection: cellSelection ?? this.cellSelection,
+        domains: domains ?? this.domains,
+      );
+
+  Future<Map<String, dynamic>> requestJson({
+    required double latitude,
+    required double longitude,
+    List<AirQualityHourly>? hourly,
+    List<AirQualityCurrent>? current,
     int? pastDays,
     int? pastHours,
     int? forecastDays,
@@ -45,27 +44,6 @@ class AirQualityApi extends BaseApi {
     DateTime? startHour,
     DateTime? endHour,
   }) =>
-      AirQualityApi(
-        apiUrl: apiUrl ?? this.apiUrl,
-        apiKey: apiKey ?? this.apiKey,
-        cellSelection: cellSelection ?? this.cellSelection,
-        domains: domains ?? this.domains,
-        pastDays: pastDays ?? this.pastDays,
-        pastHours: pastHours ?? this.pastHours,
-        forecastDays: forecastDays ?? this.forecastDays,
-        forecastHours: forecastHours ?? this.forecastHours,
-        startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate,
-        startHour: startHour ?? this.startHour,
-        endHour: endHour ?? this.endHour,
-      );
-
-  Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
-    List<AirQualityHourly>? hourly,
-    List<AirQualityCurrent>? current,
-  }) =>
       apiRequestJson(
         this,
         _queryParamMap(
@@ -73,6 +51,14 @@ class AirQualityApi extends BaseApi {
           longitude: longitude,
           hourly: hourly,
           current: current,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
         ),
       );
 
@@ -81,6 +67,14 @@ class AirQualityApi extends BaseApi {
     required double longitude,
     List<AirQualityHourly>? hourly,
     List<AirQualityCurrent>? current,
+    int? pastDays,
+    int? pastHours,
+    int? forecastDays,
+    int? forecastHours,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -89,6 +83,14 @@ class AirQualityApi extends BaseApi {
           longitude: longitude,
           hourly: hourly,
           current: current,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
@@ -103,6 +105,14 @@ class AirQualityApi extends BaseApi {
     required double longitude,
     required List<AirQualityHourly>? hourly,
     required List<AirQualityCurrent>? current,
+    required int? pastDays,
+    required int? pastHours,
+    required int? forecastDays,
+    required int? forecastHours,
+    required DateTime? startDate,
+    required DateTime? endDate,
+    required DateTime? startHour,
+    required DateTime? endHour,
   }) =>
       {
         'hourly': hourly,
