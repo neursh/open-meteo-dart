@@ -103,8 +103,8 @@ class HistoricalApi extends BaseApi {
         'longitude': longitude,
         'start_date': formatDate(startDate),
         'end_date': formatDate(endDate),
-        'hourly': nullIfEqual<Set>(hourly, const {}),
-        'daily': nullIfEqual<Set>(daily, const {}),
+        'hourly': nullIfEmpty(hourly),
+        'daily': nullIfEmpty(daily),
         'temperature_unit':
             nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
         'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),

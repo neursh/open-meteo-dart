@@ -129,3 +129,6 @@ String? formatTime(DateTime? time) => time?.toIso8601String();
 
 T? nullIfEqual<T>(T value, T defaultValue) =>
     value == defaultValue ? null : value;
+
+T? nullIfEmpty<T extends Iterable>(T iterable) =>
+    iterable.isEmpty ? null : iterable;

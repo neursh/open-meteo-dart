@@ -146,9 +146,9 @@ class WeatherApi extends BaseApi {
       {
         'latitude': latitude,
         'longitude': longitude,
-        'current': nullIfEqual<Set>(current, const {}),
-        'hourly': nullIfEqual<Set>(hourly, const {}),
-        'daily': nullIfEqual<Set>(daily, const {}),
+        'current': nullIfEmpty(current),
+        'hourly': nullIfEmpty(hourly),
+        'daily': nullIfEmpty(daily),
         'temperature_unit':
             nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
         'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
