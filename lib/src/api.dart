@@ -47,7 +47,7 @@ final class Hourly extends TimeType {}
 
 final class Daily extends TimeType {}
 
-class BaseApi {
+abstract class BaseApi {
   final String apiUrl;
   final String? apiKey;
 
