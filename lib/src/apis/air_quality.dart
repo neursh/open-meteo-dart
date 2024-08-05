@@ -1,102 +1,64 @@
-import '../enums/air_quality_domain.dart';
-import '../enums/current.dart';
-import '../enums/hourly.dart';
+import '../api.dart';
 import '../enums/prefcls.dart';
-import '../models/weather.dart';
+import '../response.dart';
 import '../utils.dart';
+import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Pollutants and pollen forecast in 11 km resolution.
 ///
 /// https://open-meteo.com/en/docs/air-quality-api/
-class AirQuality {
-  /// Custom API URL, format: `https://<domain>/<version>/`
-  final String apiUrl;
-
-  /// Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  final String? apiKey;
-
-  /// Geographical WGS84 coordinates of the location.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  final double latitude, longitude;
-
-  /// Set a preference how grid-cells are selected.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
+class AirQualityApi extends BaseApi {
   final CellSelection? cellSelection;
-
-  /// Automatically combine both domains or specifically select
-  /// the European `AirQualityDomains.cams_europe` or global domain `AirQualityDomains.cams_global`.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
   final AirQualityDomains? domains;
 
-  /// If set, yesterday or the day before yesterday data are also returned.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  final int? pastDays;
+  final int? pastDays, pastHours;
+  final int? forecastDays, forecastHours;
 
-  /// Per default, 5 days are returned. Up to 7 days of forecast are possible.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  final int? forecastDays;
-
-  /// Similar to forecast_days, the number of timesteps of hourly data can controlled.
-  /// Instead of using the current day as a reference, the current hour is used.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  final int? forecastHours, pastHours;
-
-  /// The time interval to get weather data.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
   final DateTime? startDate, endDate;
-
-  /// The time interval to get weather data for hourly data.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
   final DateTime? startHour, endHour;
 
-  AirQuality({
-    this.apiUrl = 'https://air-quality-api.open-meteo.com/v1/',
-    required this.latitude,
-    required this.longitude,
+  AirQualityApi({
+    super.apiUrl = 'https://air-quality-api.open-meteo.com/v1/air-quality',
+    super.apiKey,
+    this.cellSelection,
     this.domains,
     this.pastDays,
+    this.pastHours,
     this.forecastDays,
     this.forecastHours,
-    this.pastHours,
     this.startDate,
     this.endDate,
     this.startHour,
     this.endHour,
-    this.cellSelection,
-    this.apiKey,
-  }) {
-    Uri.parse(apiUrl);
+  });
 
-    throwCheckLatLng(latitude, longitude);
-  }
-
-  /// Create a HTTP request. The function will return JSON data as Map if successful.
   Future<Map<String, dynamic>> rawRequest({
-    List<Hourly>? hourly,
-    List<Current>? current,
+    required double latitude,
+    required double longitude,
+    List<HourlyAirQuality>? hourly,
+    List<CurrentAirQuality>? current,
   }) =>
-      sendHttpRequest(apiUrl, 'air-quality', _queryParamMap(hourly, current));
+      requestJson(this, _queryParamMap(latitude, longitude, hourly, current));
 
-  Future<WeatherResponse> request({
-    List<Hourly>? hourly,
-    List<Current>? current,
+  Future<Response<AirQualityApi>> request({
+    required double latitude,
+    required double longitude,
+    List<HourlyAirQuality>? hourly,
+    List<CurrentAirQuality>? current,
   }) =>
-      sendApiRequest(apiUrl, 'air-quality', _queryParamMap(hourly, current))
-          .then(WeatherResponse.fromFlatBuffer);
+      requestFlatBuffer(
+              this, _queryParamMap(latitude, longitude, hourly, current))
+          .then((data) => Response.fromFlatBuffer(
+                data,
+                hourlyHashes: HourlyAirQuality.hashes,
+                currentHashes: CurrentAirQuality.hashes,
+              ));
 
   Map<String, dynamic> _queryParamMap(
-    List<Hourly>? hourly,
-    List<Current>? current,
+    double latitude,
+    double longitude,
+    List<HourlyAirQuality>? hourly,
+    List<CurrentAirQuality>? current,
   ) =>
       {
         'hourly': hourly?.map((option) => option.name).join(","),
@@ -118,3 +80,76 @@ class AirQuality {
         'timezone': 'auto',
       };
 }
+
+enum CurrentAirQuality with WeatherParameter<AirQualityApi, Current> {
+  european_aqi(Variable.european_aqi),
+  us_aqi(Variable.us_aqi),
+  pm10(Variable.pm10),
+  pm2_5(Variable.pm2p5),
+  carbon_monoxide(Variable.carbon_monoxide),
+  nitrogen_dioxide(Variable.nitrogen_dioxide),
+  sulphur_dioxide(Variable.sulphur_dioxide),
+  ozone(Variable.ozone),
+  aerosol_optical_depth(Variable.aerosol_optical_depth),
+  dust(Variable.dust),
+  uv_index(Variable.uv_index),
+  uv_index_clear_sky(Variable.uv_index_clear_sky),
+  ammonia(Variable.ammonia),
+  alder_pollen(Variable.alder_pollen),
+  birch_pollen(Variable.birch_pollen),
+  grass_pollen(Variable.grass_pollen),
+  mugwort_pollen(Variable.mugwort_pollen),
+  olive_pollen(Variable.olive_pollen),
+  ragweed_pollen(Variable.ragweed_pollen);
+
+  @override
+  final Variable variable;
+
+  const CurrentAirQuality(this.variable);
+
+  static final Map<int, CurrentAirQuality> hashes =
+      makeHashes(CurrentAirQuality.values);
+}
+
+enum HourlyAirQuality with WeatherParameter<AirQualityApi, Hourly> {
+  pm10(Variable.pm10),
+  pm2_5(Variable.pm2p5),
+  carbon_monoxide(Variable.carbon_monoxide),
+  nitrogen_dioxide(Variable.nitrogen_dioxide),
+  sulphur_dioxide(Variable.sulphur_dioxide),
+  ozone(Variable.ozone),
+  aerosol_optical_depth(Variable.aerosol_optical_depth),
+  dust(Variable.dust),
+  uv_index(Variable.uv_index),
+  uv_index_clear_sky(Variable.uv_index_clear_sky),
+  ammonia(Variable.ammonia),
+  alder_pollen(Variable.alder_pollen),
+  birch_pollen(Variable.birch_pollen),
+  grass_pollen(Variable.grass_pollen),
+  mugwort_pollen(Variable.mugwort_pollen),
+  olive_pollen(Variable.olive_pollen),
+  ragweed_pollen(Variable.ragweed_pollen),
+  european_aqi(Variable.european_aqi),
+  european_aqi_pm2_5(Variable.european_aqi_pm2p5),
+  european_aqi_pm10(Variable.european_aqi_pm10),
+  european_aqi_nitrogen_dioxide(Variable.european_aqi_nitrogen_dioxide),
+  european_aqi_ozone(Variable.european_aqi_ozone),
+  european_aqi_sulphur_dioxide(Variable.european_aqi_sulphur_dioxide),
+  us_aqi(Variable.us_aqi),
+  us_aqi_pm2_5(Variable.us_aqi_pm2p5),
+  us_aqi_pm10(Variable.us_aqi_pm10),
+  us_aqi_nitrogen_dioxide(Variable.us_aqi_nitrogen_dioxide),
+  us_aqi_carbon_monoxide(Variable.us_aqi_carbon_monoxide),
+  us_aqi_ozone(Variable.us_aqi_ozone),
+  us_aqi_sulphur_dioxide(Variable.us_aqi_sulphur_dioxide);
+
+  @override
+  final Variable variable;
+
+  const HourlyAirQuality(this.variable);
+
+  static final Map<int, HourlyAirQuality> hashes =
+      makeHashes(HourlyAirQuality.values);
+}
+
+enum AirQualityDomains { cams_europe, cams_global }

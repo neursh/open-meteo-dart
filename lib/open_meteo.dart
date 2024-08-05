@@ -8,13 +8,7 @@ export 'src/apis/historical.dart';
 export 'src/apis/marine.dart';
 export 'src/apis/weather.dart';
 
-export 'src/enums/air_quality_domain.dart';
-export 'src/enums/current.dart';
-export 'src/enums/daily.dart';
-export 'src/enums/hourly.dart';
 export 'src/enums/prefcls.dart';
-
-export 'src/models/weather.dart';
 
 export 'src/exceptions.dart';
 
