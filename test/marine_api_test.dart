@@ -73,17 +73,17 @@ void main() {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            current: CurrentMarine.values,
+            current: MarineCurrent.values,
           );
-          expect(response.currentData.keys, containsAll(CurrentMarine.values));
+          expect(response.currentData.keys, containsAll(MarineCurrent.values));
         });
         test('for hourly data', () async {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: HourlyMarine.values,
+            hourly: MarineHourly.values,
           );
-          expect(response.hourlyData.keys, containsAll(HourlyMarine.values));
+          expect(response.hourlyData.keys, containsAll(MarineHourly.values));
         });
         // Waiting for https://github.com/open-meteo/open-meteo/issues/936
         // test('for daily data', () async {
@@ -101,9 +101,9 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            current: [CurrentMarine.wave_height],
+            current: [MarineCurrent.wave_height],
           );
-          final waveHeight = result.currentData[CurrentMarine.wave_height];
+          final waveHeight = result.currentData[MarineCurrent.wave_height];
           expect(waveHeight, isNotNull);
           expect(waveHeight!.data.length, 1);
         });
@@ -111,9 +111,9 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: [HourlyMarine.wave_height],
+            hourly: [MarineHourly.wave_height],
           );
-          final waveHeight = result.hourlyData[HourlyMarine.wave_height];
+          final waveHeight = result.hourlyData[MarineHourly.wave_height];
           expect(waveHeight, isNotNull);
           expect(waveHeight!.data, isNotEmpty);
         });
@@ -140,7 +140,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          current: [CurrentMarine.wave_height],
+          current: [MarineCurrent.wave_height],
         );
         expect(result['error'], isNot(true));
         expect(result['current'], isNotNull);
@@ -150,7 +150,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          hourly: [HourlyMarine.wave_height],
+          hourly: [MarineHourly.wave_height],
         );
         expect(result['error'], isNot(true));
         expect(result['hourly'], isNotNull);
@@ -164,7 +164,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          daily: [DailyMarine.wave_height_max],
+          daily: [MarineDaily.wave_height_max],
         );
         expect(result['error'], isNot(true));
         expect(result['daily'], isNotNull);

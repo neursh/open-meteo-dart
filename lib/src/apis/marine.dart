@@ -75,9 +75,9 @@ class MarineApi extends BaseApi {
   Future<Map<String, dynamic>> rawRequest({
     required double latitude,
     required double longitude,
-    List<CurrentMarine>? current,
-    List<HourlyMarine>? hourly,
-    List<DailyMarine>? daily,
+    List<MarineCurrent>? current,
+    List<MarineHourly>? hourly,
+    List<MarineDaily>? daily,
   }) =>
       requestJson(
           this, _queryParamMap(latitude, longitude, current, hourly, daily));
@@ -85,25 +85,25 @@ class MarineApi extends BaseApi {
   Future<ApiResponse<MarineApi>> request({
     required double latitude,
     required double longitude,
-    List<CurrentMarine>? current,
-    List<HourlyMarine>? hourly,
-    List<DailyMarine>? daily,
+    List<MarineCurrent>? current,
+    List<MarineHourly>? hourly,
+    List<MarineDaily>? daily,
   }) =>
       requestFlatBuffer(
               this, _queryParamMap(latitude, longitude, current, hourly, daily))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
-                currentHashes: CurrentMarine.hashes,
-                hourlyHashes: HourlyMarine.hashes,
-                dailyHashes: DailyMarine.hashes,
+                currentHashes: MarineCurrent.hashes,
+                hourlyHashes: MarineHourly.hashes,
+                dailyHashes: MarineDaily.hashes,
               ));
 
   Map<String, dynamic> _queryParamMap(
     double latitude,
     double longitude,
-    List<CurrentMarine>? current,
-    List<HourlyMarine>? hourly,
-    List<DailyMarine>? daily,
+    List<MarineCurrent>? current,
+    List<MarineHourly>? hourly,
+    List<MarineDaily>? daily,
   ) =>
       {
         'latitude': latitude,
@@ -129,7 +129,7 @@ class MarineApi extends BaseApi {
       };
 }
 
-enum CurrentMarine with WeatherParameter<MarineApi, Current> {
+enum MarineCurrent with WeatherParameter<MarineApi, Current> {
   wave_height(Variable.wave_height),
   wave_direction(Variable.wave_direction),
   wave_period(Variable.wave_period),
@@ -147,13 +147,13 @@ enum CurrentMarine with WeatherParameter<MarineApi, Current> {
   @override
   final Variable variable;
 
-  const CurrentMarine(this.variable);
+  const MarineCurrent(this.variable);
 
-  static final Map<int, CurrentMarine> hashes =
-      makeHashes(CurrentMarine.values);
+  static final Map<int, MarineCurrent> hashes =
+      makeHashes(MarineCurrent.values);
 }
 
-enum HourlyMarine with WeatherParameter<MarineApi, Hourly> {
+enum MarineHourly with WeatherParameter<MarineApi, Hourly> {
   wave_height(Variable.wave_height),
   wave_direction(Variable.wave_direction),
   wave_period(Variable.wave_period),
@@ -171,12 +171,12 @@ enum HourlyMarine with WeatherParameter<MarineApi, Hourly> {
   @override
   final Variable variable;
 
-  const HourlyMarine(this.variable);
+  const MarineHourly(this.variable);
 
-  static final Map<int, HourlyMarine> hashes = makeHashes(HourlyMarine.values);
+  static final Map<int, MarineHourly> hashes = makeHashes(MarineHourly.values);
 }
 
-enum DailyMarine with WeatherParameter<MarineApi, Daily> {
+enum MarineDaily with WeatherParameter<MarineApi, Daily> {
   wave_height_max(Variable.wave_height, aggregation: Aggregation.maximum),
   wave_direction_dominant(Variable.wave_direction,
       aggregation: Aggregation.dominant),
@@ -204,10 +204,10 @@ enum DailyMarine with WeatherParameter<MarineApi, Daily> {
   @override
   final Aggregation aggregation;
 
-  const DailyMarine(
+  const MarineDaily(
     this.variable, {
     this.aggregation = Aggregation.none,
   });
 
-  static final Map<int, DailyMarine> hashes = makeHashes(DailyMarine.values);
+  static final Map<int, MarineDaily> hashes = makeHashes(MarineDaily.values);
 }

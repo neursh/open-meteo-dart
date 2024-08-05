@@ -80,25 +80,25 @@ void main() {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            current: CurrentWeather.values,
+            current: WeatherCurrent.values,
           );
-          expect(response.currentData.keys, containsAll(CurrentWeather.values));
+          expect(response.currentData.keys, containsAll(WeatherCurrent.values));
         });
         test('for hourly data', () async {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: HourlyWeather.values,
+            hourly: WeatherHourly.values,
           );
-          expect(response.hourlyData.keys, containsAll(HourlyWeather.values));
+          expect(response.hourlyData.keys, containsAll(WeatherHourly.values));
         });
         test('for daily data', () async {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            daily: DailyWeather.values,
+            daily: WeatherDaily.values,
           );
-          expect(response.dailyData.keys, containsAll(DailyWeather.values));
+          expect(response.dailyData.keys, containsAll(WeatherDaily.values));
         });
       });
 
@@ -107,9 +107,9 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            current: [CurrentWeather.temperature_2m],
+            current: [WeatherCurrent.temperature_2m],
           );
-          final temperature = result.currentData[CurrentWeather.temperature_2m];
+          final temperature = result.currentData[WeatherCurrent.temperature_2m];
           expect(temperature, isNotNull);
           expect(temperature!.data.length, 1);
         });
@@ -117,9 +117,9 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: [HourlyWeather.temperature_2m],
+            hourly: [WeatherHourly.temperature_2m],
           );
-          final temperature = result.hourlyData[HourlyWeather.temperature_2m];
+          final temperature = result.hourlyData[WeatherHourly.temperature_2m];
           expect(temperature, isNotNull);
           expect(temperature!.data, isNotEmpty);
         });
@@ -127,9 +127,9 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            daily: [DailyWeather.temperature_2m_max],
+            daily: [WeatherDaily.temperature_2m_max],
           );
-          final temperature = result.dailyData[DailyWeather.temperature_2m_max];
+          final temperature = result.dailyData[WeatherDaily.temperature_2m_max];
           expect(temperature, isNotNull);
           expect(temperature!.data, isNotEmpty);
         });
@@ -146,7 +146,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          current: [CurrentWeather.temperature_2m],
+          current: [WeatherCurrent.temperature_2m],
         );
         expect(result['error'], isNot(true));
         expect(result['current'], isNotNull);
@@ -156,7 +156,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          hourly: [HourlyWeather.temperature_2m],
+          hourly: [WeatherHourly.temperature_2m],
         );
         expect(result['error'], isNot(true));
         expect(result['hourly'], isNotNull);
@@ -170,7 +170,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          daily: [DailyWeather.temperature_2m_max],
+          daily: [WeatherDaily.temperature_2m_max],
         );
         expect(result['error'], isNot(true));
         expect(result['daily'], isNotNull);

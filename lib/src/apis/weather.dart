@@ -81,9 +81,9 @@ class WeatherApi extends BaseApi {
   Future<Map<String, dynamic>> rawRequest({
     required double latitude,
     required double longitude,
-    List<HourlyWeather>? hourly,
-    List<DailyWeather>? daily,
-    List<CurrentWeather>? current,
+    List<WeatherHourly>? hourly,
+    List<WeatherDaily>? daily,
+    List<WeatherCurrent>? current,
   }) =>
       requestJson(
           this, _queryParamMap(latitude, longitude, hourly, daily, current));
@@ -91,25 +91,25 @@ class WeatherApi extends BaseApi {
   Future<ApiResponse<WeatherApi>> request({
     required double latitude,
     required double longitude,
-    List<HourlyWeather>? hourly,
-    List<DailyWeather>? daily,
-    List<CurrentWeather>? current,
+    List<WeatherHourly>? hourly,
+    List<WeatherDaily>? daily,
+    List<WeatherCurrent>? current,
   }) =>
       requestFlatBuffer(
               this, _queryParamMap(latitude, longitude, hourly, daily, current))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
-                currentHashes: CurrentWeather.hashes,
-                hourlyHashes: HourlyWeather.hashes,
-                dailyHashes: DailyWeather.hashes,
+                currentHashes: WeatherCurrent.hashes,
+                hourlyHashes: WeatherHourly.hashes,
+                dailyHashes: WeatherDaily.hashes,
               ));
 
   Map<String, dynamic> _queryParamMap(
     double latitude,
     double longitude,
-    List<HourlyWeather>? hourly,
-    List<DailyWeather>? daily,
-    List<CurrentWeather>? current,
+    List<WeatherHourly>? hourly,
+    List<WeatherDaily>? daily,
+    List<WeatherCurrent>? current,
   ) =>
       {
         'latitude': latitude,
@@ -139,7 +139,7 @@ class WeatherApi extends BaseApi {
 
 // typedef WeatherResponse = Response<WeatherApi>;
 
-enum CurrentWeather with WeatherParameter<WeatherApi, Current> {
+enum WeatherCurrent with WeatherParameter<WeatherApi, Current> {
   temperature_2m(Variable.temperature, altitude: 2),
   relative_humidity_2m(Variable.relative_humidity, altitude: 2),
   apparent_temperature(Variable.apparent_temperature, altitude: 2),
@@ -162,16 +162,16 @@ enum CurrentWeather with WeatherParameter<WeatherApi, Current> {
   @override
   final int altitude;
 
-  const CurrentWeather(
+  const WeatherCurrent(
     this.variable, {
     this.altitude = 0,
   });
 
-  static final Map<int, CurrentWeather> hashes =
-      makeHashes(CurrentWeather.values);
+  static final Map<int, WeatherCurrent> hashes =
+      makeHashes(WeatherCurrent.values);
 }
 
-enum HourlyWeather with WeatherParameter<WeatherApi, Hourly> {
+enum WeatherHourly with WeatherParameter<WeatherApi, Hourly> {
   temperature_2m(Variable.temperature, altitude: 2),
   relative_humidity_2m(Variable.relative_humidity, altitude: 2),
   dew_point_2m(Variable.dew_point, altitude: 2),
@@ -360,7 +360,7 @@ enum HourlyWeather with WeatherParameter<WeatherApi, Hourly> {
   @override
   final int pressureLevel;
 
-  const HourlyWeather(
+  const WeatherHourly(
     this.variable, {
     this.altitude = 0,
     this.depth = 0,
@@ -368,11 +368,11 @@ enum HourlyWeather with WeatherParameter<WeatherApi, Hourly> {
     this.pressureLevel = 0,
   });
 
-  static final Map<int, HourlyWeather> hashes =
-      makeHashes(HourlyWeather.values);
+  static final Map<int, WeatherHourly> hashes =
+      makeHashes(WeatherHourly.values);
 }
 
-enum DailyWeather with WeatherParameter<WeatherApi, Daily> {
+enum WeatherDaily with WeatherParameter<WeatherApi, Daily> {
   weather_code(Variable.weather_code),
   temperature_2m_max(Variable.temperature,
       altitude: 2, aggregation: Aggregation.maximum),
@@ -414,11 +414,11 @@ enum DailyWeather with WeatherParameter<WeatherApi, Daily> {
   @override
   final Aggregation aggregation;
 
-  const DailyWeather(
+  const WeatherDaily(
     this.variable, {
     this.altitude = 0,
     this.aggregation = Aggregation.none,
   });
 
-  static final Map<int, DailyWeather> hashes = makeHashes(DailyWeather.values);
+  static final Map<int, WeatherDaily> hashes = makeHashes(WeatherDaily.values);
 }

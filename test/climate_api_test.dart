@@ -81,9 +81,9 @@ void main() {
             longitude: longitude,
             startDate: startDate,
             endDate: endDate,
-            daily: DailyClimate.values,
+            daily: ClimateDaily.values,
           );
-          expect(response.dailyData.keys, containsAll(DailyClimate.values));
+          expect(response.dailyData.keys, containsAll(ClimateDaily.values));
         });
       });
 
@@ -94,9 +94,9 @@ void main() {
             longitude: longitude,
             startDate: startDate,
             endDate: endDate,
-            daily: [DailyClimate.temperature_2m_max],
+            daily: [ClimateDaily.temperature_2m_max],
           );
-          final temperature = result.dailyData[DailyClimate.temperature_2m_max];
+          final temperature = result.dailyData[ClimateDaily.temperature_2m_max];
           expect(temperature, isNotNull);
           expect(temperature!.data, isNotEmpty);
         });
@@ -115,7 +115,7 @@ void main() {
           longitude: longitude,
           startDate: startDate,
           endDate: endDate,
-          daily: [DailyClimate.temperature_2m_max],
+          daily: [ClimateDaily.temperature_2m_max],
         );
         expect(result['error'], isNot(true));
         expect(result['daily'], isNotNull);

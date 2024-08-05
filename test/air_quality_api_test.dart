@@ -68,19 +68,19 @@ void main() {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            current: CurrentAirQuality.values,
+            current: AirQualityCurrent.values,
           );
           expect(
-              response.currentData.keys, containsAll(CurrentAirQuality.values));
+              response.currentData.keys, containsAll(AirQualityCurrent.values));
         });
         test('for hourly data', () async {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: HourlyAirQuality.values,
+            hourly: AirQualityHourly.values,
           );
           expect(
-              response.hourlyData.keys, containsAll(HourlyAirQuality.values));
+              response.hourlyData.keys, containsAll(AirQualityHourly.values));
         });
       });
 
@@ -89,10 +89,10 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            current: [CurrentAirQuality.european_aqi],
+            current: [AirQualityCurrent.european_aqi],
           );
           final temperature =
-              result.currentData[CurrentAirQuality.european_aqi];
+              result.currentData[AirQualityCurrent.european_aqi];
           expect(temperature, isNotNull);
           expect(temperature!.data.length, 1);
         });
@@ -100,9 +100,9 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: [HourlyAirQuality.european_aqi],
+            hourly: [AirQualityHourly.european_aqi],
           );
-          final temperature = result.hourlyData[HourlyAirQuality.european_aqi];
+          final temperature = result.hourlyData[AirQualityHourly.european_aqi];
           expect(temperature, isNotNull);
           expect(temperature!.data, isNotEmpty);
         });
@@ -119,7 +119,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          current: [CurrentAirQuality.european_aqi],
+          current: [AirQualityCurrent.european_aqi],
         );
         expect(result['error'], isNot(true));
         expect(result['current'], isNotNull);
@@ -129,7 +129,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          hourly: [HourlyAirQuality.european_aqi],
+          hourly: [AirQualityHourly.european_aqi],
         );
         expect(result['error'], isNot(true));
         expect(result['hourly'], isNotNull);

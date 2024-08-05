@@ -117,9 +117,9 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: [HourlyEnsemble.temperature_2m],
+            hourly: [EnsembleHourly.temperature_2m],
           );
-          final temperature = result.hourlyData[HourlyEnsemble.temperature_2m];
+          final temperature = result.hourlyData[EnsembleHourly.temperature_2m];
           expect(temperature, isNotNull);
           expect(temperature!.data, isNotEmpty);
         });
@@ -136,7 +136,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          hourly: [HourlyEnsemble.temperature_2m],
+          hourly: [EnsembleHourly.temperature_2m],
         );
         expect(result['error'], isNot(true));
         expect(result['hourly'], isNotNull);

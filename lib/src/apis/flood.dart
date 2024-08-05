@@ -50,25 +50,25 @@ class FloodApi extends BaseApi {
   Future<Map<String, dynamic>> rawRequest({
     required double latitude,
     required double longitude,
-    List<DailyFlood>? daily,
+    List<FloodDaily>? daily,
   }) =>
       requestJson(this, _queryParamMap(latitude, longitude, daily));
 
   Future<ApiResponse<FloodApi>> request({
     required double latitude,
     required double longitude,
-    List<DailyFlood>? daily,
+    List<FloodDaily>? daily,
   }) =>
       requestFlatBuffer(this, _queryParamMap(latitude, longitude, daily))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
-                dailyHashes: DailyFlood.hashes,
+                dailyHashes: FloodDaily.hashes,
               ));
 
   Map<String, dynamic> _queryParamMap(
     double latitude,
     double longitude,
-    List<DailyFlood>? daily,
+    List<FloodDaily>? daily,
   ) =>
       {
         'latitude': latitude,
@@ -85,7 +85,7 @@ class FloodApi extends BaseApi {
       };
 }
 
-enum DailyFlood with WeatherParameter<FloodApi, Daily> {
+enum FloodDaily with WeatherParameter<FloodApi, Daily> {
   river_discharge(Variable.river_discharge),
   river_discharge_mean(Variable.river_discharge, aggregation: Aggregation.mean),
   river_discharge_median(Variable.river_discharge,
@@ -103,10 +103,10 @@ enum DailyFlood with WeatherParameter<FloodApi, Daily> {
   @override
   final Aggregation aggregation;
 
-  const DailyFlood(
+  const FloodDaily(
     this.variable, {
     this.aggregation = Aggregation.none,
   });
 
-  static final Map<int, DailyFlood> hashes = makeHashes(DailyFlood.values);
+  static final Map<int, FloodDaily> hashes = makeHashes(FloodDaily.values);
 }

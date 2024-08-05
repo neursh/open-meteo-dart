@@ -34,30 +34,30 @@ class AirQualityApi extends BaseApi {
   Future<Map<String, dynamic>> rawRequest({
     required double latitude,
     required double longitude,
-    List<HourlyAirQuality>? hourly,
-    List<CurrentAirQuality>? current,
+    List<AirQualityHourly>? hourly,
+    List<AirQualityCurrent>? current,
   }) =>
       requestJson(this, _queryParamMap(latitude, longitude, hourly, current));
 
   Future<ApiResponse<AirQualityApi>> request({
     required double latitude,
     required double longitude,
-    List<HourlyAirQuality>? hourly,
-    List<CurrentAirQuality>? current,
+    List<AirQualityHourly>? hourly,
+    List<AirQualityCurrent>? current,
   }) =>
       requestFlatBuffer(
               this, _queryParamMap(latitude, longitude, hourly, current))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
-                hourlyHashes: HourlyAirQuality.hashes,
-                currentHashes: CurrentAirQuality.hashes,
+                hourlyHashes: AirQualityHourly.hashes,
+                currentHashes: AirQualityCurrent.hashes,
               ));
 
   Map<String, dynamic> _queryParamMap(
     double latitude,
     double longitude,
-    List<HourlyAirQuality>? hourly,
-    List<CurrentAirQuality>? current,
+    List<AirQualityHourly>? hourly,
+    List<AirQualityCurrent>? current,
   ) =>
       {
         'hourly': hourly?.map((option) => option.name).join(","),
@@ -80,7 +80,7 @@ class AirQualityApi extends BaseApi {
       };
 }
 
-enum CurrentAirQuality with WeatherParameter<AirQualityApi, Current> {
+enum AirQualityCurrent with WeatherParameter<AirQualityApi, Current> {
   european_aqi(Variable.european_aqi),
   us_aqi(Variable.us_aqi),
   pm10(Variable.pm10),
@@ -104,13 +104,13 @@ enum CurrentAirQuality with WeatherParameter<AirQualityApi, Current> {
   @override
   final Variable variable;
 
-  const CurrentAirQuality(this.variable);
+  const AirQualityCurrent(this.variable);
 
-  static final Map<int, CurrentAirQuality> hashes =
-      makeHashes(CurrentAirQuality.values);
+  static final Map<int, AirQualityCurrent> hashes =
+      makeHashes(AirQualityCurrent.values);
 }
 
-enum HourlyAirQuality with WeatherParameter<AirQualityApi, Hourly> {
+enum AirQualityHourly with WeatherParameter<AirQualityApi, Hourly> {
   pm10(Variable.pm10),
   pm2_5(Variable.pm2p5),
   carbon_monoxide(Variable.carbon_monoxide),
@@ -145,10 +145,10 @@ enum HourlyAirQuality with WeatherParameter<AirQualityApi, Hourly> {
   @override
   final Variable variable;
 
-  const HourlyAirQuality(this.variable);
+  const AirQualityHourly(this.variable);
 
-  static final Map<int, HourlyAirQuality> hashes =
-      makeHashes(HourlyAirQuality.values);
+  static final Map<int, AirQualityHourly> hashes =
+      makeHashes(AirQualityHourly.values);
 }
 
 enum AirQualityDomains { cams_europe, cams_global }

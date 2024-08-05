@@ -48,8 +48,8 @@ class HistoricalApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    List<HourlyHistorical>? hourly,
-    List<DailyHistorical>? daily,
+    List<HistoricalHourly>? hourly,
+    List<HistoricalDaily>? daily,
   }) =>
       requestJson(
           this,
@@ -61,8 +61,8 @@ class HistoricalApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    List<HourlyHistorical>? hourly,
-    List<DailyHistorical>? daily,
+    List<HistoricalHourly>? hourly,
+    List<HistoricalDaily>? daily,
   }) =>
       requestFlatBuffer(
               this,
@@ -70,8 +70,8 @@ class HistoricalApi extends BaseApi {
                   latitude, longitude, startDate, endDate, hourly, daily))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
-                hourlyHashes: HourlyHistorical.hashes,
-                dailyHashes: DailyHistorical.hashes,
+                hourlyHashes: HistoricalHourly.hashes,
+                dailyHashes: HistoricalDaily.hashes,
               ));
 
   Map<String, dynamic> _queryParamMap(
@@ -79,8 +79,8 @@ class HistoricalApi extends BaseApi {
     double longitude,
     DateTime startDate,
     DateTime endDate,
-    List<HourlyHistorical>? hourly,
-    List<DailyHistorical>? daily,
+    List<HistoricalHourly>? hourly,
+    List<HistoricalDaily>? daily,
   ) =>
       {
         'latitude': latitude,
@@ -99,7 +99,7 @@ class HistoricalApi extends BaseApi {
       };
 }
 
-enum HourlyHistorical with WeatherParameter<HistoricalApi, Hourly> {
+enum HistoricalHourly with WeatherParameter<HistoricalApi, Hourly> {
   temperature_2m(Variable.temperature, altitude: 2),
   relative_humidity_2m(Variable.relative_humidity, altitude: 2),
   dew_point_2m(Variable.dew_point, altitude: 2),
@@ -157,18 +157,18 @@ enum HourlyHistorical with WeatherParameter<HistoricalApi, Hourly> {
   @override
   final int depthTo;
 
-  const HourlyHistorical(
+  const HistoricalHourly(
     this.variable, {
     this.altitude = 0,
     this.depth = 0,
     this.depthTo = 0,
   });
 
-  static final Map<int, HourlyHistorical> hashes =
-      makeHashes(HourlyHistorical.values);
+  static final Map<int, HistoricalHourly> hashes =
+      makeHashes(HistoricalHourly.values);
 }
 
-enum DailyHistorical with WeatherParameter<HistoricalApi, Daily> {
+enum HistoricalDaily with WeatherParameter<HistoricalApi, Daily> {
   weather_code(Variable.weather_code),
   temperature_2m_max(Variable.temperature,
       altitude: 2, aggregation: Aggregation.maximum),
@@ -208,12 +208,12 @@ enum DailyHistorical with WeatherParameter<HistoricalApi, Daily> {
   @override
   final Aggregation aggregation;
 
-  const DailyHistorical(
+  const HistoricalDaily(
     this.variable, {
     this.altitude = 0,
     this.aggregation = Aggregation.none,
   });
 
-  static final Map<int, DailyHistorical> hashes =
-      makeHashes(DailyHistorical.values);
+  static final Map<int, HistoricalDaily> hashes =
+      makeHashes(HistoricalDaily.values);
 }

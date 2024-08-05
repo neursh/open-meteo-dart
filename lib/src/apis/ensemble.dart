@@ -94,25 +94,25 @@ class EnsembleApi extends BaseApi {
   Future<Map<String, dynamic>> rawRequest({
     required double latitude,
     required double longitude,
-    List<HourlyEnsemble>? hourly,
+    List<EnsembleHourly>? hourly,
   }) =>
       requestJson(this, _queryParamMap(latitude, longitude, hourly));
 
   Future<ApiResponse<EnsembleApi>> request({
     required double latitude,
     required double longitude,
-    List<HourlyEnsemble>? hourly,
+    List<EnsembleHourly>? hourly,
   }) =>
       requestFlatBuffer(this, _queryParamMap(latitude, longitude, hourly))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
-                hourlyHashes: HourlyEnsemble.hashes,
+                hourlyHashes: EnsembleHourly.hashes,
               ));
 
   Map<String, dynamic> _queryParamMap(
     double latitude,
     double longitude,
-    List<HourlyEnsemble>? hourly,
+    List<EnsembleHourly>? hourly,
   ) =>
       {
         'latitude': latitude,
@@ -141,7 +141,7 @@ class EnsembleApi extends BaseApi {
       };
 }
 
-enum HourlyEnsemble with WeatherParameter<EnsembleApi, Hourly> {
+enum EnsembleHourly with WeatherParameter<EnsembleApi, Hourly> {
   temperature_2m(Variable.temperature, altitude: 2),
   relative_humidity_2m(Variable.relative_humidity, altitude: 2),
   dew_point_2m(Variable.dew_point, altitude: 2),
@@ -210,7 +210,7 @@ enum HourlyEnsemble with WeatherParameter<EnsembleApi, Hourly> {
   @override
   final int pressureLevel;
 
-  const HourlyEnsemble(
+  const EnsembleHourly(
     this.variable, {
     this.altitude = 0,
     this.depth = 0,
@@ -218,8 +218,8 @@ enum HourlyEnsemble with WeatherParameter<EnsembleApi, Hourly> {
     this.pressureLevel = 0,
   });
 
-  static final Map<int, HourlyEnsemble> hashes =
-      makeHashes(HourlyEnsemble.values);
+  static final Map<int, EnsembleHourly> hashes =
+      makeHashes(EnsembleHourly.values);
 }
 
 enum EnsembleModel {

@@ -7,10 +7,10 @@ void main() async {
   ApiResponse<WeatherApi> result = await weather.request(
     latitude: 52.52,
     longitude: 13.41,
-    current: [CurrentWeather.temperature_2m],
+    current: [WeatherCurrent.temperature_2m],
   );
   ParameterData temperature =
-      result.currentData[CurrentWeather.temperature_2m]!;
+      result.currentData[WeatherCurrent.temperature_2m]!;
   double currentTemperature = temperature.data.values.first;
 
   print(currentTemperature);

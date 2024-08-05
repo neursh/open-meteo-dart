@@ -33,7 +33,7 @@ class ClimateApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    required List<DailyClimate> daily,
+    required List<ClimateDaily> daily,
   }) =>
       requestJson(
           this, _queryParamMap(latitude, longitude, startDate, endDate, daily));
@@ -43,13 +43,13 @@ class ClimateApi extends BaseApi {
     required double longitude,
     required DateTime startDate,
     required DateTime endDate,
-    required List<DailyClimate> daily,
+    required List<ClimateDaily> daily,
   }) =>
       requestFlatBuffer(this,
               _queryParamMap(latitude, longitude, startDate, endDate, daily))
           .then((data) => ApiResponse.fromFlatBuffer(
                 data,
-                dailyHashes: DailyClimate.hashes,
+                dailyHashes: ClimateDaily.hashes,
               ));
 
   Map<String, dynamic> _queryParamMap(
@@ -57,7 +57,7 @@ class ClimateApi extends BaseApi {
     double longitude,
     DateTime startDate,
     DateTime endDate,
-    List<DailyClimate> daily,
+    List<ClimateDaily> daily,
   ) =>
       {
         'latitude': latitude,
@@ -76,7 +76,7 @@ class ClimateApi extends BaseApi {
       };
 }
 
-enum DailyClimate with WeatherParameter<ClimateApi, Daily> {
+enum ClimateDaily with WeatherParameter<ClimateApi, Daily> {
   temperature_2m_mean(Variable.temperature,
       altitude: 2, aggregation: Aggregation.mean),
   temperature_2m_max(Variable.temperature,
@@ -123,7 +123,7 @@ enum DailyClimate with WeatherParameter<ClimateApi, Daily> {
   @override
   final int depthTo;
 
-  const DailyClimate(
+  const ClimateDaily(
     this.variable, {
     this.altitude = 0,
     this.aggregation = Aggregation.none,
@@ -131,7 +131,7 @@ enum DailyClimate with WeatherParameter<ClimateApi, Daily> {
     this.depthTo = 0,
   });
 
-  static final Map<int, DailyClimate> hashes = makeHashes(DailyClimate.values);
+  static final Map<int, ClimateDaily> hashes = makeHashes(ClimateDaily.values);
 }
 
 enum ClimateModel {

@@ -64,9 +64,9 @@ void main() {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            daily: DailyFlood.values,
+            daily: FloodDaily.values,
           );
-          expect(response.dailyData.keys, containsAll(DailyFlood.values));
+          expect(response.dailyData.keys, containsAll(FloodDaily.values));
         });
       });
 
@@ -75,9 +75,9 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            daily: [DailyFlood.river_discharge],
+            daily: [FloodDaily.river_discharge],
           );
-          final temperature = result.dailyData[DailyFlood.river_discharge];
+          final temperature = result.dailyData[FloodDaily.river_discharge];
           expect(temperature, isNotNull);
           expect(temperature!.data, isNotEmpty);
         });
@@ -94,7 +94,7 @@ void main() {
         final result = await api.rawRequest(
           latitude: latitude,
           longitude: longitude,
-          daily: [DailyFlood.river_discharge],
+          daily: [FloodDaily.river_discharge],
         );
         expect(result['error'], isNot(true));
         expect(result['daily'], isNotNull);
