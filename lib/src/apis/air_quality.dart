@@ -1,7 +1,6 @@
 import '../api.dart';
 import '../options.dart';
 import '../response.dart';
-import '../utils.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Pollutants and pollen forecast in 11 km resolution.
@@ -40,7 +39,7 @@ class AirQualityApi extends BaseApi {
   }) =>
       requestJson(this, _queryParamMap(latitude, longitude, hourly, current));
 
-  Future<Response<AirQualityApi>> request({
+  Future<ApiResponse<AirQualityApi>> request({
     required double latitude,
     required double longitude,
     List<HourlyAirQuality>? hourly,
@@ -48,7 +47,7 @@ class AirQualityApi extends BaseApi {
   }) =>
       requestFlatBuffer(
               this, _queryParamMap(latitude, longitude, hourly, current))
-          .then((data) => Response.fromFlatBuffer(
+          .then((data) => ApiResponse.fromFlatBuffer(
                 data,
                 hourlyHashes: HourlyAirQuality.hashes,
                 currentHashes: CurrentAirQuality.hashes,

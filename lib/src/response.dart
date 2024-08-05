@@ -5,7 +5,7 @@ import 'package:flat_buffers/flat_buffers.dart';
 import 'api.dart';
 import 'weather_api_openmeteo_sdk_generated.dart';
 
-class Response<Api extends BaseApi> {
+class ApiResponse<Api extends BaseApi> {
   final double latitude;
   final double longitude;
   final double elevation;
@@ -13,11 +13,11 @@ class Response<Api extends BaseApi> {
   final Duration utcOffset;
   final String? timezone;
   final String? timezoneAbbreviation;
-  final Map<WeatherParameter<Api, Current>, WeatherParameterData> currentData;
-  final Map<WeatherParameter<Api, Hourly>, WeatherParameterData> hourlyData;
-  final Map<WeatherParameter<Api, Daily>, WeatherParameterData> dailyData;
+  final Map<WeatherParameter<Api, Current>, ParameterData> currentData;
+  final Map<WeatherParameter<Api, Hourly>, ParameterData> hourlyData;
+  final Map<WeatherParameter<Api, Daily>, ParameterData> dailyData;
 
-  const Response._({
+  const ApiResponse._({
     required this.latitude,
     required this.longitude,
     required this.elevation,
@@ -30,7 +30,7 @@ class Response<Api extends BaseApi> {
     required this.dailyData,
   });
 
-  factory Response.fromFlatBuffer(
+  factory ApiResponse.fromFlatBuffer(
     Uint8List bytes, {
     Map<int, WeatherParameter<Api, Current>>? currentHashes,
     Map<int, WeatherParameter<Api, Hourly>>? hourlyHashes,
@@ -41,7 +41,7 @@ class Response<Api extends BaseApi> {
     WeatherApiResponse response =
         WeatherApiResponse(bytes.sublist(4, prefixed + 4));
 
-    return Response._(
+    return ApiResponse._(
       latitude: response.latitude,
       longitude: response.longitude,
       elevation: response.elevation,
@@ -58,11 +58,11 @@ class Response<Api extends BaseApi> {
   }
 }
 
-class WeatherParameterData {
+class ParameterData {
   final String unit;
   final Map<DateTime, double> data;
 
-  const WeatherParameterData._({
+  const ParameterData._({
     required this.unit,
     required this.data,
   });
@@ -77,7 +77,7 @@ int _computeHash(VariableWithValues v) => computeHash(
       depthTo: v.depthTo,
     );
 
-Map<ApiParameter, WeatherParameterData> _deserializeSingle<ApiParameter>(
+Map<ApiParameter, ParameterData> _deserializeSingle<ApiParameter>(
   VariablesWithTime? data,
   Map<int, ApiParameter>? hashes,
 ) {
@@ -93,7 +93,7 @@ Map<ApiParameter, WeatherParameterData> _deserializeSingle<ApiParameter>(
 
     return MapEntry(
       parameter,
-      WeatherParameterData._(
+      ParameterData._(
         unit: _unitsMap[v.unit]!,
         data: {timestamp: v.value},
       ),
@@ -101,7 +101,7 @@ Map<ApiParameter, WeatherParameterData> _deserializeSingle<ApiParameter>(
   }).nonNulls);
 }
 
-Map<ApiParameter, WeatherParameterData> _deserializeMultiple<ApiParameter>(
+Map<ApiParameter, ParameterData> _deserializeMultiple<ApiParameter>(
   VariablesWithTime? data,
   Map<int, ApiParameter>? hashes,
 ) {
@@ -125,7 +125,7 @@ Map<ApiParameter, WeatherParameterData> _deserializeMultiple<ApiParameter>(
 
     return MapEntry(
       parameter,
-      WeatherParameterData._(
+      ParameterData._(
         unit: _unitsMap[v.unit]!,
         data: v.values
                 ?.asMap()

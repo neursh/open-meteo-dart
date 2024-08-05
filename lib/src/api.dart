@@ -113,3 +113,6 @@ MapEntry<String, String>? _convertQueryEntry(MapEntry<String, dynamic> entry) =>
         MapEntry(entry.key, v.map((e) => e.toString()).join(',')),
       Object v => MapEntry(entry.key, v.toString()),
     };
+
+String? formatDate(DateTime? date) => date?.toIso8601String().substring(0, 10);
+String? formatTime(DateTime? time) => time?.toIso8601String();

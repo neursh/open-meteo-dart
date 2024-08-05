@@ -1,7 +1,6 @@
 import '../api.dart';
 import '../options.dart';
 import '../response.dart';
-import '../utils.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Seamless integration of high-resolution weather models with up 16 days forecast.
@@ -89,7 +88,7 @@ class WeatherApi extends BaseApi {
       requestJson(
           this, _queryParamMap(latitude, longitude, hourly, daily, current));
 
-  Future<Response<WeatherApi>> request({
+  Future<ApiResponse<WeatherApi>> request({
     required double latitude,
     required double longitude,
     List<HourlyWeather>? hourly,
@@ -98,7 +97,7 @@ class WeatherApi extends BaseApi {
   }) =>
       requestFlatBuffer(
               this, _queryParamMap(latitude, longitude, hourly, daily, current))
-          .then((data) => Response.fromFlatBuffer(
+          .then((data) => ApiResponse.fromFlatBuffer(
                 data,
                 currentHashes: CurrentWeather.hashes,
                 hourlyHashes: HourlyWeather.hashes,

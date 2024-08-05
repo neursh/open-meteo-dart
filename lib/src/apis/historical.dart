@@ -1,7 +1,6 @@
 import '../api.dart';
 import '../options.dart';
 import '../response.dart';
-import '../utils.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Discover how weather has shaped our world from 1940 until now.
@@ -57,7 +56,7 @@ class HistoricalApi extends BaseApi {
           _queryParamMap(
               latitude, longitude, startDate, endDate, hourly, daily));
 
-  Future<Response<HistoricalApi>> request({
+  Future<ApiResponse<HistoricalApi>> request({
     required double latitude,
     required double longitude,
     required DateTime startDate,
@@ -69,7 +68,7 @@ class HistoricalApi extends BaseApi {
               this,
               _queryParamMap(
                   latitude, longitude, startDate, endDate, hourly, daily))
-          .then((data) => Response.fromFlatBuffer(
+          .then((data) => ApiResponse.fromFlatBuffer(
                 data,
                 hourlyHashes: HourlyHistorical.hashes,
                 dailyHashes: DailyHistorical.hashes,

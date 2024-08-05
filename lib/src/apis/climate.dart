@@ -1,7 +1,6 @@
 import '../api.dart';
 import '../options.dart';
 import '../response.dart';
-import '../utils.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Explore Climate Change on a Local Level with High-Resolution Climate Data
@@ -39,7 +38,7 @@ class ClimateApi extends BaseApi {
       requestJson(
           this, _queryParamMap(latitude, longitude, startDate, endDate, daily));
 
-  Future<Response<ClimateApi>> request({
+  Future<ApiResponse<ClimateApi>> request({
     required double latitude,
     required double longitude,
     required DateTime startDate,
@@ -48,7 +47,7 @@ class ClimateApi extends BaseApi {
   }) =>
       requestFlatBuffer(this,
               _queryParamMap(latitude, longitude, startDate, endDate, daily))
-          .then((data) => Response.fromFlatBuffer(
+          .then((data) => ApiResponse.fromFlatBuffer(
                 data,
                 dailyHashes: DailyClimate.hashes,
               ));

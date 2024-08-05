@@ -1,7 +1,6 @@
 import '../api.dart';
 import '../options.dart';
 import '../response.dart';
-import '../utils.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Hourly wave forecasts at 5 km resolution
@@ -83,7 +82,7 @@ class MarineApi extends BaseApi {
       requestJson(
           this, _queryParamMap(latitude, longitude, current, hourly, daily));
 
-  Future<Response<MarineApi>> request({
+  Future<ApiResponse<MarineApi>> request({
     required double latitude,
     required double longitude,
     List<CurrentMarine>? current,
@@ -92,7 +91,7 @@ class MarineApi extends BaseApi {
   }) =>
       requestFlatBuffer(
               this, _queryParamMap(latitude, longitude, current, hourly, daily))
-          .then((data) => Response.fromFlatBuffer(
+          .then((data) => ApiResponse.fromFlatBuffer(
                 data,
                 currentHashes: CurrentMarine.hashes,
                 hourlyHashes: HourlyMarine.hashes,

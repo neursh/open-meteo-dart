@@ -1,7 +1,6 @@
 import '../api.dart';
 import '../options.dart';
 import '../response.dart';
-import '../utils.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Simulated river discharge at 5 km resolution from 1984 up to 7 months forecast.
@@ -55,13 +54,13 @@ class FloodApi extends BaseApi {
   }) =>
       requestJson(this, _queryParamMap(latitude, longitude, daily));
 
-  Future<Response<FloodApi>> request({
+  Future<ApiResponse<FloodApi>> request({
     required double latitude,
     required double longitude,
     List<DailyFlood>? daily,
   }) =>
       requestFlatBuffer(this, _queryParamMap(latitude, longitude, daily))
-          .then((data) => Response.fromFlatBuffer(
+          .then((data) => ApiResponse.fromFlatBuffer(
                 data,
                 dailyHashes: DailyFlood.hashes,
               ));

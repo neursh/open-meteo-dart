@@ -1,7 +1,6 @@
 import '../api.dart';
 import '../options.dart';
 import '../response.dart';
-import '../utils.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
 /// Hundreds Of Weather Forecasts, Every time, Everywhere, All at Once.
@@ -99,13 +98,13 @@ class EnsembleApi extends BaseApi {
   }) =>
       requestJson(this, _queryParamMap(latitude, longitude, hourly));
 
-  Future<Response<EnsembleApi>> request({
+  Future<ApiResponse<EnsembleApi>> request({
     required double latitude,
     required double longitude,
     List<HourlyEnsemble>? hourly,
   }) =>
       requestFlatBuffer(this, _queryParamMap(latitude, longitude, hourly))
-          .then((data) => Response.fromFlatBuffer(
+          .then((data) => ApiResponse.fromFlatBuffer(
                 data,
                 hourlyHashes: HourlyEnsemble.hashes,
               ));
