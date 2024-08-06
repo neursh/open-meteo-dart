@@ -2,6 +2,7 @@ import '../api.dart';
 import '../apis/climate.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
+/// Climate's current variables provided by Open-Meteo.
 enum ClimateDaily with Parameter<ClimateApi, Daily> {
   temperature_2m_mean(
     Variable.temperature,
@@ -116,6 +117,7 @@ enum ClimateDaily with Parameter<ClimateApi, Daily> {
   static final Map<int, ClimateDaily> hashes = makeHashes(ClimateDaily.values);
 }
 
+/// Climate's model variables provided by Open-Meteo.
 enum ClimateModel {
   CMCC_CM2_VHR4,
   FGOALS_f3_H,

@@ -9,7 +9,6 @@ import '../response.dart';
 class AirQualityApi extends BaseApi {
   final CellSelection cellSelection;
   final AirQualityDomains domains;
-
   const AirQualityApi({
     super.apiUrl = 'https://air-quality-api.open-meteo.com/v1/air-quality',
     super.apiKey,
@@ -30,6 +29,10 @@ class AirQualityApi extends BaseApi {
         domains: domains ?? this.domains,
       );
 
+  /// This method returns a JSON map,
+  /// containing either the data or the raw error response.
+  /// This method exists solely for debug purposes, do not use in production.
+  /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
@@ -62,6 +65,9 @@ class AirQualityApi extends BaseApi {
         ),
       );
 
+  /// This method returns a Dart object,
+  /// and throws an exception if the API returns an error response,
+  /// recommended for most use cases.
   Future<ApiResponse<AirQualityApi>> request({
     required double latitude,
     required double longitude,

@@ -39,6 +39,10 @@ class HistoricalApi extends BaseApi {
         cellSelection: cellSelection ?? this.cellSelection,
       );
 
+  /// This method returns a JSON map,
+  /// containing either the data or the raw error response.
+  /// This method exists solely for debug purposes, do not use in production.
+  /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
@@ -61,6 +65,9 @@ class HistoricalApi extends BaseApi {
         ),
       );
 
+  /// This method returns a Dart object,
+  /// and throws an exception if the API returns an error response,
+  /// recommended for most use cases.
   Future<ApiResponse<HistoricalApi>> request({
     required double latitude,
     required double longitude,

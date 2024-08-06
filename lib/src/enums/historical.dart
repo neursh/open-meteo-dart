@@ -2,6 +2,7 @@ import '../api.dart';
 import '../apis/historical.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
+/// Historical's hourly variables provided by Open-Meteo.
 enum HistoricalHourly with Parameter<HistoricalApi, Hourly> {
   temperature_2m(
     Variable.temperature,
@@ -128,6 +129,7 @@ enum HistoricalHourly with Parameter<HistoricalApi, Hourly> {
       makeHashes(HistoricalHourly.values);
 }
 
+/// Historical's daily variables provided by Open-Meteo.
 enum HistoricalDaily with Parameter<HistoricalApi, Daily> {
   weather_code(Variable.weather_code),
   temperature_2m_max(

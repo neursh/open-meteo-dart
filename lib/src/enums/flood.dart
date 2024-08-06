@@ -2,6 +2,7 @@ import '../api.dart';
 import '../apis/flood.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
+/// Flood's daily variables provided by Open-Meteo.
 enum FloodDaily with Parameter<FloodApi, Daily> {
   river_discharge(Variable.river_discharge),
   river_discharge_mean(

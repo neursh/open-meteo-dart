@@ -2,6 +2,7 @@ import '../api.dart';
 import '../apis/weather.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
+/// Weather's current variables provided by Open-Meteo.
 enum WeatherCurrent with Parameter<WeatherApi, Current> {
   temperature_2m(
     Variable.temperature,
@@ -52,6 +53,7 @@ enum WeatherCurrent with Parameter<WeatherApi, Current> {
       makeHashes(WeatherCurrent.values);
 }
 
+/// Weather's hourly variables provided by Open-Meteo.
 enum WeatherHourly with Parameter<WeatherApi, Hourly> {
   temperature_2m(
     Variable.temperature,
@@ -674,6 +676,7 @@ enum WeatherHourly with Parameter<WeatherApi, Hourly> {
       makeHashes(WeatherHourly.values);
 }
 
+/// Weather's daily variables provided by Open-Meteo.
 enum WeatherDaily with Parameter<WeatherApi, Daily> {
   weather_code(Variable.weather_code),
   temperature_2m_max(

@@ -23,6 +23,8 @@ class GeocodingApi extends BaseApi {
         language: language ?? this.language,
       );
 
+  /// This method returns a JSON map,
+  /// containing either the data or the raw error response.
   Future<Map<String, dynamic>> requestJson({
     required String name,
     int? count,

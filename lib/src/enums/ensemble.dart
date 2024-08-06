@@ -2,6 +2,7 @@ import '../api.dart';
 import '../apis/ensemble.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
+/// Ensemble's hourly variables provided by Open-Meteo.
 enum EnsembleHourly with Parameter<EnsembleApi, Hourly> {
   temperature_2m(
     Variable.temperature,
@@ -163,6 +164,7 @@ enum EnsembleHourly with Parameter<EnsembleApi, Hourly> {
       makeHashes(EnsembleHourly.values);
 }
 
+/// Ensemble's model variables provided by Open-Meteo.
 enum EnsembleModel {
   icon_seamless,
   icon_global,

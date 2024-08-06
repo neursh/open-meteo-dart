@@ -2,6 +2,7 @@ import '../api.dart';
 import '../apis/marine.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
+/// Marine's current variables provided by Open-Meteo.
 enum MarineCurrent with Parameter<MarineApi, Current> {
   wave_height(Variable.wave_height),
   wave_direction(Variable.wave_direction),
@@ -26,6 +27,7 @@ enum MarineCurrent with Parameter<MarineApi, Current> {
       makeHashes(MarineCurrent.values);
 }
 
+/// Marine's hourly variables provided by Open-Meteo.
 enum MarineHourly with Parameter<MarineApi, Hourly> {
   wave_height(Variable.wave_height),
   wave_direction(Variable.wave_direction),
