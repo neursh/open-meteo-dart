@@ -13,9 +13,9 @@ class ApiResponse<Api extends BaseApi> {
   final Duration utcOffset;
   final String? timezone;
   final String? timezoneAbbreviation;
-  final Map<Parameter<Api, Current>, ParameterData> currentData;
-  final Map<Parameter<Api, Hourly>, ParameterData> hourlyData;
-  final Map<Parameter<Api, Daily>, ParameterData> dailyData;
+  final Map<Parameter<Api, Current>, ParameterValue> currentData;
+  final Map<Parameter<Api, Hourly>, ParameterValues> hourlyData;
+  final Map<Parameter<Api, Daily>, ParameterValues> dailyData;
 
   const ApiResponse._({
     required this.latitude,
@@ -58,13 +58,25 @@ class ApiResponse<Api extends BaseApi> {
   }
 }
 
-class ParameterData {
+class ParameterValue {
   final String unit;
-  final Map<DateTime, double> data;
+  final DateTime time;
+  final double value;
 
-  const ParameterData._({
+  const ParameterValue._({
     required this.unit,
-    required this.data,
+    required this.time,
+    required this.value,
+  });
+}
+
+class ParameterValues {
+  final String unit;
+  final Map<DateTime, double> values;
+
+  const ParameterValues._({
+    required this.unit,
+    required this.values,
   });
 }
 
@@ -77,7 +89,7 @@ int _computeHash(VariableWithValues v) => computeHash(
       depthTo: v.depthTo,
     );
 
-Map<ApiParameter, ParameterData> _deserializeSingle<ApiParameter>(
+Map<ApiParameter, ParameterValue> _deserializeSingle<ApiParameter>(
   VariablesWithTime? data,
   Map<int, ApiParameter>? hashes,
 ) {
@@ -93,15 +105,16 @@ Map<ApiParameter, ParameterData> _deserializeSingle<ApiParameter>(
 
     return MapEntry(
       parameter,
-      ParameterData._(
+      ParameterValue._(
         unit: _unitsMap[v.unit]!,
-        data: {timestamp: v.value},
+        time: timestamp,
+        value: v.value,
       ),
     );
   }).nonNulls);
 }
 
-Map<ApiParameter, ParameterData> _deserializeMultiple<ApiParameter>(
+Map<ApiParameter, ParameterValues> _deserializeMultiple<ApiParameter>(
   VariablesWithTime? data,
   Map<int, ApiParameter>? hashes,
 ) {
@@ -125,9 +138,9 @@ Map<ApiParameter, ParameterData> _deserializeMultiple<ApiParameter>(
 
     return MapEntry(
       parameter,
-      ParameterData._(
+      ParameterValues._(
         unit: _unitsMap[v.unit]!,
-        data: v.values
+        values: v.values
                 ?.asMap()
                 .map((index, value) => MapEntry(timestamps[index], value)) ??
             {},

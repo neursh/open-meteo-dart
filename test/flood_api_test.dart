@@ -64,7 +64,7 @@ void main() {
           );
           final temperature = result.dailyData[FloodDaily.river_discharge];
           expect(temperature, isNotNull);
-          expect(temperature!.data, isNotEmpty);
+          expect(temperature!.values, isNotEmpty);
         });
       });
     });

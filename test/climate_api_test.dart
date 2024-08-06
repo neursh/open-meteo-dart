@@ -101,7 +101,7 @@ void main() {
           );
           final temperature = result.dailyData[ClimateDaily.temperature_2m_max];
           expect(temperature, isNotNull);
-          expect(temperature!.data, isNotEmpty);
+          expect(temperature!.values, isNotEmpty);
         });
       });
     });

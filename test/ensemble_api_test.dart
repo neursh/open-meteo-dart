@@ -87,7 +87,7 @@ void main() {
           );
           final temperature = result.hourlyData[EnsembleHourly.temperature_2m];
           expect(temperature, isNotNull);
-          expect(temperature!.data, isNotEmpty);
+          expect(temperature!.values, isNotEmpty);
         });
       });
     });

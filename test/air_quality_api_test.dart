@@ -76,7 +76,6 @@ void main() {
           final temperature =
               result.currentData[AirQualityCurrent.european_aqi];
           expect(temperature, isNotNull);
-          expect(temperature!.data.length, 1);
         });
         test('hourly aqi', () async {
           final result = await api.request(
@@ -86,7 +85,7 @@ void main() {
           );
           final temperature = result.hourlyData[AirQualityHourly.european_aqi];
           expect(temperature, isNotNull);
-          expect(temperature!.data, isNotEmpty);
+          expect(temperature!.values, isNotEmpty);
         });
       });
     });

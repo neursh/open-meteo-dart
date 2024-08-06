@@ -86,7 +86,6 @@ void main() {
           );
           final waveHeight = result.currentData[MarineCurrent.wave_height];
           expect(waveHeight, isNotNull);
-          expect(waveHeight!.data.length, 1);
         });
         test('hourly wave height', () async {
           final result = await api.request(
@@ -96,7 +95,7 @@ void main() {
           );
           final waveHeight = result.hourlyData[MarineHourly.wave_height];
           expect(waveHeight, isNotNull);
-          expect(waveHeight!.data, isNotEmpty);
+          expect(waveHeight!.values, isNotEmpty);
         });
         // test('daily wave height max', () async {
         //   final result = await api.request(

@@ -87,7 +87,7 @@ void main() {
           final temperature =
               result.hourlyData[HistoricalHourly.temperature_2m];
           expect(temperature, isNotNull);
-          expect(temperature!.data, isNotEmpty);
+          expect(temperature!.values, isNotEmpty);
         });
         test('daily temperature max', () async {
           final result = await api.request(
@@ -100,7 +100,7 @@ void main() {
           final temperature =
               result.dailyData[HistoricalDaily.temperature_2m_max];
           expect(temperature, isNotNull);
-          expect(temperature!.data, isNotEmpty);
+          expect(temperature!.values, isNotEmpty);
         });
       });
     });
