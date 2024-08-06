@@ -1,11 +1,14 @@
 // Go to /en/docs and paste this script.
 
-const hourly_variables = new Set();
-const daily_variables = new Set();
-const current_variables = new Set();
-
 function fetchResult(variable) {
   console.log([...variable].join(","));
+}
+
+function consoleVariable(title, variables) {
+  if (variables.size > 0) {
+    console.log(`%c${title}:`, "color: blue");
+    fetchResult(variables);
+  }
 }
 
 function collectVariables() {
@@ -13,6 +16,10 @@ function collectVariables() {
   for (let i = 0; i < colasped_docs.length; i++) {
     colasped_docs[i].click();
   }
+
+  const hourly_variables = new Set();
+  const daily_variables = new Set();
+  const current_variables = new Set();
 
   setTimeout(() => {
     const form_docs = document.getElementsByClassName("form-check-input");
@@ -27,7 +34,11 @@ function collectVariables() {
         current_variables.add(form_docs[i].getAttribute("value"));
       }
     }
-  }, 500);
+
+    consoleVariable("Hourly", hourly_variables);
+    consoleVariable("Daily", daily_variables);
+    consoleVariable("Current", current_variables);
+  }, 1000);
 }
 
 const doc_pages = [
@@ -42,16 +53,11 @@ const doc_pages = [
 
 for (let page = 0; page < doc_pages.length; page++) {
   setTimeout(() => {
-    document.querySelector(`a[href="${doc_pages[page]}"]`).click();
+    const button = document.querySelector(`a[href="${doc_pages[page]}"]`);
+    button.click();
+    console.log(`%c${button.innerText}`, "color: green; font-size: 20px");
     setTimeout(() => {
       collectVariables();
     }, 1000);
-    setTimeout(() => {
-      console.log(`[TASK] ${doc_pages[page]} done. [hourly: ${hourly_variables.size} | daily: ${daily_variables.size} | current: ${current_variables.size}]`);
-    }, 2000);
   }, 3000 * page);
 }
-
-setTimeout(() => {
-  console.log(`[RESULT]\nHourly: ${hourly_variables.size}\nDaily: ${daily_variables.size}\nCurrent: ${current_variables.size}\nRun fetchResult(<variable>) to log every values in the variable.`);
-}, 3000 * doc_pages.length);
