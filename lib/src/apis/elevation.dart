@@ -1,23 +1,31 @@
-import '../utils.dart';
+import '../api.dart';
 
 /// 90 meter resolution digital elevation model.
 ///
 /// https://open-meteo.com/en/docs/elevation-api/
-class Elevation {
-  /// `latitude`, `longitude`: Geographical WGS84 coordinates of the location. Can be multiple coordinates.
-  /// `apiUrl`: Custom API URL, format: `https://<domain>/<version>/`.
-  /// `apikey`: Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/elevation-api/
-  static Future<dynamic> search({
-    String apiUrl = 'https://api.open-meteo.com/v1/',
-    required List<double> latitudes,
-    longitudes,
-    String? apikey,
+class ElevationApi extends BaseApi {
+  const ElevationApi({
+    super.apiUrl = 'https://api.open-meteo.com/v1/elevation',
+    super.apiKey,
+  });
+
+  ElevationApi copyWith({
+    String? apiUrl,
+    String? apiKey,
   }) =>
-      sendHttpRequest(apiUrl, 'elevation', {
-        'latitude': latitudes.join(','),
-        'longitude': longitudes.join(','),
-        'apikey': apikey,
+      ElevationApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+      );
+
+  /// This method returns a JSON map,
+  /// containing either the data or the raw error response.
+  Future<Map<String, dynamic>> requestJson({
+    required List<double> latitudes,
+    required List<double> longitudes,
+  }) =>
+      apiRequestJson(this, {
+        'latitude': latitudes,
+        'longitude': longitudes,
       });
 }

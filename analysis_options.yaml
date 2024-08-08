@@ -3,4 +3,3 @@ include: package:lints/recommended.yaml
 linter:
   rules:
     constant_identifier_names: false
-    non_constant_identifier_names: false

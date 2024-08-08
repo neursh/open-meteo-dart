@@ -2,12 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flat_buffers/flat_buffers.dart';
 
-import '../enums/current.dart';
-import '../enums/daily.dart';
-import '../enums/hourly.dart';
-import '../weather_api_openmeteo_sdk_generated.dart';
+import 'api.dart';
+import 'weather_api_openmeteo_sdk_generated.dart';
 
-class WeatherResponse {
+class ApiResponse<Api extends BaseApi> {
   final double latitude;
   final double longitude;
   final double elevation;
@@ -15,11 +13,11 @@ class WeatherResponse {
   final Duration utcOffset;
   final String? timezone;
   final String? timezoneAbbreviation;
-  final Map<Current, WeatherParameterData>? currentWeatherData;
-  final Map<Hourly, WeatherParameterData>? hourlyWeatherData;
-  final Map<Daily, WeatherParameterData>? dailyWeatherData;
+  final Map<Parameter<Api, Current>, ParameterValue> currentData;
+  final Map<Parameter<Api, Hourly>, ParameterValues> hourlyData;
+  final Map<Parameter<Api, Daily>, ParameterValues> dailyData;
 
-  const WeatherResponse._({
+  const ApiResponse._({
     required this.latitude,
     required this.longitude,
     required this.elevation,
@@ -27,18 +25,23 @@ class WeatherResponse {
     required this.utcOffset,
     required this.timezone,
     required this.timezoneAbbreviation,
-    required this.currentWeatherData,
-    required this.hourlyWeatherData,
-    required this.dailyWeatherData,
+    required this.currentData,
+    required this.hourlyData,
+    required this.dailyData,
   });
 
-  factory WeatherResponse.fromFlatBuffer(Uint8List bytes) {
+  factory ApiResponse.fromFlatBuffer(
+    Uint8List bytes, {
+    Map<int, Parameter<Api, Current>>? currentHashes,
+    Map<int, Parameter<Api, Hourly>>? hourlyHashes,
+    Map<int, Parameter<Api, Daily>>? dailyHashes,
+  }) {
     int prefixed =
         BufferContext.fromBytes(bytes).buffer.getUint32(0, Endian.little);
     WeatherApiResponse response =
         WeatherApiResponse(bytes.sublist(4, prefixed + 4));
 
-    return WeatherResponse._(
+    return ApiResponse._(
       latitude: response.latitude,
       longitude: response.longitude,
       elevation: response.elevation,
@@ -48,55 +51,76 @@ class WeatherResponse {
       utcOffset: Duration(seconds: response.utcOffsetSeconds),
       timezone: response.timezone,
       timezoneAbbreviation: response.timezoneAbbreviation,
-      currentWeatherData:
-          _processSingle(response.current, Current.fromVariable),
-      hourlyWeatherData: _processMultiple(response.hourly, Hourly.fromVariable),
-      dailyWeatherData: _processMultiple(response.daily, Daily.fromVariable),
+      currentData: _deserializeSingle(response.current, currentHashes),
+      hourlyData: _deserializeMultiple(response.hourly, hourlyHashes),
+      dailyData: _deserializeMultiple(response.daily, dailyHashes),
     );
   }
 }
 
-class WeatherParameterData {
+class ParameterValue {
   final String unit;
-  final Map<DateTime, double> data;
+  final DateTime time;
+  final double value;
 
-  const WeatherParameterData._({
+  const ParameterValue._({
     required this.unit,
-    required this.data,
+    required this.time,
+    required this.value,
   });
 }
 
-Map<Parameter, WeatherParameterData>? _processSingle<Parameter extends Enum>(
+class ParameterValues {
+  final String unit;
+  final Map<DateTime, double> values;
+
+  const ParameterValues._({
+    required this.unit,
+    required this.values,
+  });
+}
+
+int _computeHash(VariableWithValues v) => computeHash(
+      variable: v.variable,
+      altitude: v.altitude,
+      aggregation: v.aggregation,
+      pressureLevel: v.pressureLevel,
+      depth: v.depth,
+      depthTo: v.depthTo,
+    );
+
+Map<ApiParameter, ParameterValue> _deserializeSingle<ApiParameter>(
   VariablesWithTime? data,
-  Parameter? Function(VariableWithValues) converter,
+  Map<int, ApiParameter>? hashes,
 ) {
-  if (data == null) return null;
+  if (data == null || hashes == null) return {};
   List<VariableWithValues>? variables = data.variables;
-  if (variables == null) return null;
+  if (variables == null) return {};
 
   DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(data.time * 1000);
 
   return Map.fromEntries(variables.map((v) {
-    Parameter? variable = converter(v);
-    if (variable == null) return null;
+    ApiParameter? parameter = hashes[_computeHash(v)];
+    if (parameter == null) return null;
 
     return MapEntry(
-      variable,
-      WeatherParameterData._(
-        unit: unitsMap[v.unit]!,
-        data: {timestamp: v.value},
+      parameter,
+      ParameterValue._(
+        unit: _unitsMap[v.unit]!,
+        time: timestamp,
+        value: v.value,
       ),
     );
   }).nonNulls);
 }
 
-Map<Parameter, WeatherParameterData>? _processMultiple<Parameter extends Enum>(
+Map<ApiParameter, ParameterValues> _deserializeMultiple<ApiParameter>(
   VariablesWithTime? data,
-  Parameter? Function(VariableWithValues) converter,
+  Map<int, ApiParameter>? hashes,
 ) {
-  if (data == null) return null;
+  if (data == null || hashes == null) return {};
   List<VariableWithValues>? variables = data.variables;
-  if (variables == null) return null;
+  if (variables == null) return {};
 
   DateTime startTime = DateTime.fromMillisecondsSinceEpoch(data.time * 1000);
   DateTime endTime = DateTime.fromMillisecondsSinceEpoch(data.timeEnd * 1000);
@@ -109,25 +133,23 @@ Map<Parameter, WeatherParameterData>? _processMultiple<Parameter extends Enum>(
   ];
 
   return Map.fromEntries(variables.map((v) {
-    Parameter? variable = converter(v);
-    if (variable == null) return null;
-    List<double>? values = v.values;
-    if (values == null || values.nonNulls.isEmpty) return null;
+    ApiParameter? parameter = hashes[_computeHash(v)];
+    if (parameter == null) return null;
 
     return MapEntry(
-      variable,
-      WeatherParameterData._(
-        unit: unitsMap[v.unit]!,
-        data: {
-          for (int i = 0; i < timestamps.length && i < values.length; i++)
-            timestamps[i]: values[i]
-        },
+      parameter,
+      ParameterValues._(
+        unit: _unitsMap[v.unit]!,
+        values: v.values
+                ?.asMap()
+                .map((index, value) => MapEntry(timestamps[index], value)) ??
+            {},
       ),
     );
   }).nonNulls);
 }
 
-const Map<Unit, String> unitsMap = {
+const Map<Unit, String> _unitsMap = {
   Unit.undefined: '',
   Unit.celsius: '°C',
   Unit.centimetre: 'cm',

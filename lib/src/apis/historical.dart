@@ -1,75 +1,124 @@
-import '../enums/daily.dart';
-import '../enums/hourly.dart';
-import '../enums/prefcls.dart';
-import '../models/weather.dart';
-import '../utils.dart';
+import '../api.dart';
+import '../enums/historical.dart';
+import '../options.dart';
+import '../response.dart';
 
 /// Discover how weather has shaped our world from 1940 until now.
 ///
 /// https://open-meteo.com/en/docs/historical-weather-api/
-class Historical {
-  String apiUrl;
-  final double latitude, longitude;
-  double? elevation;
-  DateTime? start_date, end_date;
-  TemperatureUnit? temperature_unit;
-  WindspeedUnit? windspeed_unit;
-  PrecipitationUnit? precipitation_unit;
-  CellSelection? cell_selection;
-  String? apikey;
+class HistoricalApi extends BaseApi {
+  final TemperatureUnit temperatureUnit;
+  final WindspeedUnit windspeedUnit;
+  final PrecipitationUnit precipitationUnit;
+  final CellSelection cellSelection;
 
-  Historical({
-    this.apiUrl = 'https://archive-api.open-meteo.com/v1/',
-    required this.latitude,
-    required this.longitude,
-    this.elevation,
-    this.start_date,
-    this.end_date,
-    this.temperature_unit,
-    this.windspeed_unit,
-    this.precipitation_unit,
-    this.apikey,
-  }) {
-    Uri.parse(apiUrl);
+  const HistoricalApi({
+    super.apiUrl = 'https://archive-api.open-meteo.com/v1/archive',
+    super.apiKey,
+    this.temperatureUnit = TemperatureUnit.celsius,
+    this.windspeedUnit = WindspeedUnit.kmh,
+    this.precipitationUnit = PrecipitationUnit.mm,
+    this.cellSelection = CellSelection.land,
+  });
 
-    throwCheckLatLng(latitude, longitude);
-  }
-
-  Future<Map<String, dynamic>> raw_request({
-    List<Hourly>? hourly,
-    List<Daily>? daily,
-  }) =>
-      sendHttpRequest(
-        apiUrl,
-        'archive',
-        _queryParamMap(daily: daily, hourly: hourly),
+  HistoricalApi copyWith(
+    String? apiUrl,
+    String? apiKey,
+    TemperatureUnit? temperatureUnit,
+    WindspeedUnit? windspeedUnit,
+    PrecipitationUnit? precipitationUnit,
+    CellSelection? cellSelection,
+    double? elevation,
+  ) =>
+      HistoricalApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        temperatureUnit: temperatureUnit ?? this.temperatureUnit,
+        windspeedUnit: windspeedUnit ?? this.windspeedUnit,
+        precipitationUnit: precipitationUnit ?? this.precipitationUnit,
+        cellSelection: cellSelection ?? this.cellSelection,
       );
 
-  Future<WeatherResponse> request({
-    List<Hourly>? hourly,
-    List<Daily>? daily,
+  /// This method returns a JSON map,
+  /// containing either the data or the raw error response.
+  /// This method exists solely for debug purposes, do not use in production.
+  /// Use `request()` instead.
+  Future<Map<String, dynamic>> requestJson({
+    required double latitude,
+    required double longitude,
+    required DateTime startDate,
+    required DateTime endDate,
+    Set<HistoricalHourly> hourly = const {},
+    Set<HistoricalDaily> daily = const {},
+    double? elevation,
   }) =>
-      sendApiRequest(
-              apiUrl, 'archive', _queryParamMap(daily: daily, hourly: hourly))
-          .then(WeatherResponse.fromFlatBuffer);
+      apiRequestJson(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          startDate: startDate,
+          endDate: endDate,
+          hourly: hourly,
+          daily: daily,
+          elevation: elevation,
+        ),
+      );
+
+  /// This method returns a Dart object,
+  /// and throws an exception if the API returns an error response,
+  /// recommended for most use cases.
+  Future<ApiResponse<HistoricalApi>> request({
+    required double latitude,
+    required double longitude,
+    required DateTime startDate,
+    required DateTime endDate,
+    Set<HistoricalHourly> hourly = const {},
+    Set<HistoricalDaily> daily = const {},
+    double? elevation,
+  }) =>
+      apiRequestFlatBuffer(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          startDate: startDate,
+          endDate: endDate,
+          hourly: hourly,
+          daily: daily,
+          elevation: elevation,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          hourlyHashes: HistoricalHourly.hashes,
+          dailyHashes: HistoricalDaily.hashes,
+        ),
+      );
 
   Map<String, dynamic> _queryParamMap({
-    List<Daily>? daily,
-    List<Hourly>? hourly,
+    required double latitude,
+    required double longitude,
+    required DateTime startDate,
+    required DateTime endDate,
+    required Set<HistoricalHourly> hourly,
+    required Set<HistoricalDaily> daily,
+    required double? elevation,
   }) =>
       {
-        'daily': daily?.map((option) => option.name).join(","),
-        'hourly': hourly?.map((option) => option.name).join(","),
-        'elevation': elevation,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'temperature_unit': temperature_unit?.name,
-        'windspeed_unit': windspeed_unit?.name,
-        'precipitaion_unit': precipitation_unit?.name,
-        'cell_selection': cell_selection?.name,
-        'apikey': apikey,
         'latitude': latitude,
         'longitude': longitude,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'hourly': nullIfEmpty(hourly),
+        'daily': nullIfEmpty(daily),
+        'temperature_unit':
+            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+        'precipitaion_unit':
+            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
+        'elevation': elevation,
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };

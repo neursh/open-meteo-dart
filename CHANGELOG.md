@@ -96,3 +96,10 @@
 * Patch up many small mistakes.
 * Introduce unit testing.
 * TODO: Integrate transform generator.
+
+## 2.0.0
+
+* [BREAKING] Update API class interaction. All projects that depend on this package are now unable to update to this version without some changes to the implementation.
+* Each API now have its own set of parameter enums.
+* Added `copyWith` constructor method to allow overriding settings.
+* Change `Geocoding` and `Elevation` interaction for consistency.

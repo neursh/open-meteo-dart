@@ -1,91 +1,110 @@
-import '../enums/daily.dart';
-import '../enums/prefcls.dart';
-import '../models/weather.dart';
-import '../utils.dart';
+import '../api.dart';
+import '../enums/flood.dart';
+import '../options.dart';
+import '../response.dart';
 
 /// Simulated river discharge at 5 km resolution from 1984 up to 7 months forecast.
 ///
 /// https://open-meteo.com/en/docs/flood-api/
-class Flood {
-  /// Custom API URL, format: `https://<domain>/<version>/`.
-  String apiUrl;
+class FloodApi extends BaseApi {
+  final CellSelection cellSelection;
+  final bool ensemble;
 
-  /// Geographical WGS84 coordinates of the location.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  final double latitude, longitude;
+  const FloodApi({
+    super.apiUrl = 'https://flood-api.open-meteo.com/v1/flood',
+    super.apiKey,
+    this.cellSelection = CellSelection.nearest,
+    this.ensemble = false,
+  });
 
-  /// If `past_days` is set, past weather data can be returned.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  int? past_days;
-
-  /// Per default, only 92 days are returned. Up to 210 days of forecast are possible.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  int? forecast_days;
-
-  /// The time interval to get data. Data are available from 1984-01-01 until 7 month forecast.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  DateTime? start_date, end_date;
-
-  /// If `true`, all forecast ensemble members will be returned.
-  ///
-  /// https://open-meteo.com/en/docs/flood-api/
-  bool? ensemble;
-
-  /// Set a preference how grid-cells are selected.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  CellSelection? cell_selection;
-
-  /// Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  String? apikey;
-
-  Flood({
-    this.apiUrl = 'https://flood-api.open-meteo.com/v1/',
-    required this.latitude,
-    required this.longitude,
-    this.past_days,
-    this.forecast_days,
-    this.start_date,
-    this.end_date,
-    this.cell_selection,
-    this.apikey,
-  }) {
-    Uri.parse(apiUrl);
-
-    throwCheckLatLng(latitude, longitude);
-  }
-
-  /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request({List<Daily>? daily}) =>
-      sendHttpRequest(
-        apiUrl,
-        'flood',
-        _queryParamMap(daily: daily),
+  FloodApi copyWith({
+    String? apiUrl,
+    String? apiKey,
+    CellSelection? cellSelection,
+    bool? ensemble,
+  }) =>
+      FloodApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        cellSelection: cellSelection ?? this.cellSelection,
+        ensemble: ensemble ?? this.ensemble,
       );
 
-  Future<WeatherResponse> request({List<Daily>? daily}) => sendApiRequest(
-        apiUrl,
-        'flood',
-        _queryParamMap(daily: daily),
-      ).then(WeatherResponse.fromFlatBuffer);
+  /// This method returns a JSON map,
+  /// containing either the data or the raw error response.
+  /// This method exists solely for debug purposes, do not use in production.
+  /// Use `request()` instead.
+  Future<Map<String, dynamic>> requestJson({
+    required double latitude,
+    required double longitude,
+    required Set<FloodDaily> daily,
+    int? pastDays,
+    int? forecastDays,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) =>
+      apiRequestJson(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          daily: daily,
+          pastDays: pastDays,
+          forecastDays: forecastDays,
+          startDate: startDate,
+          endDate: endDate,
+        ),
+      );
 
-  Map<String, dynamic> _queryParamMap({List<Daily>? daily}) => {
-        'daily': daily?.map((option) => option.name).join(","),
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'ensemble': ensemble,
-        'cell_selection': cell_selection?.name,
-        'apikey': apikey,
+  /// This method returns a Dart object,
+  /// and throws an exception if the API returns an error response,
+  /// recommended for most use cases.
+  Future<ApiResponse<FloodApi>> request({
+    required double latitude,
+    required double longitude,
+    required Set<FloodDaily> daily,
+    int? pastDays,
+    int? forecastDays,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) =>
+      apiRequestFlatBuffer(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          daily: daily,
+          pastDays: pastDays,
+          forecastDays: forecastDays,
+          startDate: startDate,
+          endDate: endDate,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          dailyHashes: FloodDaily.hashes,
+        ),
+      );
+
+  Map<String, dynamic> _queryParamMap({
+    required double latitude,
+    required double longitude,
+    required Set<FloodDaily> daily,
+    required int? pastDays,
+    required int? forecastDays,
+    required DateTime? startDate,
+    required DateTime? endDate,
+  }) =>
+      {
         'latitude': latitude,
         'longitude': longitude,
+        'daily': daily,
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.nearest),
+        'ensemble': nullIfEqual(ensemble, false),
+        'past_days': pastDays,
+        'forecast_days': forecastDays,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };

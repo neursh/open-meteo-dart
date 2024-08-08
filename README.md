@@ -1,15 +1,8 @@
 # Open-Meteo API SDK
 A simple, fast, asynchronous Dart/Flutter package for accessing the Open-Meteo API.
 
-All features from the [Open-Meteo API](https://open-meteo.com/en/features) are implemented (some limited).
+All features from the [Open-Meteo API](https://open-meteo.com/en/features) have been implemented (some are limited).
 Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) before using this package in your project.
-
-> [!NOTE]
-All weather parameters have been copied from the official [Open-Meteo docs](https://open-meteo.com/en/docs#api-documentation).
-
-> [!CAUTION]
-This package combines weather parameters from 7 of the endpoints into 3 enums (`Current`, `Hourly`, `Daily`) to reduce code duplication.
-Check the Open-Meteo docs to ensure your parameters are valid for the endpoint you're calling.
 
 ## Top Contributors
  <table>
@@ -19,49 +12,102 @@ Check the Open-Meteo docs to ensure your parameters are valid for the endpoint y
       <br>
       <a href="https://github.com/MathNerd28">MathNerd28</a>
       <br>
-      <a href="https://github.com/neursh/open-meteo-dart/pulls?q=is%3Apr+author%3AMathNerd28">🛠️</a> | 💛 v1.1.0
+      <a href="https://github.com/neursh/open-meteo-dart/pulls?q=is%3Apr+author%3AMathNerd28">🛠️</a> | 💛 v1.1.0 - v2
     </td>
   </tr>
 </table>
 
 ## Usage & Docs
-Each of the nine features available in Open-Meteo is represented by its own class: `Weather`, `Historical`, `Ensemble`, `Climate`, `Marine`, `AirQuality`, `Geocoding`, `Elevation` and `Flood`.
-
-For example, to get the hourly temperature in London, 2 meters above sea level using `Weather`:
+Each of the nine features available in Open-Meteo is represented by its class: `WeatherApi`, `HistoricalApi`, `EnsembleApi`, `ClimateApi`, `MarineApi`, `AirQualityApi`, `GeocodingApi`, `ElevationApi` and `FloodApi`.
 
 > [!NOTE]
-All inputs to the API have been adapted to Dart-friendly variables.
-Time arguments are `DateTime` objects, and many parameters have enum representations.
+> All inputs to the API have been adapted to Dart-friendly variables.
+> Time arguments are `DateTime` objects and many parameters have enum representations.
+
+For example, to get the hourly temperature in Celsius in London, 2 meters above sea level using `WeatherApi`, and only get information from `2024-08-10` to `2024-08-12`:
 
 ```dart
-Weather weather = Weather(
-  latitude: 52.52,
-  longitude: 13.41,
-  temperature_unit: TemperatureUnit.celsius,
-);
-WeatherResponse result = await weather.request(
-  hourly: [Hourly.temperature_2m],
-);
-WeatherParameterData? temperature =
-    result.hourlyWeatherData?[Hourly.temperature_2m];
-double? currentTemperature = temperature?.data?.values.first;
+import 'package:open_meteo/open_meteo.dart';
+
+void main() async {
+  final weather = WeatherApi();
+  final response = await weather.request(
+    latitude: 52.52,
+    longitude: 13.41,
+    hourly: {WeatherHourly.temperature_2m},
+    startDate: DateTime(2024, 8, 10),
+    endDate: DateTime(2024, 8, 12),
+    temperature_unit: TemperatureUnit.celsius,
+  );
+  final data = response.hourlyData[WeatherHourly.temperature_2m]!;
+  final currentTemperature = data.values;
+
+  print(currentTemperature);
+}
+```
+
+In this example, the result is a `Map<DateTime, double>`:
+```
+{
+  2024-08-08 05:00:00.000: 20.09549903869629,
+  2024-08-08 06:00:00.000: 19.89550018310547,
+  ...,
+  2024-08-13 03:00:00.000: 18.788999557495117,
+  2024-08-13 04:00:00.000: 17.288999557495117,
+}
 ```
 
 > [!TIP]
+> In each API, there are two main methods:
+> 
 > - `request` returns a Dart object, and throws an exception if the API returns an error response, recommended for most use cases.
 > 
-> - `raw_request` returns a JSON map, containing either the data or the raw error response. This method exists solely for debug purposes, do not use in production.
+> - `requestJson` returns a JSON map, containing either the data or the raw error response. This method exists solely for debugging purposes, do not use in production.
 
 > [!NOTE]
-> The `Geocoding` and `Elevation` endpoints use static methods instead of first constructing an instance of that object.
-> 
-> Additionally, they only have a `search` method available, returning a JSON map because the upstream API doesn't implement FlatBuffers.
+> The `Geocoding` and `Elevation` are the two exceptions as they only have `searchJson` method available, the upstream API doesn't implement FlatBuffers.
 
 ```dart
-var result = await Geocoding.search(name: "Somewhere");
+var result = await GeocodingApi().requestJson(name: "London");
 ```
 ```dart
-var result = await Elevation.search(latitudes: [52.52], longitudes: [13.41]);
+var result = await ElevationApi().requestJson(latitudes: [52.52], longitudes: [13.41]);
+```
+
+## 1.1.0 Migration Guide
+- Every API now has `Api` suffix.
+```
+Weather() -> WeatherApi()
+```
+
+- Except for enum variables, snake_case variables are changed to lowerCamelCase to follow Dart's standard linter rules.
+```
+Weather(temperature_unit: TemperatureUnit.celsius) -> WeatherApi(temperatureUnit: TemperatureUnit.celsius)
+```
+
+- `Hourly`, `Daily`, `Current` enums are no longer available, instead, each API has their own set of enums:
+  - `WeatherHourly`, `WeatherDaily`, `WeatherCurrent` enums for `WeatherApi`.
+  - `HistoricalHourly`, `HistoricalDaily` enums for `HistoricalApi`.
+  - And so on...
+
+- `latitude`, `longitude`, and some variables now moved to request methods, API classes only have some settings related to the formatting result:
+```dart
+// 1.1.0
+var weather = Weather(
+  latitude: 52.52,
+  longitude: 13.41,
+  temperature_unit: TemperatureUnit.celsius
+);
+var hourly = [Hourly.temperature_2m];
+await weather.request(hourly: hourly);
+
+// 2.0.0
+final weather = WeatherApi(temperatureUnit: TemperatureUnit.celsius);
+final response = await weather.request(
+  latitude: 52.52,
+  longitude: 13.41,
+  hourly: {WeatherHourly.temperature_2m},
+);
 ```
 
 ## Bugs & Pull requests

@@ -1,106 +1,141 @@
-import '../enums/air_quality_domain.dart';
-import '../enums/current.dart';
-import '../enums/hourly.dart';
-import '../enums/prefcls.dart';
-import '../utils.dart';
+import '../api.dart';
+import '../enums/air_quality.dart';
+import '../options.dart';
+import '../response.dart';
 
 /// Pollutants and pollen forecast in 11 km resolution.
 ///
 /// https://open-meteo.com/en/docs/air-quality-api/
-class AirQuality {
-  /// Custom API URL, format: `https://<domain>/<version>/`
-  String apiUrl;
+class AirQualityApi extends BaseApi {
+  final CellSelection cellSelection;
+  final AirQualityDomains domains;
+  const AirQualityApi({
+    super.apiUrl = 'https://air-quality-api.open-meteo.com/v1/air-quality',
+    super.apiKey,
+    this.cellSelection = CellSelection.nearest,
+    this.domains = AirQualityDomains.auto,
+  });
 
-  /// Geographical WGS84 coordinates of the location.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  final double latitude, longitude;
-
-  /// Automatically combine both domains or specifically select
-  /// the European `AirQualityDomains.cams_europe` or global domain `AirQualityDomains.cams_global`.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  AirQualityDomains? domains;
-
-  /// If set, yesterday or the day before yesterday data are also returned.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  int? past_days;
-
-  /// Per default, 5 days are returned. Up to 7 days of forecast are possible.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  int? forecast_days;
-
-  /// Similar to forecast_days, the number of timesteps of hourly data can controlled.
-  /// Instead of using the current day as a reference, the current hour is used.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  int? forecast_hours, past_hours;
-
-  /// The time interval to get weather data.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  DateTime? start_date, end_date;
-
-  /// The time interval to get weather data for hourly data.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  DateTime? start_hour, end_hour;
-
-  /// Set a preference how grid-cells are selected.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  CellSelection? cell_selection;
-
-  /// Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/air-quality-api/
-  String? apikey;
-
-  AirQuality({
-    this.apiUrl = 'https://air-quality-api.open-meteo.com/v1/',
-    required this.latitude,
-    required this.longitude,
-    this.domains,
-    this.past_days,
-    this.forecast_days,
-    this.forecast_hours,
-    this.past_hours,
-    this.start_date,
-    this.end_date,
-    this.start_hour,
-    this.end_hour,
-    this.cell_selection,
-    this.apikey,
-  }) {
-    Uri.parse(apiUrl);
-
-    throwCheckLatLng(latitude, longitude);
-  }
-
-  /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request({
-    List<Hourly>? hourly,
-    List<Current>? current,
+  AirQualityApi copyWith({
+    String? apiUrl,
+    String? apiKey,
+    CellSelection? cellSelection,
+    AirQualityDomains? domains,
   }) =>
-      sendHttpRequest(apiUrl, 'air-quality', {
-        'hourly': hourly?.map((option) => option.name).join(","),
-        'current': current?.map((option) => option.name).join(","),
-        'domains': domains?.name,
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'forecast_hours': forecast_hours,
-        'past_hours': past_hours,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'start_hour': formatTime(start_hour),
-        'end_hour': formatTime(end_hour),
-        'call_selection': cell_selection?.name,
-        'apikey': apikey,
+      AirQualityApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        cellSelection: cellSelection ?? this.cellSelection,
+        domains: domains ?? this.domains,
+      );
+
+  /// This method returns a JSON map,
+  /// containing either the data or the raw error response.
+  /// This method exists solely for debug purposes, do not use in production.
+  /// Use `request()` instead.
+  Future<Map<String, dynamic>> requestJson({
+    required double latitude,
+    required double longitude,
+    Set<AirQualityHourly> hourly = const {},
+    Set<AirQualityCurrent> current = const {},
+    int? pastDays,
+    int? pastHours,
+    int? forecastDays,
+    int? forecastHours,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
+  }) =>
+      apiRequestJson(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+          current: current,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
+        ),
+      );
+
+  /// This method returns a Dart object,
+  /// and throws an exception if the API returns an error response,
+  /// recommended for most use cases.
+  Future<ApiResponse<AirQualityApi>> request({
+    required double latitude,
+    required double longitude,
+    Set<AirQualityHourly> hourly = const {},
+    Set<AirQualityCurrent> current = const {},
+    int? pastDays,
+    int? pastHours,
+    int? forecastDays,
+    int? forecastHours,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
+  }) =>
+      apiRequestFlatBuffer(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+          current: current,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          hourlyHashes: AirQualityHourly.hashes,
+          currentHashes: AirQualityCurrent.hashes,
+        ),
+      );
+
+  Map<String, dynamic> _queryParamMap({
+    required double latitude,
+    required double longitude,
+    required Set<AirQualityHourly> hourly,
+    required Set<AirQualityCurrent> current,
+    required int? pastDays,
+    required int? pastHours,
+    required int? forecastDays,
+    required int? forecastHours,
+    required DateTime? startDate,
+    required DateTime? endDate,
+    required DateTime? startHour,
+    required DateTime? endHour,
+  }) =>
+      {
         'latitude': latitude,
         'longitude': longitude,
+        'call_selection': nullIfEqual(cellSelection, CellSelection.nearest),
+        'domains': nullIfEqual(domains, AirQualityDomains.auto),
+        'hourly': nullIfEmpty(hourly),
+        'current': nullIfEmpty(current),
+        'past_days': pastDays,
+        'past_hours': pastHours,
+        'forecast_days': forecastDays,
+        'forecast_hours': forecastHours,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'start_hour': formatTime(startHour),
+        'end_hour': formatTime(endHour),
         'timeformat': 'unixtime',
         'timezone': 'auto',
-      });
+      };
 }

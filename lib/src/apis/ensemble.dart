@@ -1,168 +1,181 @@
-import '../enums/ensemble_model.dart';
-import '../enums/hourly.dart';
-import '../enums/prefcls.dart';
-import '../models/weather.dart';
-import '../utils.dart';
+import '../api.dart';
+import '../enums/ensemble.dart';
+import '../options.dart';
+import '../response.dart';
 
 /// Hundreds Of Weather Forecasts, Every time, Everywhere, All at Once.
 ///
 /// https://open-meteo.com/en/docs/ensemble-api/
-class Ensemble {
-  /// Custom API URL, format: `https://<domain>/<version>/`.
-  String apiUrl;
+class EnsembleApi extends BaseApi {
+  final Set<EnsembleModel> models;
+  final TemperatureUnit temperatureUnit;
+  final WindspeedUnit windspeedUnit;
+  final PrecipitationUnit precipitationUnit;
+  final CellSelection cellSelection;
 
-  /// Geographical WGS84 coordinates of the location.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  final double latitude, longitude;
+  const EnsembleApi({
+    super.apiUrl = 'https://ensemble-api.open-meteo.com/v1/ensemble',
+    super.apiKey,
+    required this.models,
+    this.temperatureUnit = TemperatureUnit.celsius,
+    this.windspeedUnit = WindspeedUnit.kmh,
+    this.precipitationUnit = PrecipitationUnit.mm,
+    this.cellSelection = CellSelection.land,
+  });
 
-  /// The elevation used for statistical downscaling. Per default,
-  /// a 90 meter digital elevation model is used.
-  /// You can manually set the elevation to correctly match mountain peaks.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  double? elevation;
-
-  /// If `TemperatureUnit.fahrenheit` is set, all temperature values are converted to Fahrenheit.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  TemperatureUnit? temperature_unit;
-
-  ///Other wind speed speed units: `WindspeedUnit.ms`, `WindspeedUnit.mph` and `WindspeedUnit.kn`.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  WindspeedUnit? windspeed_unit;
-
-  /// Other precipitation amount units: `PrecipitationUnit.inch`
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  PrecipitationUnit? precipitation_unit;
-
-  /// If `past_days` is set, past weather data can be returned.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  int? past_days;
-
-  /// Per default, only 7 days are returned. Up to 35 days of forecast are possible.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  int? forecast_days;
-
-  /// Similar to forecast_days, the number of timesteps of hourly and 15-minutely
-  /// data can controlled. Instead of using the current day as a reference,
-  /// the current hour or the current 15-minute time-step is used.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  int? forecast_hours, forecast_minutely_15;
-
-  /// Similar to forecast_days, the number of timesteps of hourly and 15-minutely
-  /// data can controlled. Instead of using the current day as a reference,
-  /// the current hour or the current 15-minute time-step is used.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  int? past_hours, past_minutely_15;
-
-  /// The time interval to get weather data.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  DateTime? start_date, end_date;
-
-  /// The time interval to get weather data for hourly or 15 minutely data.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  DateTime? start_hour, end_hour;
-
-  /// The time interval to get weather data for hourly or 15 minutely data.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  DateTime? start_minutely_15, end_minutely_15;
-
-  /// Set a preference how grid-cells are selected.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  CellSelection? cell_selection;
-
-  /// Only required to commercial use to access reserved API resources for customers.
-  ///
-  /// https://open-meteo.com/en/docs/ensemble-api/
-  String? apikey;
-
-  Ensemble({
-    this.apiUrl = 'https://ensemble-api.open-meteo.com/v1/',
-    required this.latitude,
-    required this.longitude,
-    this.elevation,
-    this.temperature_unit,
-    this.windspeed_unit,
-    this.precipitation_unit,
-    this.past_days,
-    this.forecast_days,
-    this.forecast_hours,
-    this.forecast_minutely_15,
-    this.past_hours,
-    this.past_minutely_15,
-    this.start_date,
-    this.end_date,
-    this.start_hour,
-    this.end_hour,
-    this.start_minutely_15,
-    this.end_minutely_15,
-    this.cell_selection,
-    this.apikey,
-  }) {
-    Uri.parse(apiUrl);
-
-    throwCheckLatLng(latitude, longitude);
-  }
-
-  /// Create a HTTP request. The function will return JSON data as Map if successful.
-  Future<Map<String, dynamic>> raw_request({
-    required List<EnsembleModel> models,
-    List<Hourly>? hourly,
-  }) =>
-      sendHttpRequest(
-        apiUrl,
-        'ensemble',
-        _queryParamMap(models: models, hourly: hourly),
+  EnsembleApi copyWith(
+    String? apiUrl,
+    String? apiKey,
+    Set<EnsembleModel>? models,
+    TemperatureUnit? temperatureUnit,
+    WindspeedUnit? windspeedUnit,
+    PrecipitationUnit? precipitationUnit,
+    CellSelection? cellSelection,
+  ) =>
+      EnsembleApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        models: models ?? this.models,
+        temperatureUnit: temperatureUnit ?? this.temperatureUnit,
+        windspeedUnit: windspeedUnit ?? this.windspeedUnit,
+        precipitationUnit: precipitationUnit ?? this.precipitationUnit,
+        cellSelection: cellSelection ?? this.cellSelection,
       );
 
-  Future<WeatherResponse> request({
-    required List<EnsembleModel> models,
-    List<Hourly>? hourly,
+  /// This method returns a JSON map,
+  /// containing either the data or the raw error response.
+  /// This method exists solely for debug purposes, do not use in production.
+  /// Use `request()` instead.
+  Future<Map<String, dynamic>> requestJson({
+    required double latitude,
+    required double longitude,
+    required Set<EnsembleHourly> hourly,
+    double? elevation,
+    int? pastDays,
+    int? pastHours,
+    int? pastMinutely15,
+    int? forecastDays,
+    int? forecastHours,
+    int? forecastMinutely15,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
+    DateTime? startMinutely15,
+    DateTime? endMinutely15,
   }) =>
-      sendApiRequest(
-        apiUrl,
-        'ensemble',
-        _queryParamMap(models: models, hourly: hourly),
-      ).then(WeatherResponse.fromFlatBuffer);
+      apiRequestJson(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+          elevation: elevation,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          pastMinutely15: pastMinutely15,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          forecastMinutely15: forecastMinutely15,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
+          startMinutely15: startMinutely15,
+          endMinutely15: endMinutely15,
+        ),
+      );
+
+  /// This method returns a Dart object,
+  /// and throws an exception if the API returns an error response,
+  /// recommended for most use cases.
+  Future<ApiResponse<EnsembleApi>> request({
+    required double latitude,
+    required double longitude,
+    required Set<EnsembleHourly> hourly,
+    double? elevation,
+    int? pastDays,
+    int? pastHours,
+    int? pastMinutely15,
+    int? forecastDays,
+    int? forecastHours,
+    int? forecastMinutely15,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
+    DateTime? startMinutely15,
+    DateTime? endMinutely15,
+  }) =>
+      apiRequestFlatBuffer(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          hourly: hourly,
+          elevation: elevation,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          pastMinutely15: pastMinutely15,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          forecastMinutely15: forecastMinutely15,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
+          startMinutely15: startMinutely15,
+          endMinutely15: endMinutely15,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          hourlyHashes: EnsembleHourly.hashes,
+        ),
+      );
 
   Map<String, dynamic> _queryParamMap({
-    required List<EnsembleModel> models,
-    List<Hourly>? hourly,
+    required double latitude,
+    required double longitude,
+    required Set<EnsembleHourly> hourly,
+    required double? elevation,
+    required int? pastDays,
+    required int? pastHours,
+    required int? pastMinutely15,
+    required int? forecastDays,
+    required int? forecastHours,
+    required int? forecastMinutely15,
+    required DateTime? startDate,
+    required DateTime? endDate,
+    required DateTime? startHour,
+    required DateTime? endHour,
+    required DateTime? startMinutely15,
+    required DateTime? endMinutely15,
   }) =>
       {
-        'models': models.map((value) => value.name).toList().join(','),
-        'hourly': hourly?.map((value) => value.name).toList().join(','),
-        'elevation': elevation,
-        'temperature_unit': temperature_unit?.name,
-        'windspeed_unit': windspeed_unit?.name,
-        'precipitation_unit': precipitation_unit?.name,
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'forecast_hours': forecast_hours,
-        'forecast_minutely_15': forecast_minutely_15,
-        'past_hours': past_hours,
-        'past_minutely_15': past_minutely_15,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'start_hour': formatTime(start_hour),
-        'end_hour': formatTime(end_hour),
-        'start_minytely_15': formatTime(start_minutely_15),
-        'end_minutely_15': formatTime(end_minutely_15),
-        'cell_selection': cell_selection?.name,
-        'apikey': apikey,
         'latitude': latitude,
         'longitude': longitude,
+        'models': models,
+        'hourly': hourly,
+        'temperature_unit':
+            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+        'precipitation_unit':
+            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
+        'elevation': elevation,
+        'past_days': pastDays,
+        'past_hours': pastHours,
+        'past_minutely_15': pastMinutely15,
+        'forecast_days': forecastDays,
+        'forecast_hours': forecastHours,
+        'forecast_minutely_15': forecastMinutely15,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'start_hour': formatTime(startHour),
+        'end_hour': formatTime(endHour),
+        'start_minytely_15': formatTime(startMinutely15),
+        'end_minutely_15': formatTime(endMinutely15),
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };

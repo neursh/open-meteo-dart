@@ -1,97 +1,165 @@
-import '../enums/current.dart';
-import '../enums/daily.dart';
-import '../enums/hourly.dart';
-import '../enums/prefcls.dart';
-import '../models/weather.dart';
-import '../utils.dart';
+import '../api.dart';
+import '../enums/marine.dart';
+import '../options.dart';
+import '../response.dart';
 
 /// Hourly wave forecasts at 5 km resolution
 ///
 /// https://open-meteo.com/en/docs/marine-weather-api/
-class Marine {
-  String apiUrl;
-  final double latitude, longitude;
-  TemperatureUnit? temperature_unit;
-  WindspeedUnit? windspeed_unit;
-  PrecipitationUnit? precipitation_unit;
-  int? past_days;
-  int? forecast_days, forecast_hours, past_hours;
-  DateTime? start_date, end_date;
-  DateTime? start_hour, end_hour;
-  LengthUnit? length_unit;
-  CellSelection? cell_selection;
-  String? apikey;
+class MarineApi extends BaseApi {
+  final TemperatureUnit temperatureUnit;
+  final WindspeedUnit windspeedUnit;
+  final PrecipitationUnit precipitationUnit;
+  final LengthUnit lengthUnit;
+  final CellSelection cellSelection;
 
-  Marine({
-    this.apiUrl = 'https://marine-api.open-meteo.com/v1/',
-    required this.latitude,
-    required this.longitude,
-    this.temperature_unit,
-    this.windspeed_unit,
-    this.precipitation_unit,
-    this.past_days,
-    this.forecast_days,
-    this.forecast_hours,
-    this.past_hours,
-    this.start_date,
-    this.end_date,
-    this.start_hour,
-    this.end_hour,
-    this.length_unit,
-    this.cell_selection,
-    this.apikey,
-  }) {
-    Uri.parse(apiUrl);
+  const MarineApi({
+    super.apiUrl = 'https://marine-api.open-meteo.com/v1/marine',
+    super.apiKey,
+    this.temperatureUnit = TemperatureUnit.celsius,
+    this.windspeedUnit = WindspeedUnit.kmh,
+    this.precipitationUnit = PrecipitationUnit.mm,
+    this.lengthUnit = LengthUnit.metric,
+    this.cellSelection = CellSelection.sea,
+  });
 
-    throwCheckLatLng(latitude, longitude);
-  }
-
-  Future<Map<String, dynamic>> raw_request({
-    List<Hourly>? hourly,
-    List<Daily>? daily,
-    List<Current>? current,
+  MarineApi copyWith({
+    String? apiUrl,
+    String? apiKey,
+    TemperatureUnit? temperatureUnit,
+    WindspeedUnit? windspeedUnit,
+    PrecipitationUnit? precipitationUnit,
+    LengthUnit? lengthUnit,
+    CellSelection? cellSelection,
   }) =>
-      sendHttpRequest(
-        apiUrl,
-        'marine',
-        _queryParamMap(daily: daily, current: current, hourly: hourly),
+      MarineApi(
+        apiUrl: apiUrl ?? this.apiUrl,
+        apiKey: apiKey ?? this.apiKey,
+        temperatureUnit: temperatureUnit ?? this.temperatureUnit,
+        windspeedUnit: windspeedUnit ?? this.windspeedUnit,
+        precipitationUnit: precipitationUnit ?? this.precipitationUnit,
+        lengthUnit: lengthUnit ?? this.lengthUnit,
+        cellSelection: cellSelection ?? this.cellSelection,
       );
 
-  Future<WeatherResponse> request({
-    List<Hourly>? hourly,
-    List<Daily>? daily,
-    List<Current>? current,
+  /// This method returns a JSON map,
+  /// containing either the data or the raw error response.
+  /// This method exists solely for debug purposes, do not use in production.
+  /// Use `request()` instead.
+  Future<Map<String, dynamic>> requestJson({
+    required double latitude,
+    required double longitude,
+    Set<MarineCurrent> current = const {},
+    Set<MarineHourly> hourly = const {},
+    Set<MarineDaily> daily = const {},
+    int? pastDays,
+    int? pastHours,
+    int? forecastDays,
+    int? forecastHours,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
   }) =>
-      sendApiRequest(
-        apiUrl,
-        'marine',
-        _queryParamMap(hourly: hourly, daily: daily, current: current),
-      ).then(WeatherResponse.fromFlatBuffer);
+      apiRequestJson(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          current: current,
+          hourly: hourly,
+          daily: daily,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
+        ),
+      );
+
+  /// This method returns a Dart object,
+  /// and throws an exception if the API returns an error response,
+  /// recommended for most use cases.
+  Future<ApiResponse<MarineApi>> request({
+    required double latitude,
+    required double longitude,
+    Set<MarineCurrent> current = const {},
+    Set<MarineHourly> hourly = const {},
+    Set<MarineDaily> daily = const {},
+    int? pastDays,
+    int? pastHours,
+    int? forecastDays,
+    int? forecastHours,
+    DateTime? startDate,
+    DateTime? endDate,
+    DateTime? startHour,
+    DateTime? endHour,
+  }) =>
+      apiRequestFlatBuffer(
+        this,
+        _queryParamMap(
+          latitude: latitude,
+          longitude: longitude,
+          current: current,
+          hourly: hourly,
+          daily: daily,
+          pastDays: pastDays,
+          pastHours: pastHours,
+          forecastDays: forecastDays,
+          forecastHours: forecastHours,
+          startDate: startDate,
+          endDate: endDate,
+          startHour: startHour,
+          endHour: endHour,
+        ),
+      ).then(
+        (data) => ApiResponse.fromFlatBuffer(
+          data,
+          currentHashes: MarineCurrent.hashes,
+          hourlyHashes: MarineHourly.hashes,
+          dailyHashes: MarineDaily.hashes,
+        ),
+      );
 
   Map<String, dynamic> _queryParamMap({
-    List<Hourly>? hourly,
-    List<Daily>? daily,
-    List<Current>? current,
+    required double latitude,
+    required double longitude,
+    required Set<MarineCurrent> current,
+    required Set<MarineHourly> hourly,
+    required Set<MarineDaily> daily,
+    required int? pastDays,
+    required int? pastHours,
+    required int? forecastDays,
+    required int? forecastHours,
+    required DateTime? startDate,
+    required DateTime? endDate,
+    required DateTime? startHour,
+    required DateTime? endHour,
   }) =>
       {
-        'daily': daily?.map((option) => option.name).join(","),
-        'hourly': hourly?.map((option) => option.name).join(","),
-        'current': current?.map((option) => option.name).join(","),
-        'temperature_unit': temperature_unit?.name,
-        'windspeed_unit': windspeed_unit?.name,
-        'precipitation_unit': precipitation_unit?.name,
-        'past_days': past_days,
-        'forecast_days': forecast_days,
-        'past_hours': past_hours,
-        'start_date': formatDate(start_date),
-        'end_date': formatDate(end_date),
-        'start_hour': formatTime(start_hour),
-        'end_hour': formatTime(end_hour),
-        'length_unit': length_unit?.name,
-        'cell_selection': cell_selection?.name,
-        'apikey': apikey,
         'latitude': latitude,
         'longitude': longitude,
+        'current': nullIfEmpty(current),
+        'hourly': nullIfEmpty(hourly),
+        'daily': nullIfEmpty(daily),
+        'temperature_unit':
+            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+        'precipitation_unit':
+            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+        'length_unit': nullIfEqual(lengthUnit, LengthUnit.metric),
+        'cell_selection': nullIfEqual(cellSelection, CellSelection.sea),
+        'past_days': pastDays,
+        'past_hours': pastHours,
+        'forecast_days': forecastDays,
+        'forecast_hours': forecastHours,
+        'start_date': formatDate(startDate),
+        'end_date': formatDate(endDate),
+        'start_hour': formatTime(startHour),
+        'end_hour': formatTime(endHour),
         'timeformat': 'unixtime',
         'timezone': 'auto',
       };
