@@ -103,3 +103,7 @@
 * Each API now have its own set of parameter enums.
 * Added `copyWith` constructor method to allow overriding settings.
 * Change `Geocoding` and `Elevation` interaction for consistency.
+
+## 2.0.1
+
+* Fix oversight where the packages only collects the `values` and ignore `valuesInt64`.

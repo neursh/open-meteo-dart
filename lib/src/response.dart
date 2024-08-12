@@ -72,7 +72,7 @@ class ParameterValue {
 
 class ParameterValues {
   final String unit;
-  final Map<DateTime, double> values;
+  final Map<DateTime, num> values;
 
   const ParameterValues._({
     required this.unit,
@@ -140,7 +140,7 @@ Map<ApiParameter, ParameterValues> _deserializeMultiple<ApiParameter>(
       parameter,
       ParameterValues._(
         unit: _unitsMap[v.unit]!,
-        values: v.values
+        values: (v.values ?? v.valuesInt64)
                 ?.asMap()
                 .map((index, value) => MapEntry(timestamps[index], value)) ??
             {},
