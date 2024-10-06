@@ -23,10 +23,10 @@ const staticSuffixes = {
 };
 
 final regexSuffixes = {
-  'v.altitude': r'_(\d+)m$',
-  '(v.depth, v.depthTo)': r'_(\d+)_to_(\d+)cm$',
-  'v.depth': r'_(\d+)cm$',
-  'v.pressureLevel': r'_(\d+)hPa',
+  'altitude': r'_(\d+)m$',
+  'depth,depthTo': r'_(\d+)_to_(\d+)cm$',
+  'depth': r'_(\d+)cm$',
+  'pressureLevel': r'_(\d+)hPa',
 }.map((key, regex) => MapEntry(key, RegExp(regex)));
 
 typedef Index = Map<String, Map<String, Map<String, String>>>;
@@ -73,4 +73,28 @@ String computeRoot(String root, Map<String, String> properties) {
   }
 
   return root;
+}
+
+void main() {
+  final index = buildIndex('<variables>'.split(','));
+
+  for (var title in index.entries) {
+    for (var child in title.value.entries) {
+      if (child.value.isEmpty) {
+        print('${child.key}(Variable.${child.key}),');
+        continue;
+      }
+      for (var value in child.value.entries) {
+        final extract =
+            value.value.replaceAll(RegExp(r'[\(\)]'), "").split(",");
+        if (value.key == 'depth,depthTo') {
+          print(
+              '${child.key}(Variable.${title.key}, depth: ${extract[0]}, depthTo: ${extract[1]}),');
+          continue;
+        }
+        print(
+            '${child.key}(Variable.${title.key}, ${value.key}: ${extract[0]}),');
+      }
+    }
+  }
 }
