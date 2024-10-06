@@ -108,7 +108,7 @@
 
 * Fix oversight where the packages only collects the `values` and ignore `valuesInt64`.
 
-## 2.0.1-dev.1
+## 2.0.2-dev.1
 
 * Introduce `minutely15` to `WeatherApi`.
 * Update FlatBuffer's generated schema file.
