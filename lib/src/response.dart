@@ -13,6 +13,7 @@ class ApiResponse<Api extends BaseApi> {
   final Duration utcOffset;
   final String? timezone;
   final String? timezoneAbbreviation;
+  final Map<Parameter<Api, Minutely15>, ParameterValues> minutely15Data;
   final Map<Parameter<Api, Current>, ParameterValue> currentData;
   final Map<Parameter<Api, Hourly>, ParameterValues> hourlyData;
   final Map<Parameter<Api, Daily>, ParameterValues> dailyData;
@@ -25,6 +26,7 @@ class ApiResponse<Api extends BaseApi> {
     required this.utcOffset,
     required this.timezone,
     required this.timezoneAbbreviation,
+    required this.minutely15Data,
     required this.currentData,
     required this.hourlyData,
     required this.dailyData,
@@ -32,6 +34,7 @@ class ApiResponse<Api extends BaseApi> {
 
   factory ApiResponse.fromFlatBuffer(
     Uint8List bytes, {
+    Map<int, Parameter<Api, Minutely15>>? minutely15Hashes,
     Map<int, Parameter<Api, Current>>? currentHashes,
     Map<int, Parameter<Api, Hourly>>? hourlyHashes,
     Map<int, Parameter<Api, Daily>>? dailyHashes,
@@ -51,6 +54,8 @@ class ApiResponse<Api extends BaseApi> {
       utcOffset: Duration(seconds: response.utcOffsetSeconds),
       timezone: response.timezone,
       timezoneAbbreviation: response.timezoneAbbreviation,
+      minutely15Data:
+          _deserializeMultiple(response.minutely15, minutely15Hashes),
       currentData: _deserializeSingle(response.current, currentHashes),
       hourlyData: _deserializeMultiple(response.hourly, hourlyHashes),
       dailyData: _deserializeMultiple(response.daily, dailyHashes),

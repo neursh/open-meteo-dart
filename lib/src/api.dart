@@ -42,6 +42,8 @@ Map<int, ApiParameter> makeHashes<ApiParameter extends Parameter>(
 
 sealed class TimeType {}
 
+final class Minutely15 extends TimeType {}
+
 final class Current extends TimeType {}
 
 final class Hourly extends TimeType {}

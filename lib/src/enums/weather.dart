@@ -2,6 +2,127 @@ import '../api.dart';
 import '../apis/weather.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
+enum WeatherMinutely15 with Parameter<WeatherApi, Minutely15> {
+  temperature_2m(
+    Variable.temperature,
+    altitude: 2,
+  ),
+  relative_humidity_2m(
+    Variable.relative_humidity,
+    altitude: 2,
+  ),
+  dew_point_2m(
+    Variable.dew_point,
+    altitude: 2,
+  ),
+  apparent_temperature(
+    Variable.apparent_temperature,
+  ),
+  precipitation(
+    Variable.precipitation,
+  ),
+  rain(
+    Variable.rain,
+  ),
+  snowfall(
+    Variable.snowfall,
+  ),
+  snowfall_height(
+    Variable.snowfall_height,
+  ),
+  freezing_level_height(
+    Variable.freezing_level_height,
+  ),
+  sunshine_duration(
+    Variable.sunshine_duration,
+  ),
+  weather_code(
+    Variable.weather_code,
+  ),
+  wind_speed_10m(
+    Variable.wind_speed,
+    altitude: 10,
+  ),
+  wind_speed_80m(
+    Variable.wind_speed,
+    altitude: 80,
+  ),
+  wind_direction_10m(
+    Variable.wind_direction,
+    altitude: 10,
+  ),
+  wind_direction_80m(
+    Variable.wind_direction,
+    altitude: 80,
+  ),
+  wind_gusts_10m(
+    Variable.wind_gusts,
+    altitude: 10,
+  ),
+  visibility(
+    Variable.visibility,
+  ),
+  cape(
+    Variable.cape,
+  ),
+  lightning_potential(
+    Variable.lightning_potential,
+  ),
+  is_day(
+    Variable.is_day,
+  ),
+  shortwave_radiation(
+    Variable.shortwave_radiation,
+  ),
+  direct_radiation(
+    Variable.direct_radiation,
+  ),
+  diffuse_radiation(
+    Variable.diffuse_radiation,
+  ),
+  direct_normal_irradiance(
+    Variable.direct_normal_irradiance,
+  ),
+  global_tilted_irradiance(
+    Variable.global_tilted_irradiance,
+  ),
+  terrestrial_radiation(
+    Variable.terrestrial_radiation,
+  ),
+  shortwave_radiation_instant(
+    Variable.shortwave_radiation_instant,
+  ),
+  direct_radiation_instant(
+    Variable.direct_radiation_instant,
+  ),
+  diffuse_radiation_instant(
+    Variable.diffuse_radiation_instant,
+  ),
+  direct_normal_irradiance_instant(
+    Variable.direct_normal_irradiance_instant,
+  ),
+  global_tilted_irradiance_instant(
+    Variable.global_tilted_irradiance_instant,
+  ),
+  terrestrial_radiation_instant(
+    Variable.terrestrial_radiation_instant,
+  );
+
+  @override
+  final Variable variable;
+
+  @override
+  final int altitude;
+
+  const WeatherMinutely15(
+    this.variable, {
+    this.altitude = 0,
+  });
+
+  static final Map<int, WeatherMinutely15> hashes =
+      makeHashes(WeatherMinutely15.values);
+}
+
 /// Weather's current variables provided by Open-Meteo.
 enum WeatherCurrent with Parameter<WeatherApi, Current> {
   temperature_2m(
