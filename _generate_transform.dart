@@ -76,12 +76,14 @@ String computeRoot(String root, Map<String, String> properties) {
 }
 
 void main() {
-  final index = buildIndex('<variables>'.split(','));
+  final index = buildIndex(
+      '<variables>'
+          .split(','));
 
   for (var title in index.entries) {
     for (var child in title.value.entries) {
       if (child.value.isEmpty) {
-        print('${child.key}(Variable.${child.key}),');
+        print('${child.key}(Variable.${child.key},),');
         continue;
       }
       for (var value in child.value.entries) {
@@ -89,11 +91,11 @@ void main() {
             value.value.replaceAll(RegExp(r'[\(\)]'), "").split(",");
         if (value.key == 'depth,depthTo') {
           print(
-              '${child.key}(Variable.${title.key}, depth: ${extract[0]}, depthTo: ${extract[1]}),');
+              '${child.key}(Variable.${title.key}, depth: ${extract[0]}, depthTo: ${extract[1]},),');
           continue;
         }
         print(
-            '${child.key}(Variable.${title.key}, ${value.key}: ${extract[0]}),');
+            '${child.key}(Variable.${title.key}, ${value.key}: ${extract[0]},),');
       }
     }
   }
