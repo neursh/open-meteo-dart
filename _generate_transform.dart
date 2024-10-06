@@ -76,9 +76,7 @@ String computeRoot(String root, Map<String, String> properties) {
 }
 
 void main() {
-  final index = buildIndex(
-      '<variables>'
-          .split(','));
+  final index = buildIndex('<variables>'.split(','));
 
   for (var title in index.entries) {
     for (var child in title.value.entries) {
