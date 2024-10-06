@@ -128,7 +128,14 @@ enum Model: ubyte {
   knmi_harmonie_arome_netherlands,
   dmi_seamless,
   dmi_harmonie_arome_europe,
-  metno_seamless
+  metno_seamless,
+  era5_ensemble,
+  ecmwf_ifs_analysis,
+  ecmwf_ifs_long_window,
+  ecmwf_ifs_analysis_long_window,
+  ukmo_global_deterministic_10km,
+  ukmo_uk_deterministic_2km,
+  ukmo_seamless
 }
 
 enum Variable: ubyte {
@@ -257,7 +264,8 @@ enum Aggregation: ubyte {
   p75,
   p90,
   dominant,
-  sum
+  sum,
+  spread
 }
 
 table VariableWithValues {

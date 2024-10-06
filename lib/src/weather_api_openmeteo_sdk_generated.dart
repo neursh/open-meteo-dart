@@ -145,7 +145,7 @@ class Model {
       value == null ? null : Model.fromValue(value);
 
   static const int minValue = 0;
-  static const int maxValue = 75;
+  static const int maxValue = 82;
   static bool containsValue(int value) => values.containsKey(value);
 
   static const Model undefined = Model._(0);
@@ -224,6 +224,13 @@ class Model {
   static const Model dmi_seamless = Model._(73);
   static const Model dmi_harmonie_arome_europe = Model._(74);
   static const Model metno_seamless = Model._(75);
+  static const Model era5_ensemble = Model._(76);
+  static const Model ecmwf_ifs_analysis = Model._(77);
+  static const Model ecmwf_ifs_long_window = Model._(78);
+  static const Model ecmwf_ifs_analysis_long_window = Model._(79);
+  static const Model ukmo_global_deterministic_10km = Model._(80);
+  static const Model ukmo_uk_deterministic_2km = Model._(81);
+  static const Model ukmo_seamless = Model._(82);
   static const Map<int, Model> values = {
     0: undefined,
     1: best_match,
@@ -300,7 +307,14 @@ class Model {
     72: knmi_harmonie_arome_netherlands,
     73: dmi_seamless,
     74: dmi_harmonie_arome_europe,
-    75: metno_seamless
+    75: metno_seamless,
+    76: era5_ensemble,
+    77: ecmwf_ifs_analysis,
+    78: ecmwf_ifs_long_window,
+    79: ecmwf_ifs_analysis_long_window,
+    80: ukmo_global_deterministic_10km,
+    81: ukmo_uk_deterministic_2km,
+    82: ukmo_seamless
   };
 
   static const fb.Reader<Model> reader = _ModelReader();
@@ -603,7 +617,7 @@ class Aggregation {
       value == null ? null : Aggregation.fromValue(value);
 
   static const int minValue = 0;
-  static const int maxValue = 10;
+  static const int maxValue = 11;
   static bool containsValue(int value) => values.containsKey(value);
 
   static const Aggregation none = Aggregation._(0);
@@ -617,6 +631,7 @@ class Aggregation {
   static const Aggregation p90 = Aggregation._(8);
   static const Aggregation dominant = Aggregation._(9);
   static const Aggregation sum = Aggregation._(10);
+  static const Aggregation spread = Aggregation._(11);
   static const Map<int, Aggregation> values = {
     0: none,
     1: minimum,
@@ -628,7 +643,8 @@ class Aggregation {
     7: p75,
     8: p90,
     9: dominant,
-    10: sum
+    10: sum,
+    11: spread
   };
 
   static const fb.Reader<Aggregation> reader = _AggregationReader();
