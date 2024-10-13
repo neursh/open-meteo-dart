@@ -1,6 +1,6 @@
 name: open_meteo
 description: A simple, fast, asynchronous Dart/Flutter package for accessing the Open-Meteo API.
-version: 2.0.2-dev.1
+version: 2.0.2
 homepage: https://github.com/neursh/open-meteo-dart
 repository: https://github.com/neursh/open-meteo-dart
 

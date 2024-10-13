@@ -112,3 +112,7 @@
 
 * Introduce `minutely15` to `WeatherApi`.
 * Update FlatBuffer's generated schema file.
+
+## 2.0.2
+
+* Push changes back to release version.

@@ -75,26 +75,34 @@ String computeRoot(String root, Map<String, String> properties) {
   return root;
 }
 
-void main() {
-  final index = buildIndex('<variables>'.split(','));
+String decodeBuild(Index index) {
+  String decodeOutput = "";
 
   for (var title in index.entries) {
     for (var child in title.value.entries) {
       if (child.value.isEmpty) {
-        print('${child.key}(Variable.${child.key},),');
+        decodeOutput += '${child.key}(Variable.${child.key},),';
         continue;
       }
       for (var value in child.value.entries) {
         final extract =
             value.value.replaceAll(RegExp(r'[\(\)]'), "").split(",");
         if (value.key == 'depth,depthTo') {
-          print(
-              '${child.key}(Variable.${title.key}, depth: ${extract[0]}, depthTo: ${extract[1]},),');
+          decodeOutput +=
+              '${child.key}(Variable.${title.key}, depth: ${extract[0]}, depthTo: ${extract[1]},),';
           continue;
         }
-        print(
-            '${child.key}(Variable.${title.key}, ${value.key}: ${extract[0]},),');
+        decodeOutput +=
+            '${child.key}(Variable.${title.key}, ${value.key}: ${extract[0]},),';
       }
     }
   }
+
+  return decodeOutput;
+}
+
+void main() {
+  final index = buildIndex('<variables>'.split(','));
+
+  print(decodeBuild(index));
 }
