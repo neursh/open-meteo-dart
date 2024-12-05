@@ -4,6 +4,11 @@ A simple, fast, asynchronous Dart/Flutter package for accessing the Open-Meteo A
 All features from the [Open-Meteo API](https://open-meteo.com/en/features) have been implemented (some are limited).
 Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) before using this package in your project.
 
+- [Top Contributors](#top-contributors)
+- [Usage & Docs](#usage--docs)
+- [Known issues](#known-issues)
+- [1.1.0 Migration Guide](#110-migration-guide)
+
 ## Top Contributors
  <table>
   <tr>
