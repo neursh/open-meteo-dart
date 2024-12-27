@@ -116,3 +116,7 @@
 ## 2.0.2
 
 * Push changes back to release version.
+
+## 2.0.3
+
+* Update known issues.
