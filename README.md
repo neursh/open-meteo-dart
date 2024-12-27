@@ -22,6 +22,11 @@ Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) be
   </tr>
 </table>
 
+## Known issues
+Addressed in [#16](https://github.com/neursh/open-meteo-dart/issues/16), the `Int64` type is not supported on the web platform due to Dart and Javascript differencies, and it won't be fixed for a long time.
+
+We'll try to find a workaround for this problem. But for now, the only way for web platform to continue to use the package is by using `requestJson()`.
+
 ## Usage & Docs
 Each of the nine features available in Open-Meteo is represented by its class: `WeatherApi`, `HistoricalApi`, `EnsembleApi`, `ClimateApi`, `MarineApi`, `AirQualityApi`, `GeocodingApi`, `ElevationApi` and `FloodApi`.
 
@@ -78,11 +83,6 @@ var result = await GeocodingApi().requestJson(name: "London");
 ```dart
 var result = await ElevationApi().requestJson(latitudes: [52.52], longitudes: [13.41]);
 ```
-
-## Known issues
-Addressed in [#16](https://github.com/neursh/open-meteo-dart/issues/16), the `Int64` type is not supported on the web platform due to Dart and Javascript differencies, and it won't be fixed for a long time.
-
-We'll try to find a workaround for this problem. But for now, the only way for web platform to continue to use the package is by using `requestJson()`.
 
 ## 1.1.0 Migration Guide
 - Every API now has `Api` suffix.
