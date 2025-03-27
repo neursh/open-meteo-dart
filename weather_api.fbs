@@ -49,7 +49,8 @@ enum Unit : ubyte {
   unix_time,
   us_air_quality_index,
   watt_per_square_metre,
-  wmo_code
+  wmo_code,
+  parts_per_million
 }
 
 enum Model: ubyte {
@@ -135,7 +136,18 @@ enum Model: ubyte {
   ecmwf_ifs_analysis_long_window,
   ukmo_global_deterministic_10km,
   ukmo_uk_deterministic_2km,
-  ukmo_seamless
+  ukmo_seamless,
+  ncep_gfswave016,
+  ncep_nbm_conus,
+  ukmo_global_ensemble_20km,
+  ecmwf_aifs025_single,
+  jma_jaxa_himawari,
+  eumetsat_sarah3,
+  eumetsat_lsa_saf_msg,
+  eumetsat_lsa_saf_iodc,
+  satellite_radiation_seamless,
+  kma_gdps,
+  kma_ldps
 }
 
 enum Variable: ubyte {
@@ -263,7 +275,23 @@ enum Variable: ubyte {
   total_elementary_carbon,
   pm2_5_total_organic_matter,
   sea_salt_aerosol,
-  nitrogen_monoxide
+  nitrogen_monoxide,
+  thunderstorm_probability,
+  rain_probability,
+  freezing_rain_probability,
+  ice_pellets_probability,
+  snowfall_probability,
+  carbon_dioxide,
+  methane,
+  sea_level_height_msl,
+  sea_surface_temperature,
+  invert_barometer_height,
+  hail,
+  albedo,
+  precipitation_type,
+  convective_cloud_base,
+  convective_cloud_top,
+  snow_depth_water_equivalent
 }
 
 enum Aggregation: ubyte {
