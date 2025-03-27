@@ -12,26 +12,23 @@ function consoleVariable(title, variables) {
 }
 
 function collectVariables() {
-  const colaspedDocs = document.getElementsByClassName("accordion-button");
-  for (let i = 0; i < colaspedDocs.length; i++) {
-    colaspedDocs[i].click();
-  }
-
   const hourlyVariables = new Set();
   const dailyVariables = new Set();
   const currentVariables = new Set();
 
   setTimeout(() => {
-    const formDocs = document.getElementsByClassName("form-check-input");
-    for (let i = 0; i < formDocs.length; i++) {
-      if (formDocs[i].getAttribute("name") === "hourly") {
-        hourlyVariables.add(formDocs[i].getAttribute("value"));
+    const variables = document.getElementsByClassName("peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-[0.42rem] cursor-pointer truncate py-[0.1rem]");
+    for (let i = 0; i < variables.length; i++) {
+      const label = variables[i].getAttribute("for");
+
+      if (label.endsWith("hourly")) {
+        hourlyVariables.add(label.slice(0, -7));
       }
-      if (formDocs[i].getAttribute("name") === "daily") {
-        dailyVariables.add(formDocs[i].getAttribute("value"));
+      if (label.endsWith("daily")) {
+        dailyVariables.add(label.slice(0, -6));
       }
-      if (formDocs[i].getAttribute("name") === "current") {
-        currentVariables.add(formDocs[i].getAttribute("value"));
+      if (label.endsWith("current")) {
+        currentVariables.add(label.slice(0, -8));
       }
     }
 
