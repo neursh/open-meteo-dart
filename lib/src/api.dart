@@ -84,7 +84,7 @@ Future<Map<String, dynamic>> apiRequestJson(
   return jsonDecode((await api._client.get(url)).body);
 }
 
-Future<Uint8List> apiRequestFlatBuffer(
+Future<(Uri, Uint8List)> apiRequestFlatBuffer(
   BaseApi api,
   Map<String, dynamic> queryParams,
 ) async {
@@ -100,7 +100,7 @@ Future<Uint8List> apiRequestFlatBuffer(
     throw OpenMeteoApiError(jsonDecode(response.body)['reason']);
   }
 
-  return response.bodyBytes;
+  return (url, response.bodyBytes);
 }
 
 // Need this because Uri.encode... replaces commas

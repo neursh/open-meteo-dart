@@ -81,7 +81,8 @@ class FloodApi extends BaseApi {
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
-          data,
+          data.$1,
+          data.$2,
           dailyHashes: FloodDaily.hashes,
         ),
       );

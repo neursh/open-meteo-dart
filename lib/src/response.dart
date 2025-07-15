@@ -6,6 +6,7 @@ import 'api.dart';
 import 'weather_api_openmeteo_sdk_generated.dart';
 
 class ApiResponse<Api extends BaseApi> {
+  final Uri urlUsed;
   final double latitude;
   final double longitude;
   final double elevation;
@@ -19,6 +20,7 @@ class ApiResponse<Api extends BaseApi> {
   final Map<Parameter<Api, Daily>, ParameterValues> dailyData;
 
   const ApiResponse._({
+    required this.urlUsed,
     required this.latitude,
     required this.longitude,
     required this.elevation,
@@ -33,6 +35,7 @@ class ApiResponse<Api extends BaseApi> {
   });
 
   factory ApiResponse.fromFlatBuffer(
+    Uri urlUsed,
     Uint8List bytes, {
     Map<int, Parameter<Api, Minutely15>>? minutely15Hashes,
     Map<int, Parameter<Api, Current>>? currentHashes,
@@ -45,6 +48,7 @@ class ApiResponse<Api extends BaseApi> {
         WeatherApiResponse(bytes.sublist(4, prefixed + 4));
 
     return ApiResponse._(
+      urlUsed: urlUsed,
       latitude: response.latitude,
       longitude: response.longitude,
       elevation: response.elevation,

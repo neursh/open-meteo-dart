@@ -129,7 +129,8 @@ class EnsembleApi extends BaseApi {
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
-          data,
+          data.$1,
+          data.$2,
           hourlyHashes: EnsembleHourly.hashes,
         ),
       );

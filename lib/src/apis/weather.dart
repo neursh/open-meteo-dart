@@ -129,7 +129,8 @@ class WeatherApi extends BaseApi {
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
-          data,
+          data.$1,
+          data.$2,
           minutely15Hashes: WeatherMinutely15.hashes,
           currentHashes: WeatherCurrent.hashes,
           hourlyHashes: WeatherHourly.hashes,

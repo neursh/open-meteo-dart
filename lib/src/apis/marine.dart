@@ -117,7 +117,8 @@ class MarineApi extends BaseApi {
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
-          data,
+          data.$1,
+          data.$2,
           currentHashes: MarineCurrent.hashes,
           hourlyHashes: MarineHourly.hashes,
           dailyHashes: MarineDaily.hashes,

@@ -90,7 +90,8 @@ class ClimateApi extends BaseApi {
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
-          data,
+          data.$1,
+          data.$2,
           dailyHashes: ClimateDaily.hashes,
         ),
       );

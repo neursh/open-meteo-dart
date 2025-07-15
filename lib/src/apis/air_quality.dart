@@ -100,7 +100,8 @@ class AirQualityApi extends BaseApi {
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
-          data,
+          data.$1,
+          data.$2,
           hourlyHashes: AirQualityHourly.hashes,
           currentHashes: AirQualityCurrent.hashes,
         ),

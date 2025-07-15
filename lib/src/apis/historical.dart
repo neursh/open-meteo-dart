@@ -90,7 +90,8 @@ class HistoricalApi extends BaseApi {
         ),
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
-          data,
+          data.$1,
+          data.$2,
           hourlyHashes: HistoricalHourly.hashes,
           dailyHashes: HistoricalDaily.hashes,
         ),
