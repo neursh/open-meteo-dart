@@ -2,9 +2,12 @@ import '../api.dart';
 import '../apis/flood.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
-/// Flood's daily variables provided by Open-Meteo.
+// Generated Variable Enums for Flood
+
 enum FloodDaily with Parameter<FloodApi, Daily> {
-  river_discharge(Variable.river_discharge),
+  river_discharge(
+    Variable.river_discharge,
+  ),
   river_discharge_mean(
     Variable.river_discharge,
     aggregation: Aggregation.mean,
@@ -28,14 +31,13 @@ enum FloodDaily with Parameter<FloodApi, Daily> {
   river_discharge_p75(
     Variable.river_discharge,
     aggregation: Aggregation.p75,
-  );
+  ),
+  ;
 
   @override
   final Variable variable;
-
   @override
   final Aggregation aggregation;
-
   const FloodDaily(
     this.variable, {
     this.aggregation = Aggregation.none,
