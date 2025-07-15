@@ -1064,7 +1064,7 @@ class VariableWithValues {
 
   @override
   String toString() {
-    return 'VariableWithValues{variable: ${variable}, unit: ${unit}, value: ${value}, values: ${values}, valuesInt64: ${valuesInt64}, altitude: ${altitude}, aggregation: ${aggregation}, pressureLevel: ${pressureLevel}, depth: ${depth}, depthTo: ${depthTo}, ensembleMember: ${ensembleMember}, previousDay: ${previousDay}}';
+    return 'VariableWithValues{variable: $variable, unit: $unit, value: $value, values: $values, valuesInt64: $valuesInt64, altitude: $altitude, aggregation: $aggregation, pressureLevel: $pressureLevel, depth: $depth, depthTo: $depthTo, ensembleMember: $ensembleMember, previousDay: $previousDay}';
   }
 }
 
@@ -1243,7 +1243,7 @@ class VariablesWithTime {
 
   @override
   String toString() {
-    return 'VariablesWithTime{time: ${time}, timeEnd: ${timeEnd}, interval: ${interval}, variables: ${variables}}';
+    return 'VariablesWithTime{time: $time, timeEnd: $timeEnd, interval: $interval, variables: $variables}';
   }
 }
 
@@ -1372,7 +1372,7 @@ class WeatherApiResponse {
 
   @override
   String toString() {
-    return 'WeatherApiResponse{latitude: ${latitude}, longitude: ${longitude}, elevation: ${elevation}, generationTimeMilliseconds: ${generationTimeMilliseconds}, locationId: ${locationId}, model: ${model}, utcOffsetSeconds: ${utcOffsetSeconds}, timezone: ${timezone}, timezoneAbbreviation: ${timezoneAbbreviation}, current: ${current}, daily: ${daily}, hourly: ${hourly}, minutely15: ${minutely15}, sixHourly: ${sixHourly}}';
+    return 'WeatherApiResponse{latitude: $latitude, longitude: $longitude, elevation: $elevation, generationTimeMilliseconds: $generationTimeMilliseconds, locationId: $locationId, model: $model, utcOffsetSeconds: $utcOffsetSeconds, timezone: $timezone, timezoneAbbreviation: $timezoneAbbreviation, current: $current, daily: $daily, hourly: $hourly, minutely15: $minutely15, sixHourly: $sixHourly}';
   }
 }
 
