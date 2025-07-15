@@ -257,7 +257,9 @@ enum Model {
   eumetsat_lsa_saf_iodc(90),
   satellite_radiation_seamless(91),
   kma_gdps(92),
-  kma_ldps(93);
+  kma_ldps(93),
+  kma_seamless(94),
+  italia_meteo_arpae_icon_2i(95);
 
   final int value;
   const Model(this.value);
@@ -452,6 +454,10 @@ enum Model {
         return Model.kma_gdps;
       case 93:
         return Model.kma_ldps;
+      case 94:
+        return Model.kma_seamless;
+      case 95:
+        return Model.italia_meteo_arpae_icon_2i;
       default:
         throw StateError('Invalid value $value for bit flag enum');
     }
@@ -461,7 +467,7 @@ enum Model {
       value == null ? null : Model.fromValue(value);
 
   static const int minValue = 0;
-  static const int maxValue = 93;
+  static const int maxValue = 95;
   static const fb.Reader<Model> reader = _ModelReader();
 }
 
@@ -617,7 +623,15 @@ enum Variable {
   precipitation_type(137),
   convective_cloud_base(138),
   convective_cloud_top(139),
-  snow_depth_water_equivalent(140);
+  snow_depth_water_equivalent(140),
+  secondary_swell_wave_height(141),
+  secondary_swell_wave_period(142),
+  secondary_swell_wave_peak_period(143),
+  secondary_swell_wave_direction(144),
+  tertiary_swell_wave_height(145),
+  tertiary_swell_wave_period(146),
+  tertiary_swell_wave_peak_period(147),
+  tertiary_swell_wave_direction(148);
 
   final int value;
   const Variable(this.value);
@@ -906,6 +920,22 @@ enum Variable {
         return Variable.convective_cloud_top;
       case 140:
         return Variable.snow_depth_water_equivalent;
+      case 141:
+        return Variable.secondary_swell_wave_height;
+      case 142:
+        return Variable.secondary_swell_wave_period;
+      case 143:
+        return Variable.secondary_swell_wave_peak_period;
+      case 144:
+        return Variable.secondary_swell_wave_direction;
+      case 145:
+        return Variable.tertiary_swell_wave_height;
+      case 146:
+        return Variable.tertiary_swell_wave_period;
+      case 147:
+        return Variable.tertiary_swell_wave_peak_period;
+      case 148:
+        return Variable.tertiary_swell_wave_direction;
       default:
         throw StateError('Invalid value $value for bit flag enum');
     }
@@ -915,7 +945,7 @@ enum Variable {
       value == null ? null : Variable.fromValue(value);
 
   static const int minValue = 0;
-  static const int maxValue = 140;
+  static const int maxValue = 148;
   static const fb.Reader<Variable> reader = _VariableReader();
 }
 
@@ -1034,7 +1064,7 @@ class VariableWithValues {
 
   @override
   String toString() {
-    return 'VariableWithValues{variable: $variable, unit: $unit, value: $value, values: $values, valuesInt64: $valuesInt64, altitude: $altitude, aggregation: $aggregation, pressureLevel: $pressureLevel, depth: $depth, depthTo: $depthTo, ensembleMember: $ensembleMember, previousDay: $previousDay}';
+    return 'VariableWithValues{variable: ${variable}, unit: ${unit}, value: ${value}, values: ${values}, valuesInt64: ${valuesInt64}, altitude: ${altitude}, aggregation: ${aggregation}, pressureLevel: ${pressureLevel}, depth: ${depth}, depthTo: ${depthTo}, ensembleMember: ${ensembleMember}, previousDay: ${previousDay}}';
   }
 }
 
@@ -1213,7 +1243,7 @@ class VariablesWithTime {
 
   @override
   String toString() {
-    return 'VariablesWithTime{time: $time, timeEnd: $timeEnd, interval: $interval, variables: $variables}';
+    return 'VariablesWithTime{time: ${time}, timeEnd: ${timeEnd}, interval: ${interval}, variables: ${variables}}';
   }
 }
 
@@ -1342,7 +1372,7 @@ class WeatherApiResponse {
 
   @override
   String toString() {
-    return 'WeatherApiResponse{latitude: $latitude, longitude: $longitude, elevation: $elevation, generationTimeMilliseconds: $generationTimeMilliseconds, locationId: $locationId, model: $model, utcOffsetSeconds: $utcOffsetSeconds, timezone: $timezone, timezoneAbbreviation: $timezoneAbbreviation, current: $current, daily: $daily, hourly: $hourly, minutely15: $minutely15, sixHourly: $sixHourly}';
+    return 'WeatherApiResponse{latitude: ${latitude}, longitude: ${longitude}, elevation: ${elevation}, generationTimeMilliseconds: ${generationTimeMilliseconds}, locationId: ${locationId}, model: ${model}, utcOffsetSeconds: ${utcOffsetSeconds}, timezone: ${timezone}, timezoneAbbreviation: ${timezoneAbbreviation}, current: ${current}, daily: ${daily}, hourly: ${hourly}, minutely15: ${minutely15}, sixHourly: ${sixHourly}}';
   }
 }
 
