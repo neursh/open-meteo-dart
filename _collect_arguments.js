@@ -25,6 +25,7 @@ const staticSuffixes = {
     '_p25': 'Aggregation.p25',
     '_p75': 'Aggregation.p75',
     '_p90': 'Aggregation.p90',
+    '_spread': 'Aggregation.spread',
   }
 };
 
@@ -49,6 +50,7 @@ function buildIndex(inputs) {
 }
 
 function computeRoot(root, properties) {
+  // Check static suffixes
   for (const [suffixGroupKey, suffixGroupValue] of Object.entries(staticSuffixes)) {
     if (properties.hasOwnProperty(suffixGroupKey)) continue;
     for (const [suffixKey, suffixValue] of Object.entries(suffixGroupValue)) {
@@ -57,7 +59,8 @@ function computeRoot(root, properties) {
       return computeRoot(root.substring(0, root.length - suffixKey.length), properties);
     }
   }
-
+  
+  // Check regex suffixes
   for (const [regexSuffixKey, regexSuffixValue] of Object.entries(regexSuffixes)) {
     if (properties.hasOwnProperty(regexSuffixKey)) continue;
     const match = regexSuffixValue.exec(root);
@@ -66,7 +69,8 @@ function computeRoot(root, properties) {
     properties[regexSuffixKey] = `(${captures.join(',')})`;
     return computeRoot(root.substring(0, match.index), properties);
   }
-
+  
+  // Apply replacements
   for (const [replacementKey, replacementValue] of Object.entries(replacements)) {
     root = root.replace(new RegExp(replacementKey, 'g'), replacementValue);
   }
@@ -129,10 +133,10 @@ function generateEnumOutput(pageKey, variableType, variables) {
 
   const apiTypeMap = {
     'Weather': 'WeatherApi',
-    'Historical': 'HistoricalWeatherApi',
+    'Historical': 'HistoricalApi',
     'Ensemble': 'EnsembleApi',
     'Climate': 'ClimateApi',
-    'Marine': 'MarineWeatherApi',
+    'Marine': 'MarineApi',
     'AirQuality': 'AirQualityApi',
     'Flood': 'FloodApi'
   };
@@ -146,7 +150,7 @@ function generateEnumOutput(pageKey, variableType, variables) {
   
   const apiClass = apiTypeMap[pageKey];
   const timeClass = timeTypeMap[variableType];
-
+  
   const usedProperties = analyzeVariableProperties(variableArray);
   
   let output = `enum ${enumName} with Parameter<${apiClass}, ${timeClass}> {\n`;
@@ -170,7 +174,7 @@ function generateEnumOutput(pageKey, variableType, variables) {
         params.push(`${key}: ${extract[0]}`);
       }
     }
-
+    
     if (params.length === 0) {
       output += `  ${enumValue}(\n    ${constructorCall},\n  ),\n`;
     } else {
@@ -183,9 +187,9 @@ function generateEnumOutput(pageKey, variableType, variables) {
   }
   
   output += `;\n\n`;
-
+  
   output += `  @override\n  final Variable variable;\n`;
-
+  
   const allPossibleProperties = ['altitude', 'depth', 'depthTo', 'pressureLevel', 'aggregation'];
   const dynamicProperties = allPossibleProperties.filter(prop => usedProperties.has(prop));
   
@@ -197,17 +201,21 @@ function generateEnumOutput(pageKey, variableType, variables) {
     }
   }
 
-  output += `  const ${enumName}(\n    this.variable, {\n`;
-  
-  for (const prop of dynamicProperties) {
-    if (prop === 'aggregation') {
-      output += `    this.${prop} = Aggregation.none,\n`;
-    } else {
-      output += `    this.${prop} = 0,\n`;
+  if (dynamicProperties.length > 0) {
+    output += `  const ${enumName}(\n    this.variable, {\n`;
+    
+    for (const prop of dynamicProperties) {
+      if (prop === 'aggregation') {
+        output += `    this.${prop} = Aggregation.none,\n`;
+      } else {
+        output += `    this.${prop} = 0,\n`;
+      }
     }
+    
+    output += `  });\n\n`;
+  } else {
+    output += `  const ${enumName}(\n    this.variable\n  );\n\n`;
   }
-  
-  output += `  });\n\n`;
 
   output += `  static final Map<int, ${enumName}> hashes =\n      makeHashes(${enumName}.values);\n`;
   
@@ -259,7 +267,7 @@ function collectVariables(pageKey) {
     consoleVariable("Daily", dailyVariables, pageKey);
     consoleVariable("Current", currentVariables, pageKey);
     consoleVariable("Minutely15", minutely15Variables, pageKey);
-
+    
     console.log(`%cCollected variables for ${pageKey}`, "color: purple; font-weight: bold");
   }, 1000);
 }
@@ -281,14 +289,15 @@ function camelToSnake(str) {
 
 function saveCollectedData() {
   console.log(`%cGenerating Dart enum files...`, "color: red; font-weight: bold; font-size: 16px");
-
+  
   const generatedFiles = {};
   
   for (const [pageKey, pageData] of Object.entries(collectedData.pages)) {
     const fileName = camelToSnake(pageKey);
 
-    let fileContent = `// Generated Variable Enums for ${pageKey}\n\nimport '../api.dart';\nimport '../apis/weather.dart';\nimport '../weather_api_openmeteo_sdk_generated.dart';\n\n`;
-
+    let fileContent = `import '../api.dart';\nimport '../apis/${fileName}.dart';\nimport '../weather_api_openmeteo_sdk_generated.dart';\n\n`;
+    fileContent += `// Generated Variable Enums for ${pageKey}\n\n`;
+    
     const timeOrder = ['minutely15', 'current', 'hourly', 'daily'];
     
     for (const variableType of timeOrder) {
@@ -297,17 +306,17 @@ function saveCollectedData() {
       }
     }
     
-    if (fileContent.trim() !== `// Generated Variable Enums for ${pageKey}\n\nimport '../api.dart';\nimport '../apis/weather.dart';\nimport '../weather_api_openmeteo_sdk_generated.dart';`) {
+    if (fileContent.trim() !== `import '../api.dart';\nimport '../apis/${fileName}.dart';\nimport '../weather_api_openmeteo_sdk_generated.dart';\n\n// Generated Variable Enums for ${pageKey}`) {
       generatedFiles[`${fileName}.dart`] = fileContent;
     }
   }
-
+  
   console.log(`%cGenerated Files:`, "color: orange; font-weight: bold; font-size: 16px");
   for (const [fileName, content] of Object.entries(generatedFiles)) {
     console.log(`%c${fileName}:`, "color: purple; font-weight: bold");
     console.log(content);
   }
-
+  
   createZipFile(generatedFiles);
 }
 
