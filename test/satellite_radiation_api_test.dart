@@ -7,13 +7,13 @@ void main() {
 
     group('constructor', () {
       test('with defaults', () {
-        expect(() => SatelliteApi(), returnsNormally);
+        expect(() => SatelliteRadiationApi(), returnsNormally);
       });
 
       group('with custom', () {
         test('url/key', () {
           expect(
-            () => SatelliteApi(
+            () => SatelliteRadiationApi(
               apiUrl: 'https://api.custom.url/some/path',
               apiKey: 'idk-the-format-of-open-meteo-api-keys',
             ),
@@ -22,7 +22,7 @@ void main() {
         });
         test('cell selection', () {
           expect(
-            () => SatelliteApi(cellSelection: CellSelection.sea),
+            () => SatelliteRadiationApi(cellSelection: CellSelection.sea),
             returnsNormally,
           );
         });
@@ -30,9 +30,9 @@ void main() {
     });
 
     group('flatbuffers', () {
-      late SatelliteApi api;
+      late SatelliteRadiationApi api;
       setUp(() {
-        api = SatelliteApi();
+        api = SatelliteRadiationApi();
       });
 
       group('enum deserialization', () {
@@ -40,22 +40,22 @@ void main() {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: SatelliteHourly.values.toSet(),
+            hourly: SatelliteRadiationHourly.values.toSet(),
           );
           expect(
             response.hourlyData.keys,
-            containsAll(SatelliteHourly.values),
+            containsAll(SatelliteRadiationHourly.values),
           );
         });
         test('for daily data', () async {
           final response = await api.request(
             latitude: latitude,
             longitude: longitude,
-            daily: SatelliteDaily.values.toSet(),
+            daily: SatelliteRadiationDaily.values.toSet(),
           );
           expect(
             response.dailyData.keys,
-            containsAll(SatelliteDaily.values),
+            containsAll(SatelliteRadiationDaily.values),
           );
         });
       });
@@ -65,10 +65,10 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            hourly: {SatelliteHourly.diffuse_radiation},
+            hourly: {SatelliteRadiationHourly.diffuse_radiation},
           );
           final temperature =
-              result.hourlyData[SatelliteHourly.diffuse_radiation];
+              result.hourlyData[SatelliteRadiationHourly.diffuse_radiation];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
@@ -76,10 +76,10 @@ void main() {
           final result = await api.request(
             latitude: latitude,
             longitude: longitude,
-            daily: {SatelliteDaily.shortwave_radiation_sum},
+            daily: {SatelliteRadiationDaily.shortwave_radiation_sum},
           );
           final temperature =
-              result.dailyData[SatelliteDaily.shortwave_radiation_sum];
+              result.dailyData[SatelliteRadiationDaily.shortwave_radiation_sum];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
@@ -87,15 +87,15 @@ void main() {
     });
 
     group('json get', () {
-      late SatelliteApi api;
+      late SatelliteRadiationApi api;
       setUp(() {
-        api = SatelliteApi();
+        api = SatelliteRadiationApi();
       });
       test('hourly diffuse radiation', () async {
         final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
-          hourly: {SatelliteHourly.diffuse_radiation},
+          hourly: {SatelliteRadiationHourly.diffuse_radiation},
         );
         expect(result['error'], isNot(true));
         expect(result['hourly'], isNotNull);
@@ -109,7 +109,7 @@ void main() {
         final result = await api.requestJson(
           latitude: latitude,
           longitude: longitude,
-          daily: {SatelliteDaily.shortwave_radiation_sum},
+          daily: {SatelliteRadiationDaily.shortwave_radiation_sum},
         );
         expect(result['error'], isNot(true));
         expect(result['daily'], isNotNull);

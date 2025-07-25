@@ -1,17 +1,17 @@
 import '../api.dart';
-import '../enums/satellite.dart';
+import '../enums/satellite_radiation.dart';
 import '../options.dart';
 import '../response.dart';
 
 /// Hourly wave forecasts at 5 km resolution
 ///
 /// https://open-meteo.com/en/docs/marine-weather-api/
-class SatelliteApi extends BaseApi {
+class SatelliteRadiationApi extends BaseApi {
   final int tilt;
   final int azimuth;
   final CellSelection cellSelection;
 
-  const SatelliteApi({
+  const SatelliteRadiationApi({
     super.apiUrl = 'https://satellite-api.open-meteo.com/v1/archive',
     super.apiKey,
     this.tilt = 0,
@@ -19,14 +19,14 @@ class SatelliteApi extends BaseApi {
     this.cellSelection = CellSelection.sea,
   });
 
-  SatelliteApi copyWith({
+  SatelliteRadiationApi copyWith({
     String? apiUrl,
     String? apiKey,
     int? tilt,
     int? azimuth,
     CellSelection? cellSelection,
   }) =>
-      SatelliteApi(
+      SatelliteRadiationApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
         tilt: tilt ?? this.tilt,
@@ -41,8 +41,8 @@ class SatelliteApi extends BaseApi {
   Future<Map<String, dynamic>> requestJson({
     required double latitude,
     required double longitude,
-    Set<SatelliteHourly> hourly = const {},
-    Set<SatelliteDaily> daily = const {},
+    Set<SatelliteRadiationHourly> hourly = const {},
+    Set<SatelliteRadiationDaily> daily = const {},
     int? pastDays,
     int? pastHours,
     int? forecastDays,
@@ -73,11 +73,11 @@ class SatelliteApi extends BaseApi {
   /// This method returns a Dart object,
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
-  Future<ApiResponse<SatelliteApi>> request({
+  Future<ApiResponse<SatelliteRadiationApi>> request({
     required double latitude,
     required double longitude,
-    Set<SatelliteHourly> hourly = const {},
-    Set<SatelliteDaily> daily = const {},
+    Set<SatelliteRadiationHourly> hourly = const {},
+    Set<SatelliteRadiationDaily> daily = const {},
     int? pastDays,
     int? pastHours,
     int? forecastDays,
@@ -107,16 +107,16 @@ class SatelliteApi extends BaseApi {
         (data) => ApiResponse.fromFlatBuffer(
           data.$1,
           data.$2,
-          hourlyHashes: SatelliteHourly.hashes,
-          dailyHashes: SatelliteDaily.hashes,
+          hourlyHashes: SatelliteRadiationHourly.hashes,
+          dailyHashes: SatelliteRadiationDaily.hashes,
         ),
       );
 
   Map<String, dynamic> _queryParamMap({
     required double latitude,
     required double longitude,
-    required Set<SatelliteHourly> hourly,
-    required Set<SatelliteDaily> daily,
+    required Set<SatelliteRadiationHourly> hourly,
+    required Set<SatelliteRadiationDaily> daily,
     required int? pastDays,
     required int? pastHours,
     required int? forecastDays,

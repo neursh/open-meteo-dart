@@ -1,10 +1,10 @@
 import '../api.dart';
-import '../apis/satellite.dart';
+import '../apis/satellite_radiation.dart';
 import '../weather_api_openmeteo_sdk_generated.dart';
 
-// Generated Variable Enums for Satellite
+// Generated Variable Enums for SatelliteRadiation
 
-enum SatelliteHourly with Parameter<SatelliteApi, Hourly> {
+enum SatelliteRadiationHourly with Parameter<SatelliteRadiationApi, Hourly> {
   shortwave_radiation(
     Variable.shortwave_radiation,
   ),
@@ -51,13 +51,13 @@ enum SatelliteHourly with Parameter<SatelliteApi, Hourly> {
 
   @override
   final Variable variable;
-  const SatelliteHourly(this.variable);
+  const SatelliteRadiationHourly(this.variable);
 
-  static final Map<int, SatelliteHourly> hashes =
-      makeHashes(SatelliteHourly.values);
+  static final Map<int, SatelliteRadiationHourly> hashes =
+      makeHashes(SatelliteRadiationHourly.values);
 }
 
-enum SatelliteDaily with Parameter<SatelliteApi, Daily> {
+enum SatelliteRadiationDaily with Parameter<SatelliteRadiationApi, Daily> {
   sunrise(
     Variable.sunrise,
   ),
@@ -80,11 +80,11 @@ enum SatelliteDaily with Parameter<SatelliteApi, Daily> {
   final Variable variable;
   @override
   final Aggregation aggregation;
-  const SatelliteDaily(
+  const SatelliteRadiationDaily(
     this.variable, {
     this.aggregation = Aggregation.none,
   });
 
-  static final Map<int, SatelliteDaily> hashes =
-      makeHashes(SatelliteDaily.values);
+  static final Map<int, SatelliteRadiationDaily> hashes =
+      makeHashes(SatelliteRadiationDaily.values);
 }
