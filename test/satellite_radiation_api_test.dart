@@ -7,22 +7,32 @@ void main() {
 
     group('constructor', () {
       test('with defaults', () {
-        expect(() => SatelliteRadiationApi(), returnsNormally);
+        expect(
+            () => SatelliteRadiationApi(models: {
+                  SatelliteRadiationModels.satellite_radiation_seamless
+                }),
+            returnsNormally);
       });
 
       group('with custom', () {
         test('url/key', () {
           expect(
             () => SatelliteRadiationApi(
-              apiUrl: 'https://api.custom.url/some/path',
-              apiKey: 'idk-the-format-of-open-meteo-api-keys',
-            ),
+                apiUrl: 'https://api.custom.url/some/path',
+                apiKey: 'idk-the-format-of-open-meteo-api-keys',
+                models: {
+                  SatelliteRadiationModels.satellite_radiation_seamless
+                }),
             returnsNormally,
           );
         });
         test('cell selection', () {
           expect(
-            () => SatelliteRadiationApi(cellSelection: CellSelection.sea),
+            () => SatelliteRadiationApi(
+                cellSelection: CellSelection.sea,
+                models: {
+                  SatelliteRadiationModels.satellite_radiation_seamless
+                }),
             returnsNormally,
           );
         });
@@ -32,7 +42,8 @@ void main() {
     group('flatbuffers', () {
       late SatelliteRadiationApi api;
       setUp(() {
-        api = SatelliteRadiationApi();
+        api = SatelliteRadiationApi(
+            models: {SatelliteRadiationModels.satellite_radiation_seamless});
       });
 
       group('enum deserialization', () {
@@ -89,7 +100,8 @@ void main() {
     group('json get', () {
       late SatelliteRadiationApi api;
       setUp(() {
-        api = SatelliteRadiationApi();
+        api = SatelliteRadiationApi(
+            models: {SatelliteRadiationModels.satellite_radiation_seamless});
       });
       test('hourly diffuse radiation', () async {
         final result = await api.requestJson(
