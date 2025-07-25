@@ -125,3 +125,7 @@
 
 * Update new variables.
 * Change the underlaying generating process for enums.
+
+## 2.0.5
+
+* New Satellite Radiation API dropped.
