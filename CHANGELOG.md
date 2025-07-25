@@ -120,3 +120,8 @@
 ## 2.0.3
 
 * Update known issues.
+
+## 2.0.4
+
+* Update new variables.
+* Change the underlaying generating process for enums.
