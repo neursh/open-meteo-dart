@@ -28,7 +28,7 @@ Addressed in [#16](https://github.com/neursh/open-meteo-dart/issues/16), the `In
 We'll try to find a workaround for this problem. But for now, the only way for web platform to continue to use the package is by using `requestJson()`.
 
 ## Usage & Docs
-Each of the ten(yay!) features available in Open-Meteo is represented by its class: `WeatherApi`, `HistoricalApi`, `EnsembleApi`, `ClimateApi`, `MarineApi`, `AirQualityApi`, `SatelliteRadiationApi`, `GeocodingApi`, `ElevationApi` and `FloodApi`.
+Each of the ~nine~ **ten** features available in Open-Meteo is represented by its class: `WeatherApi`, `HistoricalApi`, `EnsembleApi`, `ClimateApi`, `MarineApi`, `AirQualityApi`, `SatelliteRadiationApi`, `GeocodingApi`, `ElevationApi` and `FloodApi`.
 
 > [!NOTE]
 > All inputs to the API have been adapted to Dart-friendly variables.
