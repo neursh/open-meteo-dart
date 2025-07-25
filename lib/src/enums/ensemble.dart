@@ -19,6 +19,7 @@ enum EnsembleHourly with Parameter<EnsembleApi, Hourly> {
   ),
   apparent_temperature(
     Variable.apparent_temperature,
+    altitude: 2,
   ),
   precipitation(
     Variable.precipitation,
@@ -248,14 +249,17 @@ enum EnsembleDaily with Parameter<EnsembleApi, Daily> {
   apparent_temperature_mean(
     Variable.apparent_temperature,
     aggregation: Aggregation.mean,
+    altitude: 2,
   ),
   apparent_temperature_min(
     Variable.apparent_temperature,
     aggregation: Aggregation.minimum,
+    altitude: 2,
   ),
   apparent_temperature_max(
     Variable.apparent_temperature,
     aggregation: Aggregation.maximum,
+    altitude: 2,
   ),
   wind_speed_10m_mean(
     Variable.wind_speed,

@@ -19,6 +19,7 @@ enum HistoricalHourly with Parameter<HistoricalApi, Hourly> {
   ),
   apparent_temperature(
     Variable.apparent_temperature,
+    altitude: 2,
   ),
   precipitation(
     Variable.precipitation,
@@ -338,14 +339,17 @@ enum HistoricalDaily with Parameter<HistoricalApi, Daily> {
   apparent_temperature_mean(
     Variable.apparent_temperature,
     aggregation: Aggregation.mean,
+    altitude: 2,
   ),
   apparent_temperature_max(
     Variable.apparent_temperature,
     aggregation: Aggregation.maximum,
+    altitude: 2,
   ),
   apparent_temperature_min(
     Variable.apparent_temperature,
     aggregation: Aggregation.minimum,
+    altitude: 2,
   ),
   sunrise(
     Variable.sunrise,

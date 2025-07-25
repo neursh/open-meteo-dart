@@ -1,9 +1,11 @@
+// An invasive script to inject the open-meteo docs to capture all available variables.
+// This script also will generate an archive containing enum files of each type of API.
+// This script only works once, reload the page to parse the page again.
+
 const collectedData = {
   pages: {}
 };
 
-// JS implementation of Dart's `_generate_transform.dart` by MathNerd28
-// https://github.com/MathNerd28
 const replacements = {
   'pm2_5': 'pm2p5',
   'windspeed': 'wind_speed',
@@ -35,6 +37,9 @@ const regexSuffixes = {
   'depth': /\_(\d+)cm$/,
   'pressureLevel': /\_(\d+)hPa/,
 };
+
+// JS port of the tranform algorithm by MathNerd28.
+// https://github.com/MathNerd28
 
 function buildIndex(inputs) {
   const index = {};
@@ -73,6 +78,10 @@ function computeRoot(root, properties) {
   // Apply replacements
   for (const [replacementKey, replacementValue] of Object.entries(replacements)) {
     root = root.replace(new RegExp(replacementKey, 'g'), replacementValue);
+  }
+
+  if (root === 'apparent_temperature' && !properties.hasOwnProperty('altitude')) {
+    properties['altitude'] = '(2)';
   }
   
   return root;

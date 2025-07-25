@@ -193,9 +193,6 @@ enum AirQualityHourly with Parameter<AirQualityApi, Hourly> {
   total_elementary_carbon(
     Variable.total_elementary_carbon,
   ),
-  pm2_5_total_organic_matter(
-    Variable.pm2_5_total_organic_matter,
-  ),
   sea_salt_aerosol(
     Variable.sea_salt_aerosol,
   ),

@@ -19,6 +19,7 @@ enum WeatherMinutely15 with Parameter<WeatherApi, Minutely15> {
   ),
   apparent_temperature(
     Variable.apparent_temperature,
+    altitude: 2,
   ),
   precipitation(
     Variable.precipitation,
@@ -135,6 +136,7 @@ enum WeatherCurrent with Parameter<WeatherApi, Current> {
   ),
   apparent_temperature(
     Variable.apparent_temperature,
+    altitude: 2,
   ),
   is_day(
     Variable.is_day,
@@ -205,6 +207,7 @@ enum WeatherHourly with Parameter<WeatherApi, Hourly> {
   ),
   apparent_temperature(
     Variable.apparent_temperature,
+    altitude: 2,
   ),
   precipitation_probability(
     Variable.precipitation_probability,
@@ -454,10 +457,12 @@ enum WeatherDaily with Parameter<WeatherApi, Daily> {
   apparent_temperature_max(
     Variable.apparent_temperature,
     aggregation: Aggregation.maximum,
+    altitude: 2,
   ),
   apparent_temperature_min(
     Variable.apparent_temperature,
     aggregation: Aggregation.minimum,
+    altitude: 2,
   ),
   sunrise(
     Variable.sunrise,
@@ -532,6 +537,7 @@ enum WeatherDaily with Parameter<WeatherApi, Daily> {
   apparent_temperature_mean(
     Variable.apparent_temperature,
     aggregation: Aggregation.mean,
+    altitude: 2,
   ),
   cape_mean(
     Variable.cape,
