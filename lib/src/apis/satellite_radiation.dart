@@ -7,6 +7,7 @@ import '../response.dart';
 ///
 /// https://open-meteo.com/en/docs/marine-weather-api/
 class SatelliteRadiationApi extends BaseApi {
+  final Set<SatelliteRadiationModels> models;
   final int tilt;
   final int azimuth;
   final CellSelection cellSelection;
@@ -14,6 +15,7 @@ class SatelliteRadiationApi extends BaseApi {
   const SatelliteRadiationApi({
     super.apiUrl = 'https://satellite-api.open-meteo.com/v1/archive',
     super.apiKey,
+    required this.models,
     this.tilt = 0,
     this.azimuth = 0,
     this.cellSelection = CellSelection.sea,
@@ -22,6 +24,7 @@ class SatelliteRadiationApi extends BaseApi {
   SatelliteRadiationApi copyWith({
     String? apiUrl,
     String? apiKey,
+    Set<SatelliteRadiationModels>? models,
     int? tilt,
     int? azimuth,
     CellSelection? cellSelection,
@@ -29,6 +32,7 @@ class SatelliteRadiationApi extends BaseApi {
       SatelliteRadiationApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        models: models ?? this.models,
         tilt: tilt ?? this.tilt,
         azimuth: azimuth ?? this.azimuth,
         cellSelection: cellSelection ?? this.cellSelection,
@@ -127,6 +131,7 @@ class SatelliteRadiationApi extends BaseApi {
     required DateTime? endHour,
   }) =>
       {
+        'models': models,
         'latitude': latitude,
         'longitude': longitude,
         'hourly': nullIfEmpty(hourly),
