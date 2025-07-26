@@ -56,9 +56,9 @@ In this example, the result is a `Map<DateTime, double>`:
 > [!TIP]
 > In each API, there are two main methods:
 > 
-> - `request` returns a Dart object, and throws an exception if the API returns an error response, recommended for most use cases.
+> - `request` uses FlatBuffer under the hood for the best performance and low overhead. Returns a Dart object and let you query information with type safety, and throws an exception if the API returns an error response, recommended for most use cases.
 > 
-> - `requestJson` returns a JSON map, containing either the data or the raw error response. This method exists solely for debugging purposes, do not use in production.
+> - `requestJson` returns a JSON map, containing either the data or the raw error response. This method exists solely for debugging purposes and web usage (see [known issues](#known-issues)). Server JSON encoding on a large amount of data is not advised and could cause a heavy load on a free service, so pls try not to use it :)
 
 > [!NOTE]
 > The `Geocoding` and `Elevation` are the two exceptions as they only have `searchJson` method available, the upstream API doesn't implement FlatBuffers.
