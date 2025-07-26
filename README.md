@@ -4,28 +4,14 @@ A simple, fast, asynchronous Dart/Flutter package for accessing the Open-Meteo A
 All features from the [Open-Meteo API](https://open-meteo.com/en/features) have been implemented (some are limited).
 Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) before using this package in your project.
 
-- [Top Contributors](#top-contributors)
-- [Known issues](#known-issues)
+- [Community highlights](#community-highlights)
 - [Usage & Docs](#usage--docs)
+- [Known issues](#known-issues)
 - [1.1.0 Migration Guide](#110-migration-guide)
+- [Top Contributors](#top-contributors)
 
-## Top Contributors
- <table>
-  <tr>
-    <td align="center">
-      <img valign="top" width="80px" src="https://avatars.githubusercontent.com/u/89086035?v=4" />
-      <br>
-      <a href="https://github.com/MathNerd28">MathNerd28</a>
-      <br>
-      <a href="https://github.com/neursh/open-meteo-dart/pulls?q=is%3Apr+author%3AMathNerd28">🛠️</a> | 💛 v1.1.0 - v2
-    </td>
-  </tr>
-</table>
-
-## Known issues
-Addressed in [#16](https://github.com/neursh/open-meteo-dart/issues/16), the `Int64` type is not supported on the web platform due to Dart and Javascript differencies, and it won't be fixed for a long time.
-
-We'll try to find a workaround for this problem. But for now, the only way for web platform to continue to use the package is by using `requestJson()`.
+## Community highlights
+A fun little spot to showcase some cool projects that people made from this package!
 
 ## Usage & Docs
 Each of the ~nine~ **ten** features available in Open-Meteo is represented by its class: `WeatherApi`, `HistoricalApi`, `EnsembleApi`, `ClimateApi`, `MarineApi`, `AirQualityApi`, `SatelliteRadiationApi`, `GeocodingApi`, `ElevationApi` and `FloodApi`.
@@ -84,6 +70,11 @@ var result = await GeocodingApi().requestJson(name: "London");
 var result = await ElevationApi().requestJson(latitudes: [52.52], longitudes: [13.41]);
 ```
 
+## Known issues
+Addressed in [#16](https://github.com/neursh/open-meteo-dart/issues/16), the `Int64` type is not supported on the web platform due to Dart and Javascript differencies, and it won't be fixed for a long time.
+
+We'll try to find a workaround for this problem. But for now, the only way for web platform to continue to use the package is by using `requestJson()`.
+
 ## 1.1.0 Migration Guide
 - Every API now has `Api` suffix.
 ```
@@ -119,6 +110,19 @@ final response = await weather.request(
   hourly: {WeatherHourly.temperature_2m},
 );
 ```
+
+## Top Contributors
+ <table>
+  <tr>
+    <td align="center">
+      <img valign="top" width="80px" src="https://avatars.githubusercontent.com/u/89086035?v=4" />
+      <br>
+      <a href="https://github.com/MathNerd28">MathNerd28</a>
+      <br>
+      <a href="https://github.com/neursh/open-meteo-dart/pulls?q=is%3Apr+author%3AMathNerd28">🛠️</a> | 💛 v1.1.0 - v2
+    </td>
+  </tr>
+</table>
 
 ## Bugs & Pull requests
 Before reporting an issue, please check Open-Meteo's docs to make sure you're calling the correct endpoint with the correct arguments.
