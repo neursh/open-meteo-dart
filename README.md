@@ -135,7 +135,7 @@ Before reporting an issue, please check Open-Meteo's docs to make sure you're ca
 
 There's a method to check the URL that the package generated to send the request:
 ```dart
-final weather = WeatherApi(temperatureUnit: TemperatureUnit.celsius);
+final weather = WeatherApi();
 final response = await weather.request(
   latitude: 52.52,
   longitude: 13.41,
