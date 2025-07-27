@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flat_buffers/flat_buffers.dart' as fb;
 
 const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
@@ -16,9 +15,9 @@ class MeteoInt64Reader extends fb.Reader<int> {
 
       // Combine into JavaScript number (loses precision beyond 53 bits)
       return (high * 0x100000000) + low;
-    } else {
-      return bc.buffer.getInt64(offset, Endian.little);
     }
+
+    return bc.buffer.getInt64(offset, Endian.little);
   }
 
   @override
