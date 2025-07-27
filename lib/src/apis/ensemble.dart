@@ -16,6 +16,7 @@ class EnsembleApi extends BaseApi {
   const EnsembleApi({
     super.apiUrl = 'https://ensemble-api.open-meteo.com/v1/ensemble',
     super.apiKey,
+    super.userAgent,
     required this.models,
     this.temperatureUnit = TemperatureUnit.celsius,
     this.windspeedUnit = WindspeedUnit.kmh,
@@ -26,6 +27,7 @@ class EnsembleApi extends BaseApi {
   EnsembleApi copyWith(
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
     Set<EnsembleModel>? models,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
@@ -35,6 +37,7 @@ class EnsembleApi extends BaseApi {
       EnsembleApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
         models: models ?? this.models,
         temperatureUnit: temperatureUnit ?? this.temperatureUnit,
         windspeedUnit: windspeedUnit ?? this.windspeedUnit,

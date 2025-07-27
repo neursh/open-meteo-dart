@@ -17,6 +17,7 @@ class ClimateApi extends BaseApi {
   const ClimateApi({
     super.apiUrl = 'https://climate-api.open-meteo.com/v1/climate',
     super.apiKey,
+    super.userAgent,
     required this.models,
     this.temperatureUnit = TemperatureUnit.celsius,
     this.windspeedUnit = WindspeedUnit.kmh,
@@ -28,6 +29,7 @@ class ClimateApi extends BaseApi {
   ClimateApi copyWith({
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
     Set<ClimateModel>? models,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
@@ -38,6 +40,7 @@ class ClimateApi extends BaseApi {
       ClimateApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
         models: models ?? this.models,
         temperatureUnit: temperatureUnit ?? this.temperatureUnit,
         windspeedUnit: windspeedUnit ?? this.windspeedUnit,

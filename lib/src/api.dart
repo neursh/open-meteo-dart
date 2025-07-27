@@ -58,6 +58,7 @@ abstract class BaseApi {
 
   final String apiUrl;
   final String apiKey;
+  final String userAgent;
 
   http.Client get _client => _clients.putIfAbsent(hashCode, () {
         _finalizer.attach(this, hashCode);
@@ -67,6 +68,8 @@ abstract class BaseApi {
   const BaseApi({
     required this.apiUrl,
     this.apiKey = '',
+    this.userAgent =
+        'Open-meteo-dart | https://github.com/neursh/open-meteo-dart',
   });
 }
 
@@ -81,7 +84,9 @@ Future<Map<String, dynamic>> apiRequestJson(
       'apikey': nullIfEqual(api.apiKey, ''),
     }),
   );
-  return jsonDecode((await api._client.get(url)).body);
+  return jsonDecode(
+    (await api._client.get(url, headers: {"User-Agent": api.userAgent})).body,
+  );
 }
 
 Future<(Uri, Uint8List)> apiRequestFlatBuffer(
@@ -95,7 +100,8 @@ Future<(Uri, Uint8List)> apiRequestFlatBuffer(
     }),
   );
 
-  http.Response response = await api._client.get(url);
+  http.Response response =
+      await api._client.get(url, headers: {"User-Agent": api.userAgent});
   if (response.statusCode != 200) {
     throw OpenMeteoApiError(jsonDecode(response.body)['reason']);
   }

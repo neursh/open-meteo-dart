@@ -9,17 +9,20 @@ class GeocodingApi extends BaseApi {
   const GeocodingApi({
     super.apiUrl = 'https://geocoding-api.open-meteo.com/v1/search',
     super.apiKey,
+    super.userAgent,
     this.language = 'en',
   });
 
   GeocodingApi copyWith({
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
     String? language,
   }) =>
       GeocodingApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
         language: language ?? this.language,
       );
 

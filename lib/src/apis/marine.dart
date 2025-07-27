@@ -16,6 +16,7 @@ class MarineApi extends BaseApi {
   const MarineApi({
     super.apiUrl = 'https://marine-api.open-meteo.com/v1/marine',
     super.apiKey,
+    super.userAgent,
     this.temperatureUnit = TemperatureUnit.celsius,
     this.windspeedUnit = WindspeedUnit.kmh,
     this.precipitationUnit = PrecipitationUnit.mm,
@@ -26,6 +27,7 @@ class MarineApi extends BaseApi {
   MarineApi copyWith({
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,
@@ -35,6 +37,7 @@ class MarineApi extends BaseApi {
       MarineApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
         temperatureUnit: temperatureUnit ?? this.temperatureUnit,
         windspeedUnit: windspeedUnit ?? this.windspeedUnit,
         precipitationUnit: precipitationUnit ?? this.precipitationUnit,

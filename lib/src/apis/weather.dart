@@ -15,6 +15,7 @@ class WeatherApi extends BaseApi {
   const WeatherApi({
     super.apiUrl = 'https://api.open-meteo.com/v1/forecast',
     super.apiKey,
+    super.userAgent,
     this.temperatureUnit = TemperatureUnit.celsius,
     this.windspeedUnit = WindspeedUnit.kmh,
     this.precipitationUnit = PrecipitationUnit.mm,
@@ -24,6 +25,7 @@ class WeatherApi extends BaseApi {
   WeatherApi copyWith({
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,
@@ -32,6 +34,7 @@ class WeatherApi extends BaseApi {
       WeatherApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
         temperatureUnit: temperatureUnit ?? this.temperatureUnit,
         windspeedUnit: windspeedUnit ?? this.windspeedUnit,
         precipitationUnit: precipitationUnit ?? this.precipitationUnit,

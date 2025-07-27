@@ -12,6 +12,7 @@ class AirQualityApi extends BaseApi {
   const AirQualityApi({
     super.apiUrl = 'https://air-quality-api.open-meteo.com/v1/air-quality',
     super.apiKey,
+    super.userAgent,
     this.cellSelection = CellSelection.nearest,
     this.domains = AirQualityDomains.auto,
   });
@@ -19,12 +20,14 @@ class AirQualityApi extends BaseApi {
   AirQualityApi copyWith({
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
     CellSelection? cellSelection,
     AirQualityDomains? domains,
   }) =>
       AirQualityApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
         cellSelection: cellSelection ?? this.cellSelection,
         domains: domains ?? this.domains,
       );

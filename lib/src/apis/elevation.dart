@@ -4,18 +4,20 @@ import '../api.dart';
 ///
 /// https://open-meteo.com/en/docs/elevation-api/
 class ElevationApi extends BaseApi {
-  const ElevationApi({
-    super.apiUrl = 'https://api.open-meteo.com/v1/elevation',
-    super.apiKey,
-  });
+  const ElevationApi(
+      {super.apiUrl = 'https://api.open-meteo.com/v1/elevation',
+      super.apiKey,
+      super.userAgent});
 
   ElevationApi copyWith({
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
   }) =>
       ElevationApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
       );
 
   /// This method returns a JSON map,

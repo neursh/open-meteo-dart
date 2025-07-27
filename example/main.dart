@@ -1,7 +1,7 @@
 import 'package:open_meteo/open_meteo.dart';
 
 void main() async {
-  final weather = WeatherApi();
+  final weather = WeatherApi(userAgent: "My-Flutter-App");
   final response = await weather.request(
     latitude: 52.52,
     longitude: 13.41,

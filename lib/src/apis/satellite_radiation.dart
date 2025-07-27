@@ -15,6 +15,7 @@ class SatelliteRadiationApi extends BaseApi {
   const SatelliteRadiationApi({
     super.apiUrl = 'https://satellite-api.open-meteo.com/v1/archive',
     super.apiKey,
+    super.userAgent,
     required this.models,
     this.tilt = 0,
     this.azimuth = 0,
@@ -24,6 +25,7 @@ class SatelliteRadiationApi extends BaseApi {
   SatelliteRadiationApi copyWith({
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
     Set<SatelliteRadiationModels>? models,
     int? tilt,
     int? azimuth,
@@ -32,6 +34,7 @@ class SatelliteRadiationApi extends BaseApi {
       SatelliteRadiationApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
         models: models ?? this.models,
         tilt: tilt ?? this.tilt,
         azimuth: azimuth ?? this.azimuth,

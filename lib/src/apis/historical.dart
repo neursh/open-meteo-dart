@@ -15,6 +15,7 @@ class HistoricalApi extends BaseApi {
   const HistoricalApi({
     super.apiUrl = 'https://archive-api.open-meteo.com/v1/archive',
     super.apiKey,
+    super.userAgent,
     this.temperatureUnit = TemperatureUnit.celsius,
     this.windspeedUnit = WindspeedUnit.kmh,
     this.precipitationUnit = PrecipitationUnit.mm,
@@ -24,6 +25,7 @@ class HistoricalApi extends BaseApi {
   HistoricalApi copyWith(
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,
@@ -33,6 +35,7 @@ class HistoricalApi extends BaseApi {
       HistoricalApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
         temperatureUnit: temperatureUnit ?? this.temperatureUnit,
         windspeedUnit: windspeedUnit ?? this.windspeedUnit,
         precipitationUnit: precipitationUnit ?? this.precipitationUnit,

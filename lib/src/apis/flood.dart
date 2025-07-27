@@ -13,6 +13,7 @@ class FloodApi extends BaseApi {
   const FloodApi({
     super.apiUrl = 'https://flood-api.open-meteo.com/v1/flood',
     super.apiKey,
+    super.userAgent,
     this.cellSelection = CellSelection.nearest,
     this.ensemble = false,
   });
@@ -20,12 +21,14 @@ class FloodApi extends BaseApi {
   FloodApi copyWith({
     String? apiUrl,
     String? apiKey,
+    String? userAgent,
     CellSelection? cellSelection,
     bool? ensemble,
   }) =>
       FloodApi(
         apiUrl: apiUrl ?? this.apiUrl,
         apiKey: apiKey ?? this.apiKey,
+        userAgent: userAgent ?? this.userAgent,
         cellSelection: cellSelection ?? this.cellSelection,
         ensemble: ensemble ?? this.ensemble,
       );
