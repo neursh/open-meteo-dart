@@ -134,3 +134,7 @@
 
 * Implements a patch for flatbuffer's Int64 class to support web platform.
 * Adds an optional `userAgent` value to all Apis.
+
+## 2.1.6
+
+* Minor fixes to the enum.
