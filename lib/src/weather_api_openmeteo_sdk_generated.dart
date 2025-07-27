@@ -6,7 +6,7 @@ library openmeteo_sdk;
 import 'dart:typed_data';
 
 import 'package:flat_buffers/flat_buffers.dart' as fb;
-import 'package:open_meteo/int64_web_combat.dart' show MeteoInt64Reader;
+import 'package:open_meteo/src/int64_web_combat.dart' show MeteoInt64Reader;
 
 enum Unit {
   undefined(0),
