@@ -73,7 +73,9 @@ var result = await ElevationApi().requestJson(latitudes: [52.52], longitudes: [1
 ## Known issues
 Addressed in [#16](https://github.com/neursh/open-meteo-dart/issues/16), the `Int64` type is not supported on the web platform due to Dart and Javascript differencies, and it won't be fixed for a long time.
 
-We'll try to find a workaround for this problem. But for now, the only way for web platform to continue to use the package is by using `requestJson()`.
+~We'll try to find a workaround for this problem. But for now, the only way for web platform to continue to use the package is by using `requestJson()`.~
+
+We've created a non-invasive implementation method to read Int64 by creating a new reader that will read Int64 by reading it as 2 int32 values combining together. Planned update for this new reader is in `2.1.5`!
 
 ## 1.1.0 Migration Guide
 - Every API now has `Api` suffix.
