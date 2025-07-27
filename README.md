@@ -25,7 +25,7 @@ Each of the ~nine~ **ten** features available in Open-Meteo is represented by it
 > [!NOTE]
 > All inputs to the API have been adapted to Dart-friendly variables.
 >
-> Time arguments are `DateTime` objects and many parameters have enum representations.
+> Time arguments are `DateTime` objects and parameters have enum representations.
 
 > [!TIP]
 > In each API, there are two main methods:
@@ -130,7 +130,7 @@ final response = await weather.request(
   </tr>
 </table>
 
-## Bugs & Pull requests
+## Issues & Pull requests
 Before reporting an issue, please check Open-Meteo's docs to make sure you're calling the correct endpoint with the correct arguments.
 
 There's a method to check the URL that the package generated to send the request:
