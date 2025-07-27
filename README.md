@@ -132,4 +132,17 @@ final response = await weather.request(
 
 ## Bugs & Pull requests
 Before reporting an issue, please check Open-Meteo's docs to make sure you're calling the correct endpoint with the correct arguments.
+
+There's a method to check the URL that the package generated to send the request:
+```dart
+final weather = WeatherApi(temperatureUnit: TemperatureUnit.celsius);
+final response = await weather.request(
+  latitude: 52.52,
+  longitude: 13.41,
+  hourly: {WeatherHourly.temperature_2m},
+);
+
+print(response.urlUsed); // https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m&timeformat=unixtime&timezone=auto&format=flatbuffers
+```
+
 Contributions are welcome!
