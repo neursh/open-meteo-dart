@@ -67,15 +67,16 @@ enum MarineCurrent with Parameter<MarineApi, Current> {
   secondary_swell_wave_direction(
     Variable.secondary_swell_wave_direction,
   ),
-  tertiary_swell_wave_height(
-    Variable.tertiary_swell_wave_height,
-  ),
-  tertiary_swell_wave_period(
-    Variable.tertiary_swell_wave_period,
-  ),
-  tertiary_swell_wave_direction(
-    Variable.tertiary_swell_wave_direction,
-  ),
+  // Dunno, the upstream API returns nothing for these ones.
+  // tertiary_swell_wave_height(
+  //   Variable.tertiary_swell_wave_height,
+  // ),
+  // tertiary_swell_wave_period(
+  //   Variable.tertiary_swell_wave_period,
+  // ),
+  // tertiary_swell_wave_direction(
+  //   Variable.tertiary_swell_wave_direction,
+  // ),
   sea_level_height_msl(
     Variable.sea_level_height_msl,
   ),

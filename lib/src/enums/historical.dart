@@ -514,11 +514,6 @@ enum HistoricalDaily with Parameter<HistoricalApi, Daily> {
     Variable.visibility,
     aggregation: Aggregation.maximum,
   ),
-  winddirection_10m_dominant(
-    Variable.wind_direction,
-    aggregation: Aggregation.dominant,
-    altitude: 10,
-  ),
   wind_gusts_10m_mean(
     Variable.wind_gusts,
     aggregation: Aggregation.mean,
