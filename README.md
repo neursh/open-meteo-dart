@@ -6,7 +6,7 @@ Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) be
 
 - [Community highlights](#community-highlights)
 - [Usage & Docs](#usage--docs)
-- [1.1.0 Migration Guide](#110-migration-guide)
+- [1.x.x Migration Guide](#1xx-migration-guide)
 - [Top Contributors](#top-contributors)
 
 > [!IMPORTANT]
@@ -82,7 +82,7 @@ var result = await GeocodingApi().requestJson(name: "London");
 var result = await ElevationApi().requestJson(latitudes: [52.52], longitudes: [13.41]);
 ```
 
-## 1.1.0 Migration Guide
+## 1.x.x Migration Guide
 - Every API now has `Api` suffix.
 ```
 Weather() -> WeatherApi()
@@ -100,16 +100,15 @@ Weather(temperature_unit: TemperatureUnit.celsius) -> WeatherApi(temperatureUnit
 
 - `latitude`, `longitude`, and some variables now moved to request methods, API classes only have some settings related to the formatting result:
 ```dart
-// 1.1.0
+// 1.x.x
 var weather = Weather(
   latitude: 52.52,
   longitude: 13.41,
   temperature_unit: TemperatureUnit.celsius
 );
-var hourly = [Hourly.temperature_2m];
-await weather.request(hourly: hourly);
+await weather.request(hourly: [Hourly.temperature_2m]);
 
-// 2.0.0
+// 2.x.x
 final weather = WeatherApi(temperatureUnit: TemperatureUnit.celsius);
 final response = await weather.request(
   latitude: 52.52,
