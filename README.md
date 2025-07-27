@@ -12,7 +12,7 @@ Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) be
 > [!IMPORTANT]
 > The type-safe implmentation is now available on the web platform!
 >
-> From version `2.1.5`, the package will now provide support for Int64 type on timestamp variables for the web platform. Up to 53 bits though, but that doesn't matter.
+> From version `2.1.5`, the package will now provide support for Int64 type on timestamp variables for the web platform. Up to 53 bits though, but that doesn't matter, everything will be long gone before this limit hits.
 >
 > So yay! Web platform now no longer rely on `requestJson()` and query the response on their own anymore.
 
