@@ -1,13 +1,15 @@
+export 'package:flat_buffers/flat_buffers.dart' hide Int64Reader;
+
+import 'package:flat_buffers/flat_buffers.dart';
 import 'dart:typed_data';
-import 'package:flat_buffers/flat_buffers.dart' as fb;
 
 const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
-class MeteoInt64Reader extends fb.Reader<int> {
-  const MeteoInt64Reader();
+class Int64Reader extends Reader<int> {
+  const Int64Reader();
 
   @override
-  int read(fb.BufferContext bc, int offset) {
+  int read(BufferContext bc, int offset) {
     if (kIsWeb) {
       // Read as two 32-bit integers and combine
       final low = bc.buffer.getUint32(offset, Endian.little);

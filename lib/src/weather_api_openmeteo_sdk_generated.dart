@@ -5,8 +5,7 @@ library openmeteo_sdk;
 
 import 'dart:typed_data';
 
-import 'package:flat_buffers/flat_buffers.dart' as fb;
-import 'package:open_meteo/src/int64_web_combat.dart' show MeteoInt64Reader;
+import "flatbuffer_web_combat.dart" as fb;
 
 enum Unit {
   undefined(0),
@@ -1050,7 +1049,7 @@ class VariableWithValues {
       const fb.Float32Reader().vTableGet(_bc, _bcOffset, 8, 0.0);
   List<double>? get values => const fb.ListReader<double>(fb.Float32Reader())
       .vTableGetNullable(_bc, _bcOffset, 10);
-  List<int>? get valuesInt64 => const fb.ListReader<int>(MeteoInt64Reader())
+  List<int>? get valuesInt64 => const fb.ListReader<int>(fb.Int64Reader())
       .vTableGetNullable(_bc, _bcOffset, 12);
   int get altitude => const fb.Int16Reader().vTableGet(_bc, _bcOffset, 14, 0);
   Aggregation get aggregation => Aggregation.fromValue(
@@ -1236,8 +1235,8 @@ class VariablesWithTime {
   final fb.BufferContext _bc;
   final int _bcOffset;
 
-  int get time => const MeteoInt64Reader().vTableGet(_bc, _bcOffset, 4, 0);
-  int get timeEnd => const MeteoInt64Reader().vTableGet(_bc, _bcOffset, 6, 0);
+  int get time => const fb.Int64Reader().vTableGet(_bc, _bcOffset, 4, 0);
+  int get timeEnd => const fb.Int64Reader().vTableGet(_bc, _bcOffset, 6, 0);
   int get interval => const fb.Int32Reader().vTableGet(_bc, _bcOffset, 8, 0);
   List<VariableWithValues>? get variables =>
       const fb.ListReader<VariableWithValues>(VariableWithValues.reader)
@@ -1354,8 +1353,7 @@ class WeatherApiResponse {
       const fb.Float32Reader().vTableGet(_bc, _bcOffset, 10, 0.0);
 
   // WEB COMBAT
-  int get locationId =>
-      const MeteoInt64Reader().vTableGet(_bc, _bcOffset, 12, 0);
+  int get locationId => const fb.Int64Reader().vTableGet(_bc, _bcOffset, 12, 0);
 
   Model get model =>
       Model.fromValue(const fb.Uint8Reader().vTableGet(_bc, _bcOffset, 14, 0));
