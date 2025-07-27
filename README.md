@@ -6,9 +6,15 @@ Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) be
 
 - [Community highlights](#community-highlights)
 - [Usage & Docs](#usage--docs)
-- [Known issues](#known-issues)
 - [1.1.0 Migration Guide](#110-migration-guide)
 - [Top Contributors](#top-contributors)
+
+> [!IMPORTANT]
+> The type-safe implmentation is now available on the web platform!
+>
+> From version `2.1.5`, the package will now provide support for Int64 type on timestamp variables for the web platform. Up to 53 bits though, but that doesn't matter.
+>
+> So yay! Web platform now no longer rely on `requestJson()` and query the response on their own anymore.
 
 ## Community highlights
 A fun little spot to showcase some cool projects that people made from this package!
@@ -18,7 +24,20 @@ Each of the ~nine~ **ten** features available in Open-Meteo is represented by it
 
 > [!NOTE]
 > All inputs to the API have been adapted to Dart-friendly variables.
+>
 > Time arguments are `DateTime` objects and many parameters have enum representations.
+
+> [!TIP]
+> In each API, there are two main methods:
+> 
+> - `request` uses FlatBuffer under the hood for the best performance and low overhead. Returns a Dart object and let you query information with type safety, and throws an exception if the API returns an error response, recommended for most use cases.
+> 
+> - `requestJson` returns a JSON map, containing either the data or the raw error response. This method exists solely for debugging purposes. Server JSON encoding on a large amount of data is not feasible and could cause a heavy load on a free service, so pls try not to use it :)
+
+> [!CAUTION]
+> This is optional, but if you can, please also provide `userAgent` to the Apis. This can allow the folks at open-meteo to get a metric on how's your app doing.
+>
+> Using the default headers from the package makes your app's usage got mixed with other apps, so you might be limited even though you did nothing.
 
 For example, to get the hourly temperature in Celsius in London, 2 meters above sea level using `WeatherApi`, and only get information from `2024-08-10` to `2024-08-12`:
 
@@ -26,7 +45,7 @@ For example, to get the hourly temperature in Celsius in London, 2 meters above 
 import 'package:open_meteo/open_meteo.dart';
 
 void main() async {
-  final weather = WeatherApi();
+  final weather = WeatherApi(userAgent: "My-Flutter-App");
   final response = await weather.request(
     latitude: 52.52,
     longitude: 13.41,
@@ -53,13 +72,6 @@ In this example, the result is a `Map<DateTime, double>`:
 }
 ```
 
-> [!TIP]
-> In each API, there are two main methods:
-> 
-> - `request` uses FlatBuffer under the hood for the best performance and low overhead. Returns a Dart object and let you query information with type safety, and throws an exception if the API returns an error response, recommended for most use cases.
-> 
-> - `requestJson` returns a JSON map, containing either the data or the raw error response. This method exists solely for debugging purposes and web usage (see [known issues](#known-issues)). Server JSON encoding on a large amount of data is not advised and could cause a heavy load on a free service, so pls try not to use it :)
-
 > [!NOTE]
 > The `Geocoding` and `Elevation` are the two exceptions as they only have `searchJson` method available, the upstream API doesn't implement FlatBuffers.
 
@@ -69,13 +81,6 @@ var result = await GeocodingApi().requestJson(name: "London");
 ```dart
 var result = await ElevationApi().requestJson(latitudes: [52.52], longitudes: [13.41]);
 ```
-
-## Known issues
-Addressed in [#16](https://github.com/neursh/open-meteo-dart/issues/16), the `Int64` type is not supported on the web platform due to Dart and Javascript differencies, and it won't be fixed for a long time.
-
-~We'll try to find a workaround for this problem. But for now, the only way for web platform to continue to use the package is by using `requestJson()`.~
-
-We've created a non-invasive implementation method to read Int64 by creating a new reader that will read Int64 by reading it as 2 int32 values combining together. Planned update for this new reader is in `2.1.5`!
 
 ## 1.1.0 Migration Guide
 - Every API now has `Api` suffix.

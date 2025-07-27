@@ -129,3 +129,8 @@
 ## 2.0.5
 
 * New Satellite Radiation API dropped.
+
+## 2.1.5
+
+* Implements a patch for flatbuffer's Int64 class to support web platform.
+* Adds an optional `userAgent` value to all Apis.
