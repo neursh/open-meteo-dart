@@ -148,7 +148,7 @@ Map<ApiParameter, ParameterValues> _deserializeMultiple<ApiParameter>(
     return MapEntry(
       parameter,
       ParameterValues._(
-        unit: _unitsMap[v.unit]!,
+        unit: _unitsMap[v.unit] ?? "",
         values: (v.values ?? v.valuesInt64)
                 ?.asMap()
                 .map((index, value) => MapEntry(timestamps[index], value)) ??
