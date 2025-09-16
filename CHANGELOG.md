@@ -138,3 +138,7 @@
 ## 2.1.6
 
 * Minor fixes to the enum.
+
+## 2.1.7
+
+* Add model parameter for weather forcast api.
