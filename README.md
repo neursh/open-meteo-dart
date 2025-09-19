@@ -73,7 +73,7 @@ In this example, the result is a `Map<DateTime, double>`:
 ```
 
 > [!NOTE]
-> The `Geocoding` and `Elevation` are the two exceptions as they only have `searchJson` method available, the upstream API doesn't implement FlatBuffers.
+> The `Geocoding` and `Elevation` are the two exceptions as they only have `requestJson` method available, the upstream API doesn't implement FlatBuffers.
 
 ```dart
 var result = await GeocodingApi().requestJson(name: "London");
