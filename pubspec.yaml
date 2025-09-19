@@ -8,7 +8,7 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
-  flat_buffers: '>=23.5.26'
+  flat_buffers: '^23.5.26'
   http: ^1.0.0
 dev_dependencies:
   lints: ^4.0.0
