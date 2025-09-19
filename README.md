@@ -1,5 +1,5 @@
 # Open-Meteo API SDK
-An all-in-one API SDK to forecast weather, air quality, climate change, and many more by OpenMeteo with full typed support!
+A free, silly, all-in-one API SDK to forecast weather, air quality, climate change, and many more by OpenMeteo with full typed support!
 
 All features from the [Open-Meteo API](https://open-meteo.com/en/features) have been implemented (some are limited).
 Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) before using this package in your project.

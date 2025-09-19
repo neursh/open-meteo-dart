@@ -142,3 +142,7 @@
 ## 2.1.7
 
 * Add model parameter for weather forcast api.
+
+## 2.1.8
+
+* Fix some typos
