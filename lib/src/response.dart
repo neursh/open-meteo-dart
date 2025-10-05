@@ -7,6 +7,53 @@ import 'weather_api_openmeteo_sdk_generated.dart';
 
 class ApiResponse<Api extends BaseApi> {
   final Uri urlUsed;
+  final List<ResponseSegment> segments;
+
+  const ApiResponse._({
+    required this.urlUsed,
+    required this.segments,
+  });
+
+  factory ApiResponse.fromFlatBuffer(
+    Uri urlUsed,
+    Uint8List bytes, {
+    Map<int, Parameter<Api, Minutely15>>? minutely15Hashes,
+    Map<int, Parameter<Api, Current>>? currentHashes,
+    Map<int, Parameter<Api, Hourly>>? hourlyHashes,
+    Map<int, Parameter<Api, Daily>>? dailyHashes,
+  }) {
+    List<ResponseSegment> segments = [];
+
+    ByteData buffer = BufferContext.fromBytes(bytes).buffer;
+    int bytesLength = bytes.length;
+    int iteratedBytes = 0;
+    while (bytesLength > 0) {
+      int prefixed = buffer.getUint32(iteratedBytes, Endian.little);
+
+      WeatherApiResponse response = WeatherApiResponse(
+          bytes.sublist(iteratedBytes + 4, iteratedBytes + prefixed + 4));
+
+      segments.add(ResponseSegment.fromApiResponse(
+        response,
+        minutely15Hashes: minutely15Hashes,
+        currentHashes: currentHashes,
+        hourlyHashes: hourlyHashes,
+        dailyHashes: dailyHashes,
+      ));
+
+      bytesLength -= 4 + prefixed;
+      iteratedBytes += 4 + prefixed;
+    }
+
+    return ApiResponse._(
+      urlUsed: urlUsed,
+      segments: segments,
+    );
+  }
+}
+
+class ResponseSegment<Api extends BaseApi> {
+  final Model model;
   final double latitude;
   final double longitude;
   final double elevation;
@@ -19,8 +66,8 @@ class ApiResponse<Api extends BaseApi> {
   final Map<Parameter<Api, Hourly>, ParameterValues> hourlyData;
   final Map<Parameter<Api, Daily>, ParameterValues> dailyData;
 
-  const ApiResponse._({
-    required this.urlUsed,
+  const ResponseSegment._({
+    required this.model,
     required this.latitude,
     required this.longitude,
     required this.elevation,
@@ -34,21 +81,15 @@ class ApiResponse<Api extends BaseApi> {
     required this.dailyData,
   });
 
-  factory ApiResponse.fromFlatBuffer(
-    Uri urlUsed,
-    Uint8List bytes, {
+  factory ResponseSegment.fromApiResponse(
+    WeatherApiResponse response, {
     Map<int, Parameter<Api, Minutely15>>? minutely15Hashes,
     Map<int, Parameter<Api, Current>>? currentHashes,
     Map<int, Parameter<Api, Hourly>>? hourlyHashes,
     Map<int, Parameter<Api, Daily>>? dailyHashes,
   }) {
-    int prefixed =
-        BufferContext.fromBytes(bytes).buffer.getUint32(0, Endian.little);
-    WeatherApiResponse response =
-        WeatherApiResponse(bytes.sublist(4, prefixed + 4));
-
-    return ApiResponse._(
-      urlUsed: urlUsed,
+    return ResponseSegment._(
+      model: response.model,
       latitude: response.latitude,
       longitude: response.longitude,
       elevation: response.elevation,
