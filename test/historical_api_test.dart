@@ -56,7 +56,7 @@ void main() {
             hourly: HistoricalHourly.values.toSet(),
           );
           expect(
-            response.hourlyData.keys,
+            response.segments[0].hourlyData.keys,
             containsAll(HistoricalHourly.values),
           );
         });
@@ -69,7 +69,7 @@ void main() {
             daily: HistoricalDaily.values.toSet(),
           );
           expect(
-            response.dailyData.keys,
+            response.segments[0].dailyData.keys,
             containsAll(HistoricalDaily.values),
           );
         });
@@ -85,7 +85,7 @@ void main() {
             hourly: {HistoricalHourly.temperature_2m},
           );
           final temperature =
-              result.hourlyData[HistoricalHourly.temperature_2m];
+              result.segments[0].hourlyData[HistoricalHourly.temperature_2m];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
@@ -98,7 +98,7 @@ void main() {
             daily: {HistoricalDaily.temperature_2m_max},
           );
           final temperature =
-              result.dailyData[HistoricalDaily.temperature_2m_max];
+              result.segments[0].dailyData[HistoricalDaily.temperature_2m_max];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });

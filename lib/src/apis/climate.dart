@@ -2,12 +2,13 @@ import '../api.dart';
 import '../enums/climate.dart';
 import '../options.dart';
 import '../response.dart';
+import '../model_export.dart';
 
 /// Explore Climate Change on a Local Level with High-Resolution Climate Data
 ///
 /// https://open-meteo.com/en/docs/climate-api/
 class ClimateApi extends BaseApi {
-  final Set<ClimateModel> models;
+  final Set<OpenMeteoModel> models;
   final TemperatureUnit temperatureUnit;
   final WindspeedUnit windspeedUnit;
   final PrecipitationUnit precipitationUnit;
@@ -30,7 +31,7 @@ class ClimateApi extends BaseApi {
     String? apiUrl,
     String? apiKey,
     String? userAgent,
-    Set<ClimateModel>? models,
+    Set<OpenMeteoModel>? models,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,

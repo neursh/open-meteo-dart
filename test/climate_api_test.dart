@@ -4,13 +4,13 @@ import 'package:test/test.dart';
 void main() {
   group('climate api', () {
     const latitude = 52.52, longitude = 13.405; // Berlin
-    const models = {ClimateModel.CMCC_CM2_VHR4};
+    const models = {OpenMeteoModel.CMCC_CM2_VHR4};
     final startDate = DateTime(2022, 1, 1), endDate = DateTime(2022, 1, 2);
 
     group('constructor', () {
       test('with single model', () {
         expect(
-          () => ClimateApi(models: {ClimateModel.CMCC_CM2_VHR4}),
+          () => ClimateApi(models: {OpenMeteoModel.CMCC_CM2_VHR4}),
           returnsNormally,
         );
       });
@@ -18,8 +18,8 @@ void main() {
       test('with multiple models', () {
         expect(
           () => ClimateApi(models: {
-            ClimateModel.CMCC_CM2_VHR4,
-            ClimateModel.NICAM16_8S,
+            OpenMeteoModel.CMCC_CM2_VHR4,
+            OpenMeteoModel.NICAM16_8S,
           }),
           returnsNormally,
         );
@@ -84,7 +84,7 @@ void main() {
             daily: ClimateDaily.values.toSet(),
           );
           expect(
-            response.dailyData.keys,
+            response.segments[0].dailyData.keys,
             containsAll(ClimateDaily.values),
           );
         });
@@ -99,7 +99,8 @@ void main() {
             endDate: endDate,
             daily: {ClimateDaily.temperature_2m_max},
           );
-          final temperature = result.dailyData[ClimateDaily.temperature_2m_max];
+          final temperature =
+              result.segments[0].dailyData[ClimateDaily.temperature_2m_max];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });

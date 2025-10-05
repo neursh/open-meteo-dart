@@ -433,16 +433,3 @@ enum EnsembleDaily with Parameter<EnsembleApi, Daily> {
   static final Map<int, EnsembleDaily> hashes =
       makeHashes(EnsembleDaily.values);
 }
-
-enum EnsembleModel {
-  icon_seamless,
-  icon_global,
-  icon_eu,
-  icon_d2,
-  gfs_seamless,
-  gfs025,
-  gfs05,
-  ecmwf_ifs04,
-  gem_global,
-  bom_access_global_ensemble,
-}

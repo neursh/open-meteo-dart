@@ -1,3 +1,5 @@
+import 'package:open_meteo/src/weather_api_openmeteo_sdk_generated.dart';
+
 import '../api.dart';
 import '../enums/weather.dart';
 import '../options.dart';
@@ -52,7 +54,7 @@ class WeatherApi extends BaseApi {
     Set<WeatherDaily> daily = const {},
     Set<WeatherCurrent> current = const {},
     Set<WeatherMinutely15> minutely15 = const {},
-    Set<WeatherModel> models = const {},
+    Set<Model> models = const {},
     double? elevation,
     int? pastDays,
     int? pastHours,
@@ -99,7 +101,7 @@ class WeatherApi extends BaseApi {
     Set<WeatherDaily> daily = const {},
     Set<WeatherCurrent> current = const {},
     Set<WeatherMinutely15> minutely15 = const {},
-    Set<WeatherModel> models = const {},
+    Set<Model> models = const {},
     double? elevation,
     int? pastDays,
     int? pastHours,
@@ -152,7 +154,7 @@ class WeatherApi extends BaseApi {
     required Set<WeatherDaily> daily,
     required Set<WeatherCurrent> current,
     required Set<WeatherMinutely15> minutely15,
-    required Set<WeatherModel> models,
+    required Set<Model> models,
     required double? elevation,
     required int? pastDays,
     required int? pastHours,

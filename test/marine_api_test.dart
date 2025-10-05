@@ -53,7 +53,8 @@ void main() {
             longitude: longitude,
             current: MarineCurrent.values.toSet(),
           );
-          expect(response.currentData.keys, containsAll(MarineCurrent.values));
+          expect(response.segments[0].currentData.keys,
+              containsAll(MarineCurrent.values));
         });
         test('for hourly data', () async {
           final response = await api.request(
@@ -61,7 +62,8 @@ void main() {
             longitude: longitude,
             hourly: MarineHourly.values.toSet(),
           );
-          expect(response.hourlyData.keys, containsAll(MarineHourly.values));
+          expect(response.segments[0].hourlyData.keys,
+              containsAll(MarineHourly.values));
         });
         // Waiting for https://github.com/open-meteo/open-meteo/issues/936
         // test('for daily data', () async {
@@ -84,7 +86,8 @@ void main() {
             longitude: longitude,
             current: {MarineCurrent.wave_height},
           );
-          final waveHeight = result.currentData[MarineCurrent.wave_height];
+          final waveHeight =
+              result.segments[0].currentData[MarineCurrent.wave_height];
           expect(waveHeight, isNotNull);
         });
         test('hourly wave height', () async {
@@ -93,7 +96,8 @@ void main() {
             longitude: longitude,
             hourly: {MarineHourly.wave_height},
           );
-          final waveHeight = result.hourlyData[MarineHourly.wave_height];
+          final waveHeight =
+              result.segments[0].hourlyData[MarineHourly.wave_height];
           expect(waveHeight, isNotNull);
           expect(waveHeight!.values, isNotEmpty);
         });

@@ -2,12 +2,13 @@ import '../api.dart';
 import '../enums/ensemble.dart';
 import '../options.dart';
 import '../response.dart';
+import '../model_export.dart';
 
 /// Hundreds Of Weather Forecasts, Every time, Everywhere, All at Once.
 ///
 /// https://open-meteo.com/en/docs/ensemble-api/
 class EnsembleApi extends BaseApi {
-  final Set<EnsembleModel> models;
+  final Set<OpenMeteoModel> models;
   final TemperatureUnit temperatureUnit;
   final WindspeedUnit windspeedUnit;
   final PrecipitationUnit precipitationUnit;
@@ -28,7 +29,7 @@ class EnsembleApi extends BaseApi {
     String? apiUrl,
     String? apiKey,
     String? userAgent,
-    Set<EnsembleModel>? models,
+    Set<OpenMeteoModel>? models,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,

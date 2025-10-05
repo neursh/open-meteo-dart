@@ -49,7 +49,7 @@ void main() {
             daily: FloodDaily.values.toSet(),
           );
           expect(
-            response.dailyData.keys,
+            response.segments[0].dailyData.keys,
             containsAll(FloodDaily.values),
           );
         });
@@ -62,7 +62,8 @@ void main() {
             longitude: longitude,
             daily: {FloodDaily.river_discharge},
           );
-          final temperature = result.dailyData[FloodDaily.river_discharge];
+          final temperature =
+              result.segments[0].dailyData[FloodDaily.river_discharge];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });

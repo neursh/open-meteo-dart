@@ -53,7 +53,7 @@ void main() {
             current: WeatherCurrent.values.toSet(),
           );
           expect(
-            response.currentData.keys,
+            response.segments[0].currentData.keys,
             containsAll(WeatherCurrent.values),
           );
         });
@@ -64,7 +64,7 @@ void main() {
             hourly: WeatherHourly.values.toSet(),
           );
           expect(
-            response.hourlyData.keys,
+            response.segments[0].hourlyData.keys,
             containsAll(WeatherHourly.values),
           );
         });
@@ -75,7 +75,7 @@ void main() {
             daily: WeatherDaily.values.toSet(),
           );
           expect(
-            response.dailyData.keys,
+            response.segments[0].dailyData.keys,
             containsAll(WeatherDaily.values),
           );
         });
@@ -88,7 +88,8 @@ void main() {
             longitude: longitude,
             current: {WeatherCurrent.temperature_2m},
           );
-          final temperature = result.currentData[WeatherCurrent.temperature_2m];
+          final temperature =
+              result.segments[0].currentData[WeatherCurrent.temperature_2m];
           expect(temperature, isNotNull);
         });
         test('hourly temperature', () async {
@@ -97,7 +98,8 @@ void main() {
             longitude: longitude,
             hourly: {WeatherHourly.temperature_2m},
           );
-          final temperature = result.hourlyData[WeatherHourly.temperature_2m];
+          final temperature =
+              result.segments[0].hourlyData[WeatherHourly.temperature_2m];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
@@ -107,7 +109,8 @@ void main() {
             longitude: longitude,
             daily: {WeatherDaily.temperature_2m_max},
           );
-          final temperature = result.dailyData[WeatherDaily.temperature_2m_max];
+          final temperature =
+              result.segments[0].dailyData[WeatherDaily.temperature_2m_max];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });

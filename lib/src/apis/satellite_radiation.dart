@@ -2,12 +2,13 @@ import '../api.dart';
 import '../enums/satellite_radiation.dart';
 import '../options.dart';
 import '../response.dart';
+import '../model_export.dart';
 
 /// Hourly wave forecasts at 5 km resolution
 ///
 /// https://open-meteo.com/en/docs/marine-weather-api/
 class SatelliteRadiationApi extends BaseApi {
-  final Set<SatelliteRadiationModels> models;
+  final Set<OpenMeteoModel> models;
   final int tilt;
   final int azimuth;
   final CellSelection cellSelection;
@@ -26,7 +27,7 @@ class SatelliteRadiationApi extends BaseApi {
     String? apiUrl,
     String? apiKey,
     String? userAgent,
-    Set<SatelliteRadiationModels>? models,
+    Set<OpenMeteoModel>? models,
     int? tilt,
     int? azimuth,
     CellSelection? cellSelection,

@@ -4,20 +4,20 @@ import 'package:test/test.dart';
 void main() {
   group('ensemble api', () {
     const latitude = 52.52, longitude = 13.405; // Berlin
-    const models = {EnsembleModel.icon_seamless};
+    const models = {OpenMeteoModel.icon_seamless};
 
     group('constructor', () {
       test('with single model', () {
         expect(
-          () => EnsembleApi(models: {EnsembleModel.icon_seamless}),
+          () => EnsembleApi(models: {OpenMeteoModel.icon_seamless}),
           returnsNormally,
         );
       });
       test('with multiple models', () {
         expect(
           () => EnsembleApi(models: {
-            EnsembleModel.icon_seamless,
-            EnsembleModel.gfs_seamless,
+            OpenMeteoModel.icon_seamless,
+            OpenMeteoModel.gfs_seamless,
           }),
           returnsNormally,
         );
@@ -85,7 +85,8 @@ void main() {
             longitude: longitude,
             hourly: {EnsembleHourly.temperature_2m},
           );
-          final temperature = result.hourlyData[EnsembleHourly.temperature_2m];
+          final temperature =
+              result.segments[0].hourlyData[EnsembleHourly.temperature_2m];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });

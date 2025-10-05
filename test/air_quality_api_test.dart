@@ -49,7 +49,7 @@ void main() {
             current: AirQualityCurrent.values.toSet(),
           );
           expect(
-            response.currentData.keys,
+            response.segments[0].currentData.keys,
             containsAll(AirQualityCurrent.values),
           );
         });
@@ -60,7 +60,7 @@ void main() {
             hourly: AirQualityHourly.values.toSet(),
           );
           expect(
-            response.hourlyData.keys,
+            response.segments[0].hourlyData.keys,
             containsAll(AirQualityHourly.values),
           );
         });
@@ -74,7 +74,7 @@ void main() {
             current: {AirQualityCurrent.european_aqi},
           );
           final temperature =
-              result.currentData[AirQualityCurrent.european_aqi];
+              result.segments[0].currentData[AirQualityCurrent.european_aqi];
           expect(temperature, isNotNull);
         });
         test('hourly aqi', () async {
@@ -83,7 +83,8 @@ void main() {
             longitude: longitude,
             hourly: {AirQualityHourly.european_aqi},
           );
-          final temperature = result.hourlyData[AirQualityHourly.european_aqi];
+          final temperature =
+              result.segments[0].hourlyData[AirQualityHourly.european_aqi];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
