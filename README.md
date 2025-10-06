@@ -228,8 +228,9 @@ There's a method to check the URL that the package generated to send the request
 ```dart
 final weather = WeatherApi();
 final response = await weather.request(
-  latitude: 16.16667,
-  longitude: 107.83333,
+  locations: {
+    OpenMeteoLocation(latitude: 16.16667, longitude: 107.83333),
+  },
   hourly: {WeatherHourly.temperature_2m},
 );
 
