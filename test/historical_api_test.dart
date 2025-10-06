@@ -49,10 +49,14 @@ void main() {
       group('enum deserialization', () {
         test('for hourly data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             hourly: HistoricalHourly.values.toSet(),
           );
           expect(
@@ -62,10 +66,14 @@ void main() {
         });
         test('for daily data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             daily: HistoricalDaily.values.toSet(),
           );
           expect(
@@ -78,10 +86,14 @@ void main() {
       group('get', () {
         test('hourly temperature', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             hourly: {HistoricalHourly.temperature_2m},
           );
           final temperature =
@@ -91,10 +103,14 @@ void main() {
         });
         test('daily temperature max', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             daily: {HistoricalDaily.temperature_2m_max},
           );
           final temperature =
@@ -113,10 +129,14 @@ void main() {
 
       test('hourly temperature', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
-          startDate: startDate,
-          endDate: endDate,
+          locations: {
+            OpenMeteoLocation(
+              latitude: latitude,
+              longitude: longitude,
+              startDate: startDate,
+              endDate: endDate,
+            )
+          },
           hourly: {HistoricalHourly.temperature_2m},
         );
         expect(result['error'], isNot(true));
@@ -129,10 +149,14 @@ void main() {
       });
       test('daily temperature max', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
-          startDate: startDate,
-          endDate: endDate,
+          locations: {
+            OpenMeteoLocation(
+              latitude: latitude,
+              longitude: longitude,
+              startDate: startDate,
+              endDate: endDate,
+            )
+          },
           daily: {HistoricalDaily.temperature_2m_max},
         );
         expect(result['error'], isNot(true));

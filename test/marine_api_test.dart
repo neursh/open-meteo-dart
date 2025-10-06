@@ -49,8 +49,12 @@ void main() {
       group('enum deserialization', () {
         test('for current data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+              )
+            },
             current: MarineCurrent.values.toSet(),
           );
           expect(response.segments[0].currentData.keys,
@@ -58,8 +62,12 @@ void main() {
         });
         test('for hourly data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+              )
+            },
             hourly: MarineHourly.values.toSet(),
           );
           expect(response.segments[0].hourlyData.keys,
@@ -82,8 +90,12 @@ void main() {
       group('get', () {
         test('current wave height', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+              )
+            },
             current: {MarineCurrent.wave_height},
           );
           final waveHeight =
@@ -92,8 +104,12 @@ void main() {
         });
         test('hourly wave height', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+              )
+            },
             hourly: {MarineHourly.wave_height},
           );
           final waveHeight =
@@ -122,8 +138,12 @@ void main() {
 
       test('current wave height', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(
+              latitude: latitude,
+              longitude: longitude,
+            )
+          },
           current: {MarineCurrent.wave_height},
         );
         expect(result['error'], isNot(true));
@@ -132,8 +152,12 @@ void main() {
       });
       test('hourly wave height', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(
+              latitude: latitude,
+              longitude: longitude,
+            )
+          },
           hourly: {MarineHourly.wave_height},
         );
         expect(result['error'], isNot(true));
@@ -146,8 +170,12 @@ void main() {
       });
       test('daily wave height max', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(
+              latitude: latitude,
+              longitude: longitude,
+            )
+          },
           daily: {MarineDaily.wave_height_max},
         );
         expect(result['error'], isNot(true));

@@ -77,10 +77,14 @@ void main() {
       group('enum deserialization', () {
         test('for daily data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             daily: ClimateDaily.values.toSet(),
           );
           expect(
@@ -93,10 +97,14 @@ void main() {
       group('get', () {
         test('daily temperature max', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             daily: {ClimateDaily.temperature_2m_max},
           );
           final temperature =
@@ -115,10 +123,14 @@ void main() {
 
       test('daily temperature max', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
-          startDate: startDate,
-          endDate: endDate,
+          locations: {
+            OpenMeteoLocation(
+              latitude: latitude,
+              longitude: longitude,
+              startDate: startDate,
+              endDate: endDate,
+            )
+          },
           daily: {ClimateDaily.temperature_2m_max},
         );
         expect(result['error'], isNot(true));

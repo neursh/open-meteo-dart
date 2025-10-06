@@ -29,8 +29,8 @@ void main() {
 
       test('single elevation', () async {
         final result = await api.requestJson(
-          latitudes: [52.52],
-          longitudes: [13.41],
+          latitudes: {52.52},
+          longitudes: {13.41},
         );
         expect(result['error'], isNot(true));
         expect(result['elevation'], isNotNull);
@@ -38,8 +38,8 @@ void main() {
       });
       test('multiple elevations', () async {
         final result = await api.requestJson(
-          latitudes: [52.52, 51.507],
-          longitudes: [13.405, -0.128],
+          latitudes: {52.52, 51.507},
+          longitudes: {13.405, -0.128},
         );
         expect(result['error'], isNot(true));
         expect(result['elevation'], isNotNull);

@@ -44,8 +44,9 @@ void main() {
       group('enum deserialization', () {
         test('for hourly data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             hourly: SatelliteRadiationHourly.values.toSet(),
           );
           expect(
@@ -55,8 +56,9 @@ void main() {
         });
         test('for daily data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             daily: SatelliteRadiationDaily.values.toSet(),
           );
           expect(
@@ -69,8 +71,9 @@ void main() {
       group('get', () {
         test('hourly diffuse radiation', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             hourly: {SatelliteRadiationHourly.diffuse_radiation},
           );
           final temperature = result.segments[0]
@@ -80,8 +83,9 @@ void main() {
         });
         test('daily shortwave radiation', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             daily: {SatelliteRadiationDaily.shortwave_radiation_sum},
           );
           final temperature = result.segments[0]
@@ -100,8 +104,9 @@ void main() {
       });
       test('hourly diffuse radiation', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           hourly: {SatelliteRadiationHourly.diffuse_radiation},
         );
         expect(result['error'], isNot(true));
@@ -114,8 +119,9 @@ void main() {
       });
       test('daily shortwave radiation', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           daily: {SatelliteRadiationDaily.shortwave_radiation_sum},
         );
         expect(result['error'], isNot(true));

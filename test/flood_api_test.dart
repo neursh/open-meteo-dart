@@ -44,8 +44,9 @@ void main() {
       group('enum deserialization', () {
         test('for daily data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             daily: FloodDaily.values.toSet(),
           );
           expect(
@@ -58,8 +59,9 @@ void main() {
       group('get', () {
         test('daily river discharge', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             daily: {FloodDaily.river_discharge},
           );
           final temperature =
@@ -78,8 +80,9 @@ void main() {
 
       test('daily river discharge', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           daily: {FloodDaily.river_discharge},
         );
         expect(result['error'], isNot(true));

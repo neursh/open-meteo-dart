@@ -44,8 +44,9 @@ void main() {
       group('enum deserialization', () {
         test('for current data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             current: AirQualityCurrent.values.toSet(),
           );
           expect(
@@ -55,8 +56,9 @@ void main() {
         });
         test('for hourly data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             hourly: AirQualityHourly.values.toSet(),
           );
           expect(
@@ -69,8 +71,9 @@ void main() {
       group('get', () {
         test('current aqi', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             current: {AirQualityCurrent.european_aqi},
           );
           final temperature =
@@ -79,8 +82,9 @@ void main() {
         });
         test('hourly aqi', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             hourly: {AirQualityHourly.european_aqi},
           );
           final temperature =
@@ -99,8 +103,9 @@ void main() {
 
       test('current aqi', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           current: {AirQualityCurrent.european_aqi},
         );
         expect(result['error'], isNot(true));
@@ -109,8 +114,9 @@ void main() {
       });
       test('hourly aqi', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           hourly: {AirQualityHourly.european_aqi},
         );
         expect(result['error'], isNot(true));

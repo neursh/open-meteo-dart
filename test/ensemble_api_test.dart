@@ -81,8 +81,9 @@ void main() {
       group('get', () {
         test('hourly temperature', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             hourly: {EnsembleHourly.temperature_2m},
           );
           final temperature =
@@ -101,8 +102,9 @@ void main() {
 
       test('hourly temperature', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           hourly: {EnsembleHourly.temperature_2m},
         );
         expect(result['error'], isNot(true));
