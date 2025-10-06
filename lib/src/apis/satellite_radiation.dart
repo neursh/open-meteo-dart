@@ -47,7 +47,7 @@ class SatelliteRadiationApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required Set<Location> locations,
+    required Set<OpenMeteoLocation> locations,
     Set<SatelliteRadiationHourly> hourly = const {},
     Set<SatelliteRadiationDaily> daily = const {},
     int? pastDays,
@@ -78,7 +78,7 @@ class SatelliteRadiationApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<SatelliteRadiationApi>> request({
-    required Set<Location> locations,
+    required Set<OpenMeteoLocation> locations,
     Set<SatelliteRadiationHourly> hourly = const {},
     Set<SatelliteRadiationDaily> daily = const {},
     int? pastDays,
@@ -113,7 +113,7 @@ class SatelliteRadiationApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required Set<Location> locations,
+    required Set<OpenMeteoLocation> locations,
     required Set<SatelliteRadiationHourly> hourly,
     required Set<SatelliteRadiationDaily> daily,
     required int? pastDays,

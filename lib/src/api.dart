@@ -169,7 +169,7 @@ class ParsedLocations {
   });
 }
 
-ParsedLocations parseLocations(Set<Location> locations) {
+ParsedLocations parseLocations(Set<OpenMeteoLocation> locations) {
   List<double> latitude = [];
   List<double> longitude = [];
   List<double> elevation = [];

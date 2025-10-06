@@ -36,14 +36,14 @@ enum CellSelection {
   nearest;
 }
 
-class Location {
+class OpenMeteoLocation {
   final double latitude;
   final double longitude;
   final double? elevation;
   final DateTime? startDate;
   final DateTime? endDate;
 
-  const Location({
+  const OpenMeteoLocation({
     required this.latitude,
     required this.longitude,
     this.elevation,

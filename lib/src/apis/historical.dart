@@ -47,7 +47,7 @@ class HistoricalApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required Set<Location> locations,
+    required Set<OpenMeteoLocation> locations,
     Set<HistoricalHourly> hourly = const {},
     Set<HistoricalDaily> daily = const {},
     double? elevation,
@@ -67,7 +67,7 @@ class HistoricalApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<HistoricalApi>> request({
-    required Set<Location> locations,
+    required Set<OpenMeteoLocation> locations,
     Set<HistoricalHourly> hourly = const {},
     Set<HistoricalDaily> daily = const {},
     double? elevation,
@@ -91,7 +91,7 @@ class HistoricalApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required Set<Location> locations,
+    required Set<OpenMeteoLocation> locations,
     required Set<HistoricalHourly> hourly,
     required Set<HistoricalDaily> daily,
   }) {
