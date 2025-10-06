@@ -9,6 +9,13 @@ Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) be
 - [Migration Guide](#migration-guide)
 - [Top Contributors](#top-contributors)
 
+> [!NOTE]
+> The package's updates and patches are now issue based. Meaning I won't work on the package's new features or fixes unless someone opens an issue, as I've moved on from flutter development for a good while now.
+>
+> If the feature requested or the bug is too big and takes a lot of time, I probably won't do it, sorry.
+>
+> I'll try my best to review your pull request though! It will be much appreciated.
+
 ## Community highlights
 A fun little spot to showcase some cool projects that people made from this package! I'll check the `Dependency graph` to find your project. So be sure to enable that feature in your repository. Otherwise I won't find it.
 
@@ -237,4 +244,4 @@ final response = await weather.request(
 print(response.urlUsed); // https://api.open-meteo.com/v1/forecast?latitude=16.16667&longitude=107.83333&hourly=temperature_2m&timeformat=unixtime&timezone=auto&format=flatbuffers
 ```
 
-Contributions are welcome!
+Contributions are welcomed!
