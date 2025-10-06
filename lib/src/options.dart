@@ -35,3 +35,19 @@ enum CellSelection {
   /// Selects the nearest possible grid-cell.
   nearest;
 }
+
+class Location {
+  final double latitude;
+  final double longitude;
+  final double? elevation;
+  final DateTime? startDate;
+  final DateTime? endDate;
+
+  const Location({
+    required this.latitude,
+    required this.longitude,
+    this.elevation,
+    this.startDate,
+    this.endDate,
+  });
+}

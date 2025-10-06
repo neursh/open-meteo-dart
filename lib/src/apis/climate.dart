@@ -56,19 +56,13 @@ class ClimateApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required Set<double> latitude,
-    required Set<double> longitude,
-    required DateTime startDate,
-    required DateTime endDate,
+    required Set<Location> locations,
     required Set<ClimateDaily> daily,
   }) =>
       apiRequestJson(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
-          startDate: startDate,
-          endDate: endDate,
+          locations: locations,
           daily: daily,
         ),
       );
@@ -77,19 +71,13 @@ class ClimateApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<ClimateApi>> request({
-    required Set<double> latitude,
-    required Set<double> longitude,
-    required DateTime startDate,
-    required DateTime endDate,
+    required Set<Location> locations,
     required Set<ClimateDaily> daily,
   }) =>
       apiRequestFlatBuffer(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
-          startDate: startDate,
-          endDate: endDate,
+          locations: locations,
           daily: daily,
         ),
       ).then(
@@ -101,27 +89,26 @@ class ClimateApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required Set<double> latitude,
-    required Set<double> longitude,
-    required DateTime startDate,
-    required DateTime endDate,
+    required Set<Location> locations,
     required Set<ClimateDaily> daily,
-  }) =>
-      {
-        'models': models,
-        'latitude': latitude,
-        'longitude': longitude,
-        'daily': daily,
-        'temperature_unit':
-            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
-        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
-        'precipitation_unit':
-            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
-        'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
-        'disable_bias_correction': nullIfEqual(disableBiasCorrection, false),
-        'start_date': formatDate(startDate),
-        'end_date': formatDate(endDate),
-        'timeformat': 'unixtime',
-        'timezone': 'auto',
-      };
+  }) {
+    final parsedLocations = parseLocations(locations);
+    return {
+      'models': models,
+      'latitude': parsedLocations.latitude,
+      'longitude': parsedLocations.longitude,
+      'elevation': nullIfEmpty(parsedLocations.elevation),
+      'daily': daily,
+      'temperature_unit': nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+      'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+      'precipitation_unit':
+          nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+      'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
+      'disable_bias_correction': nullIfEqual(disableBiasCorrection, false),
+      'start_date': nullIfEmpty(parsedLocations.startDate),
+      'end_date': nullIfEmpty(parsedLocations.endDate),
+      'timeformat': 'unixtime',
+      'timezone': 'auto',
+    };
+  }
 }

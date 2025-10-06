@@ -50,8 +50,7 @@ class MarineApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required Set<double> latitude,
-    required Set<double> longitude,
+    required Set<Location> locations,
     Set<MarineCurrent> current = const {},
     Set<MarineHourly> hourly = const {},
     Set<MarineDaily> daily = const {},
@@ -59,16 +58,13 @@ class MarineApi extends BaseApi {
     int? pastHours,
     int? forecastDays,
     int? forecastHours,
-    DateTime? startDate,
-    DateTime? endDate,
     DateTime? startHour,
     DateTime? endHour,
   }) =>
       apiRequestJson(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
+          locations: locations,
           current: current,
           hourly: hourly,
           daily: daily,
@@ -76,8 +72,6 @@ class MarineApi extends BaseApi {
           pastHours: pastHours,
           forecastDays: forecastDays,
           forecastHours: forecastHours,
-          startDate: startDate,
-          endDate: endDate,
           startHour: startHour,
           endHour: endHour,
         ),
@@ -87,8 +81,7 @@ class MarineApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<MarineApi>> request({
-    required Set<double> latitude,
-    required Set<double> longitude,
+    required Set<Location> locations,
     Set<MarineCurrent> current = const {},
     Set<MarineHourly> hourly = const {},
     Set<MarineDaily> daily = const {},
@@ -96,16 +89,13 @@ class MarineApi extends BaseApi {
     int? pastHours,
     int? forecastDays,
     int? forecastHours,
-    DateTime? startDate,
-    DateTime? endDate,
     DateTime? startHour,
     DateTime? endHour,
   }) =>
       apiRequestFlatBuffer(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
+          locations: locations,
           current: current,
           hourly: hourly,
           daily: daily,
@@ -113,8 +103,6 @@ class MarineApi extends BaseApi {
           pastHours: pastHours,
           forecastDays: forecastDays,
           forecastHours: forecastHours,
-          startDate: startDate,
-          endDate: endDate,
           startHour: startHour,
           endHour: endHour,
         ),
@@ -129,8 +117,7 @@ class MarineApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required Set<double> latitude,
-    required Set<double> longitude,
+    required Set<Location> locations,
     required Set<MarineCurrent> current,
     required Set<MarineHourly> hourly,
     required Set<MarineDaily> daily,
@@ -138,33 +125,33 @@ class MarineApi extends BaseApi {
     required int? pastHours,
     required int? forecastDays,
     required int? forecastHours,
-    required DateTime? startDate,
-    required DateTime? endDate,
     required DateTime? startHour,
     required DateTime? endHour,
-  }) =>
-      {
-        'latitude': latitude,
-        'longitude': longitude,
-        'current': nullIfEmpty(current),
-        'hourly': nullIfEmpty(hourly),
-        'daily': nullIfEmpty(daily),
-        'temperature_unit':
-            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
-        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
-        'precipitation_unit':
-            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
-        'length_unit': nullIfEqual(lengthUnit, LengthUnit.metric),
-        'cell_selection': nullIfEqual(cellSelection, CellSelection.sea),
-        'past_days': pastDays,
-        'past_hours': pastHours,
-        'forecast_days': forecastDays,
-        'forecast_hours': forecastHours,
-        'start_date': formatDate(startDate),
-        'end_date': formatDate(endDate),
-        'start_hour': formatTime(startHour),
-        'end_hour': formatTime(endHour),
-        'timeformat': 'unixtime',
-        'timezone': 'auto',
-      };
+  }) {
+    final parsedLocations = parseLocations(locations);
+    return {
+      'latitude': parsedLocations.latitude,
+      'longitude': parsedLocations.longitude,
+      'elevation': nullIfEmpty(parsedLocations.elevation),
+      'current': nullIfEmpty(current),
+      'hourly': nullIfEmpty(hourly),
+      'daily': nullIfEmpty(daily),
+      'temperature_unit': nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+      'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+      'precipitation_unit':
+          nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+      'length_unit': nullIfEqual(lengthUnit, LengthUnit.metric),
+      'cell_selection': nullIfEqual(cellSelection, CellSelection.sea),
+      'past_days': pastDays,
+      'past_hours': pastHours,
+      'forecast_days': forecastDays,
+      'forecast_hours': forecastHours,
+      'start_date': nullIfEmpty(parsedLocations.startDate),
+      'end_date': nullIfEmpty(parsedLocations.endDate),
+      'start_hour': formatTime(startHour),
+      'end_hour': formatTime(endHour),
+      'timeformat': 'unixtime',
+      'timezone': 'auto',
+    };
+  }
 }

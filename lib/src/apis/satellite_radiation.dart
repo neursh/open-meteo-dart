@@ -47,32 +47,26 @@ class SatelliteRadiationApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required Set<double> latitude,
-    required Set<double> longitude,
+    required Set<Location> locations,
     Set<SatelliteRadiationHourly> hourly = const {},
     Set<SatelliteRadiationDaily> daily = const {},
     int? pastDays,
     int? pastHours,
     int? forecastDays,
     int? forecastHours,
-    DateTime? startDate,
-    DateTime? endDate,
     DateTime? startHour,
     DateTime? endHour,
   }) =>
       apiRequestJson(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
+          locations: locations,
           hourly: hourly,
           daily: daily,
           pastDays: pastDays,
           pastHours: pastHours,
           forecastDays: forecastDays,
           forecastHours: forecastHours,
-          startDate: startDate,
-          endDate: endDate,
           startHour: startHour,
           endHour: endHour,
         ),
@@ -82,32 +76,26 @@ class SatelliteRadiationApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<SatelliteRadiationApi>> request({
-    required Set<double> latitude,
-    required Set<double> longitude,
+    required Set<Location> locations,
     Set<SatelliteRadiationHourly> hourly = const {},
     Set<SatelliteRadiationDaily> daily = const {},
     int? pastDays,
     int? pastHours,
     int? forecastDays,
     int? forecastHours,
-    DateTime? startDate,
-    DateTime? endDate,
     DateTime? startHour,
     DateTime? endHour,
   }) =>
       apiRequestFlatBuffer(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
+          locations: locations,
           hourly: hourly,
           daily: daily,
           pastDays: pastDays,
           pastHours: pastHours,
           forecastDays: forecastDays,
           forecastHours: forecastHours,
-          startDate: startDate,
-          endDate: endDate,
           startHour: startHour,
           endHour: endHour,
         ),
@@ -121,37 +109,37 @@ class SatelliteRadiationApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required Set<double> latitude,
-    required Set<double> longitude,
+    required Set<Location> locations,
     required Set<SatelliteRadiationHourly> hourly,
     required Set<SatelliteRadiationDaily> daily,
     required int? pastDays,
     required int? pastHours,
     required int? forecastDays,
     required int? forecastHours,
-    required DateTime? startDate,
-    required DateTime? endDate,
     required DateTime? startHour,
     required DateTime? endHour,
-  }) =>
-      {
-        'models': models,
-        'latitude': latitude,
-        'longitude': longitude,
-        'hourly': nullIfEmpty(hourly),
-        'daily': nullIfEmpty(daily),
-        'tilt': nullIfEqual(tilt, 0),
-        'azimuth': nullIfEqual(azimuth, 0),
-        'cell_selection': nullIfEqual(cellSelection, CellSelection.sea),
-        'past_days': pastDays,
-        'past_hours': pastHours,
-        'forecast_days': forecastDays,
-        'forecast_hours': forecastHours,
-        'start_date': formatDate(startDate),
-        'end_date': formatDate(endDate),
-        'start_hour': formatTime(startHour),
-        'end_hour': formatTime(endHour),
-        'timeformat': 'unixtime',
-        'timezone': 'auto',
-      };
+  }) {
+    final parsedLocations = parseLocations(locations);
+    return {
+      'models': models,
+      'latitude': parsedLocations.latitude,
+      'longitude': parsedLocations.longitude,
+      'elevation': nullIfEmpty(parsedLocations.elevation),
+      'hourly': nullIfEmpty(hourly),
+      'daily': nullIfEmpty(daily),
+      'tilt': nullIfEqual(tilt, 0),
+      'azimuth': nullIfEqual(azimuth, 0),
+      'cell_selection': nullIfEqual(cellSelection, CellSelection.sea),
+      'past_days': pastDays,
+      'past_hours': pastHours,
+      'forecast_days': forecastDays,
+      'forecast_hours': forecastHours,
+      'start_date': nullIfEmpty(parsedLocations.startDate),
+      'end_date': nullIfEmpty(parsedLocations.endDate),
+      'start_hour': formatTime(startHour),
+      'end_hour': formatTime(endHour),
+      'timeformat': 'unixtime',
+      'timezone': 'auto',
+    };
+  }
 }
