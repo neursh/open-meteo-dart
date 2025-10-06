@@ -49,27 +49,35 @@ void main() {
       group('enum deserialization', () {
         test('for hourly data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             hourly: HistoricalHourly.values.toSet(),
           );
           expect(
-            response.hourlyData.keys,
+            response.segments[0].hourlyData.keys,
             containsAll(HistoricalHourly.values),
           );
         });
         test('for daily data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             daily: HistoricalDaily.values.toSet(),
           );
           expect(
-            response.dailyData.keys,
+            response.segments[0].dailyData.keys,
             containsAll(HistoricalDaily.values),
           );
         });
@@ -78,27 +86,35 @@ void main() {
       group('get', () {
         test('hourly temperature', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             hourly: {HistoricalHourly.temperature_2m},
           );
           final temperature =
-              result.hourlyData[HistoricalHourly.temperature_2m];
+              result.segments[0].hourlyData[HistoricalHourly.temperature_2m];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
         test('daily temperature max', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
-            startDate: startDate,
-            endDate: endDate,
+            locations: {
+              OpenMeteoLocation(
+                latitude: latitude,
+                longitude: longitude,
+                startDate: startDate,
+                endDate: endDate,
+              )
+            },
             daily: {HistoricalDaily.temperature_2m_max},
           );
           final temperature =
-              result.dailyData[HistoricalDaily.temperature_2m_max];
+              result.segments[0].dailyData[HistoricalDaily.temperature_2m_max];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
@@ -113,10 +129,14 @@ void main() {
 
       test('hourly temperature', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
-          startDate: startDate,
-          endDate: endDate,
+          locations: {
+            OpenMeteoLocation(
+              latitude: latitude,
+              longitude: longitude,
+              startDate: startDate,
+              endDate: endDate,
+            )
+          },
           hourly: {HistoricalHourly.temperature_2m},
         );
         expect(result['error'], isNot(true));
@@ -129,10 +149,14 @@ void main() {
       });
       test('daily temperature max', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
-          startDate: startDate,
-          endDate: endDate,
+          locations: {
+            OpenMeteoLocation(
+              latitude: latitude,
+              longitude: longitude,
+              startDate: startDate,
+              endDate: endDate,
+            )
+          },
           daily: {HistoricalDaily.temperature_2m_max},
         );
         expect(result['error'], isNot(true));

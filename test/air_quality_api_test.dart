@@ -44,23 +44,25 @@ void main() {
       group('enum deserialization', () {
         test('for current data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             current: AirQualityCurrent.values.toSet(),
           );
           expect(
-            response.currentData.keys,
+            response.segments[0].currentData.keys,
             containsAll(AirQualityCurrent.values),
           );
         });
         test('for hourly data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             hourly: AirQualityHourly.values.toSet(),
           );
           expect(
-            response.hourlyData.keys,
+            response.segments[0].hourlyData.keys,
             containsAll(AirQualityHourly.values),
           );
         });
@@ -69,21 +71,24 @@ void main() {
       group('get', () {
         test('current aqi', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             current: {AirQualityCurrent.european_aqi},
           );
           final temperature =
-              result.currentData[AirQualityCurrent.european_aqi];
+              result.segments[0].currentData[AirQualityCurrent.european_aqi];
           expect(temperature, isNotNull);
         });
         test('hourly aqi', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             hourly: {AirQualityHourly.european_aqi},
           );
-          final temperature = result.hourlyData[AirQualityHourly.european_aqi];
+          final temperature =
+              result.segments[0].hourlyData[AirQualityHourly.european_aqi];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
@@ -98,8 +103,9 @@ void main() {
 
       test('current aqi', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           current: {AirQualityCurrent.european_aqi},
         );
         expect(result['error'], isNot(true));
@@ -108,8 +114,9 @@ void main() {
       });
       test('hourly aqi', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           hourly: {AirQualityHourly.european_aqi},
         );
         expect(result['error'], isNot(true));

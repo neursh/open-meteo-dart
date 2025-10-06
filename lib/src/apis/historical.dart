@@ -47,50 +47,40 @@ class HistoricalApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
-    required DateTime startDate,
-    required DateTime endDate,
+    required Set<OpenMeteoLocation> locations,
     Set<HistoricalHourly> hourly = const {},
     Set<HistoricalDaily> daily = const {},
     double? elevation,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestJson(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
-          startDate: startDate,
-          endDate: endDate,
+          locations: locations,
           hourly: hourly,
           daily: daily,
-          elevation: elevation,
         ),
+        overrideUri,
       );
 
   /// This method returns a Dart object,
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<HistoricalApi>> request({
-    required double latitude,
-    required double longitude,
-    required DateTime startDate,
-    required DateTime endDate,
+    required Set<OpenMeteoLocation> locations,
     Set<HistoricalHourly> hourly = const {},
     Set<HistoricalDaily> daily = const {},
     double? elevation,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestFlatBuffer(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
-          startDate: startDate,
-          endDate: endDate,
+          locations: locations,
           hourly: hourly,
           daily: daily,
-          elevation: elevation,
         ),
+        overrideUri,
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
           data.$1,
@@ -101,29 +91,25 @@ class HistoricalApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required double latitude,
-    required double longitude,
-    required DateTime startDate,
-    required DateTime endDate,
+    required Set<OpenMeteoLocation> locations,
     required Set<HistoricalHourly> hourly,
     required Set<HistoricalDaily> daily,
-    required double? elevation,
-  }) =>
-      {
-        'latitude': latitude,
-        'longitude': longitude,
-        'start_date': formatDate(startDate),
-        'end_date': formatDate(endDate),
-        'hourly': nullIfEmpty(hourly),
-        'daily': nullIfEmpty(daily),
-        'temperature_unit':
-            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
-        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
-        'precipitaion_unit':
-            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
-        'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
-        'elevation': elevation,
-        'timeformat': 'unixtime',
-        'timezone': 'auto',
-      };
+  }) {
+    final parsedLocations = parseLocations(locations);
+    return {
+      'latitude': parsedLocations.latitude,
+      'longitude': parsedLocations.longitude,
+      'elevation': nullIfEmpty(parsedLocations.elevation),
+      'start_date': nullIfEmpty(parsedLocations.startDate),
+      'end_date': nullIfEmpty(parsedLocations.endDate),
+      'hourly': nullIfEmpty(hourly),
+      'daily': nullIfEmpty(daily),
+      'temperature_unit': nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+      'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+      'precipitaion_unit': nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+      'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
+      'timeformat': 'unixtime',
+      'timezone': 'auto',
+    };
+  }
 }

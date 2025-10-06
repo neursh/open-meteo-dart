@@ -2,12 +2,13 @@ import '../api.dart';
 import '../enums/ensemble.dart';
 import '../options.dart';
 import '../response.dart';
+import '../model_export.dart';
 
 /// Hundreds Of Weather Forecasts, Every time, Everywhere, All at Once.
 ///
 /// https://open-meteo.com/en/docs/ensemble-api/
 class EnsembleApi extends BaseApi {
-  final Set<EnsembleModel> models;
+  final Set<OpenMeteoModel> models;
   final TemperatureUnit temperatureUnit;
   final WindspeedUnit windspeedUnit;
   final PrecipitationUnit precipitationUnit;
@@ -28,7 +29,7 @@ class EnsembleApi extends BaseApi {
     String? apiUrl,
     String? apiKey,
     String? userAgent,
-    Set<EnsembleModel>? models,
+    Set<OpenMeteoModel>? models,
     TemperatureUnit? temperatureUnit,
     WindspeedUnit? windspeedUnit,
     PrecipitationUnit? precipitationUnit,
@@ -50,86 +51,74 @@ class EnsembleApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
+    required Set<OpenMeteoLocation> locations,
     required Set<EnsembleHourly> hourly,
-    double? elevation,
     int? pastDays,
     int? pastHours,
     int? pastMinutely15,
     int? forecastDays,
     int? forecastHours,
     int? forecastMinutely15,
-    DateTime? startDate,
-    DateTime? endDate,
     DateTime? startHour,
     DateTime? endHour,
     DateTime? startMinutely15,
     DateTime? endMinutely15,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestJson(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
+          locations: locations,
           hourly: hourly,
-          elevation: elevation,
           pastDays: pastDays,
           pastHours: pastHours,
           pastMinutely15: pastMinutely15,
           forecastDays: forecastDays,
           forecastHours: forecastHours,
           forecastMinutely15: forecastMinutely15,
-          startDate: startDate,
-          endDate: endDate,
           startHour: startHour,
           endHour: endHour,
           startMinutely15: startMinutely15,
           endMinutely15: endMinutely15,
         ),
+        overrideUri,
       );
 
   /// This method returns a Dart object,
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<EnsembleApi>> request({
-    required double latitude,
-    required double longitude,
+    required Set<OpenMeteoLocation> locations,
     required Set<EnsembleHourly> hourly,
-    double? elevation,
     int? pastDays,
     int? pastHours,
     int? pastMinutely15,
     int? forecastDays,
     int? forecastHours,
     int? forecastMinutely15,
-    DateTime? startDate,
-    DateTime? endDate,
     DateTime? startHour,
     DateTime? endHour,
     DateTime? startMinutely15,
     DateTime? endMinutely15,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestFlatBuffer(
         this,
         _queryParamMap(
-          latitude: latitude,
-          longitude: longitude,
+          locations: locations,
           hourly: hourly,
-          elevation: elevation,
           pastDays: pastDays,
           pastHours: pastHours,
           pastMinutely15: pastMinutely15,
           forecastDays: forecastDays,
           forecastHours: forecastHours,
           forecastMinutely15: forecastMinutely15,
-          startDate: startDate,
-          endDate: endDate,
           startHour: startHour,
           endHour: endHour,
           startMinutely15: startMinutely15,
           endMinutely15: endMinutely15,
         ),
+        overrideUri,
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
           data.$1,
@@ -139,48 +128,45 @@ class EnsembleApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required double latitude,
-    required double longitude,
+    required Set<OpenMeteoLocation> locations,
     required Set<EnsembleHourly> hourly,
-    required double? elevation,
     required int? pastDays,
     required int? pastHours,
     required int? pastMinutely15,
     required int? forecastDays,
     required int? forecastHours,
     required int? forecastMinutely15,
-    required DateTime? startDate,
-    required DateTime? endDate,
     required DateTime? startHour,
     required DateTime? endHour,
     required DateTime? startMinutely15,
     required DateTime? endMinutely15,
-  }) =>
-      {
-        'latitude': latitude,
-        'longitude': longitude,
-        'models': models,
-        'hourly': hourly,
-        'temperature_unit':
-            nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
-        'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
-        'precipitation_unit':
-            nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
-        'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
-        'elevation': elevation,
-        'past_days': pastDays,
-        'past_hours': pastHours,
-        'past_minutely_15': pastMinutely15,
-        'forecast_days': forecastDays,
-        'forecast_hours': forecastHours,
-        'forecast_minutely_15': forecastMinutely15,
-        'start_date': formatDate(startDate),
-        'end_date': formatDate(endDate),
-        'start_hour': formatTime(startHour),
-        'end_hour': formatTime(endHour),
-        'start_minytely_15': formatTime(startMinutely15),
-        'end_minutely_15': formatTime(endMinutely15),
-        'timeformat': 'unixtime',
-        'timezone': 'auto',
-      };
+  }) {
+    final parsedLocations = parseLocations(locations);
+    return {
+      'latitude': parsedLocations.latitude,
+      'longitude': parsedLocations.longitude,
+      'elevation': nullIfEmpty(parsedLocations.elevation),
+      'models': models,
+      'hourly': hourly,
+      'temperature_unit': nullIfEqual(temperatureUnit, TemperatureUnit.celsius),
+      'windspeed_unit': nullIfEqual(windspeedUnit, WindspeedUnit.kmh),
+      'precipitation_unit':
+          nullIfEqual(precipitationUnit, PrecipitationUnit.mm),
+      'cell_selection': nullIfEqual(cellSelection, CellSelection.land),
+      'past_days': pastDays,
+      'past_hours': pastHours,
+      'past_minutely_15': pastMinutely15,
+      'forecast_days': forecastDays,
+      'forecast_hours': forecastHours,
+      'forecast_minutely_15': forecastMinutely15,
+      'start_date': nullIfEmpty(parsedLocations.startDate),
+      'end_date': nullIfEmpty(parsedLocations.endDate),
+      'start_hour': formatTime(startHour),
+      'end_hour': formatTime(endHour),
+      'start_minytely_15': formatTime(startMinutely15),
+      'end_minutely_15': formatTime(endMinutely15),
+      'timeformat': 'unixtime',
+      'timezone': 'auto',
+    };
+  }
 }

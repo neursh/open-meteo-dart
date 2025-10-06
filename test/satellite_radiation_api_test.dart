@@ -8,9 +8,8 @@ void main() {
     group('constructor', () {
       test('with defaults', () {
         expect(
-            () => SatelliteRadiationApi(models: {
-                  SatelliteRadiationModels.satellite_radiation_seamless
-                }),
+            () => SatelliteRadiationApi(
+                models: {OpenMeteoModel.satellite_radiation_seamless}),
             returnsNormally);
       });
 
@@ -20,9 +19,7 @@ void main() {
             () => SatelliteRadiationApi(
                 apiUrl: 'https://api.custom.url/some/path',
                 apiKey: 'idk-the-format-of-open-meteo-api-keys',
-                models: {
-                  SatelliteRadiationModels.satellite_radiation_seamless
-                }),
+                models: {OpenMeteoModel.satellite_radiation_seamless}),
             returnsNormally,
           );
         });
@@ -30,9 +27,7 @@ void main() {
           expect(
             () => SatelliteRadiationApi(
                 cellSelection: CellSelection.sea,
-                models: {
-                  SatelliteRadiationModels.satellite_radiation_seamless
-                }),
+                models: {OpenMeteoModel.satellite_radiation_seamless}),
             returnsNormally,
           );
         });
@@ -43,29 +38,31 @@ void main() {
       late SatelliteRadiationApi api;
       setUp(() {
         api = SatelliteRadiationApi(
-            models: {SatelliteRadiationModels.satellite_radiation_seamless});
+            models: {OpenMeteoModel.satellite_radiation_seamless});
       });
 
       group('enum deserialization', () {
         test('for hourly data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             hourly: SatelliteRadiationHourly.values.toSet(),
           );
           expect(
-            response.hourlyData.keys,
+            response.segments[0].hourlyData.keys,
             containsAll(SatelliteRadiationHourly.values),
           );
         });
         test('for daily data', () async {
           final response = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             daily: SatelliteRadiationDaily.values.toSet(),
           );
           expect(
-            response.dailyData.keys,
+            response.segments[0].dailyData.keys,
             containsAll(SatelliteRadiationDaily.values),
           );
         });
@@ -74,23 +71,25 @@ void main() {
       group('get', () {
         test('hourly diffuse radiation', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             hourly: {SatelliteRadiationHourly.diffuse_radiation},
           );
-          final temperature =
-              result.hourlyData[SatelliteRadiationHourly.diffuse_radiation];
+          final temperature = result.segments[0]
+              .hourlyData[SatelliteRadiationHourly.diffuse_radiation];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
         test('daily shortwave radiation', () async {
           final result = await api.request(
-            latitude: latitude,
-            longitude: longitude,
+            locations: {
+              OpenMeteoLocation(latitude: latitude, longitude: longitude)
+            },
             daily: {SatelliteRadiationDaily.shortwave_radiation_sum},
           );
-          final temperature =
-              result.dailyData[SatelliteRadiationDaily.shortwave_radiation_sum];
+          final temperature = result.segments[0]
+              .dailyData[SatelliteRadiationDaily.shortwave_radiation_sum];
           expect(temperature, isNotNull);
           expect(temperature!.values, isNotEmpty);
         });
@@ -101,12 +100,13 @@ void main() {
       late SatelliteRadiationApi api;
       setUp(() {
         api = SatelliteRadiationApi(
-            models: {SatelliteRadiationModels.satellite_radiation_seamless});
+            models: {OpenMeteoModel.satellite_radiation_seamless});
       });
       test('hourly diffuse radiation', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           hourly: {SatelliteRadiationHourly.diffuse_radiation},
         );
         expect(result['error'], isNot(true));
@@ -119,8 +119,9 @@ void main() {
       });
       test('daily shortwave radiation', () async {
         final result = await api.requestJson(
-          latitude: latitude,
-          longitude: longitude,
+          locations: {
+            OpenMeteoLocation(latitude: latitude, longitude: longitude)
+          },
           daily: {SatelliteRadiationDaily.shortwave_radiation_sum},
         );
         expect(result['error'], isNot(true));
