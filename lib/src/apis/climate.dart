@@ -56,8 +56,8 @@ class ClimateApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required DateTime startDate,
     required DateTime endDate,
     required Set<ClimateDaily> daily,
@@ -77,8 +77,8 @@ class ClimateApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<ClimateApi>> request({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required DateTime startDate,
     required DateTime endDate,
     required Set<ClimateDaily> daily,
@@ -101,8 +101,8 @@ class ClimateApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required DateTime startDate,
     required DateTime endDate,
     required Set<ClimateDaily> daily,

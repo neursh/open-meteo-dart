@@ -37,8 +37,8 @@ class AirQualityApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     Set<AirQualityHourly> hourly = const {},
     Set<AirQualityCurrent> current = const {},
     int? pastDays,
@@ -72,8 +72,8 @@ class AirQualityApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<AirQualityApi>> request({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     Set<AirQualityHourly> hourly = const {},
     Set<AirQualityCurrent> current = const {},
     int? pastDays,
@@ -111,8 +111,8 @@ class AirQualityApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required Set<AirQualityHourly> hourly,
     required Set<AirQualityCurrent> current,
     required int? pastDays,

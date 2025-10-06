@@ -51,8 +51,8 @@ class EnsembleApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required Set<EnsembleHourly> hourly,
     double? elevation,
     int? pastDays,
@@ -94,8 +94,8 @@ class EnsembleApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<EnsembleApi>> request({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required Set<EnsembleHourly> hourly,
     double? elevation,
     int? pastDays,
@@ -140,8 +140,8 @@ class EnsembleApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required Set<EnsembleHourly> hourly,
     required double? elevation,
     required int? pastDays,

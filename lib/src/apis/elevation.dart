@@ -23,8 +23,8 @@ class ElevationApi extends BaseApi {
   /// This method returns a JSON map,
   /// containing either the data or the raw error response.
   Future<Map<String, dynamic>> requestJson({
-    required List<double> latitudes,
-    required List<double> longitudes,
+    required Set<double> latitudes,
+    required Set<double> longitudes,
   }) =>
       apiRequestJson(this, {
         'latitude': latitudes,

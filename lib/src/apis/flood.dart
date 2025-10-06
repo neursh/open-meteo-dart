@@ -38,8 +38,8 @@ class FloodApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required Set<FloodDaily> daily,
     int? pastDays,
     int? forecastDays,
@@ -63,8 +63,8 @@ class FloodApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<FloodApi>> request({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required Set<FloodDaily> daily,
     int? pastDays,
     int? forecastDays,
@@ -91,8 +91,8 @@ class FloodApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required Set<FloodDaily> daily,
     required int? pastDays,
     required int? forecastDays,

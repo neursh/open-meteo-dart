@@ -48,8 +48,8 @@ class WeatherApi extends BaseApi {
   /// This method exists solely for debug purposes, do not use in production.
   /// Use `request()` instead.
   Future<Map<String, dynamic>> requestJson({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     Set<WeatherHourly> hourly = const {},
     Set<WeatherDaily> daily = const {},
     Set<WeatherCurrent> current = const {},
@@ -95,8 +95,8 @@ class WeatherApi extends BaseApi {
   /// and throws an exception if the API returns an error response,
   /// recommended for most use cases.
   Future<ApiResponse<WeatherApi>> request({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     Set<WeatherHourly> hourly = const {},
     Set<WeatherDaily> daily = const {},
     Set<WeatherCurrent> current = const {},
@@ -148,8 +148,8 @@ class WeatherApi extends BaseApi {
       );
 
   Map<String, dynamic> _queryParamMap({
-    required double latitude,
-    required double longitude,
+    required Set<double> latitude,
+    required Set<double> longitude,
     required Set<WeatherHourly> hourly,
     required Set<WeatherDaily> daily,
     required Set<WeatherCurrent> current,
