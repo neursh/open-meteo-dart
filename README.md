@@ -148,6 +148,8 @@ You can now get multiple models with just one request call.
 
 Now in each API type; `latitude`, `longitude`, `elevation`, `startDate`, `endDate` is no longer available. Instead, the package moves all of them to a new class called `OpenMeteoLocation`. You can now pass multiple locations to a single `request` call!
 
+If you are using models, every single models across all APIs now belongs in an enum called `OpenMeteoModel`.
+
 Initialize and call request:
 ```dart
 // 1.x.x

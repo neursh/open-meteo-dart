@@ -146,3 +146,9 @@
 ## 2.1.8
 
 * Fix some typos
+
+## 3.0.0
+
+* Add support for multiple segmented response from open-meteo.
+* Add multiple locations input.
+* Add a method to override the generated URL before sending.

@@ -1,6 +1,6 @@
 name: open_meteo
 description: A free, silly, all-in-one API SDK to forecast weather, air quality, climate change, and many more by OpenMeteo with full typed support!
-version: 2.1.8
+version: 3.0.0
 homepage: https://github.com/neursh/open-meteo-dart
 repository: https://github.com/neursh/open-meteo-dart
 
