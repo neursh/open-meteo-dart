@@ -141,6 +141,13 @@ var result = await ElevationApi().requestJson(latitudes: [16.16667], longitudes:
 ```
 
 ## Migration Guide
+
+Version `3.x.x` comes with multiple segmented response support.
+
+You can now get multiple models with just one request call.
+
+Now in each API type; `latitude`, `longitude`, `elevation`, `startDate`, `endDate` is no longer available. Instead, the package moves all of them to a new class called `OpenMeteoLocation`. You can now pass multiple locations to a single `request` call!
+
 Initialize and call request:
 ```dart
 // 1.x.x
@@ -164,6 +171,16 @@ final weather = WeatherApi(temperatureUnit: TemperatureUnit.celsius);
 final response = await weather.request(
   locations: {
     OpenMeteoLocation(latitude: 16.16667, longitude: 107.83333),
+  },
+  hourly: {WeatherHourly.temperature_2m},
+);
+
+// 3.x.x exclusive feature:
+final weather = WeatherApi(temperatureUnit: TemperatureUnit.celsius);
+final response = await weather.request(
+  locations: {
+    OpenMeteoLocation(latitude: 16.16667, longitude: 107.83333),
+    OpenMeteoLocation(latitude: 52.52, longitude: 13.41),
   },
   hourly: {WeatherHourly.temperature_2m},
 );
