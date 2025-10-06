@@ -10,7 +10,7 @@ Be sure to read Open Meteo's [Terms of Use](https://open-meteo.com/en/terms/) be
 - [Top Contributors](#top-contributors)
 
 ## Community highlights
-A fun little spot to showcase some cool projects that people made from this package!
+A fun little spot to showcase some cool projects that people made from this package! I'll check the `Dependency graph` to find your project. So be sure to enable that feature in your repository. Otherwise I won't find it.
 
 ## Usage & Docs
 Each of the ~nine~ **ten** features available in Open-Meteo is represented by its class: `WeatherApi`, `HistoricalApi`, `EnsembleApi`, `ClimateApi`, `MarineApi`, `AirQualityApi`, `SatelliteRadiationApi`, `GeocodingApi`, `ElevationApi` and `FloodApi`.
