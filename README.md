@@ -169,13 +169,24 @@ final response = await weather.request(
 );
 ```
 
-Get result:
+Get a single result from a single segmented response:
 ```dart
 // 1.x.x & 2.x.x
-response.hourlyData[WeatherHourly.temperature_2m]!
+response.hourlyData[WeatherHourly.temperature_2m]!;
 
 // 3.x.x
-response.segments[0].hourlyData[WeatherHourly.temperature_2m]!
+response.segments[0].hourlyData[WeatherHourly.temperature_2m]!;
+```
+
+Get multiple results from a multiple segmented response:
+```dart
+// 1.x.x & 2.x.x
+// Not supported, requires multiple calls.
+
+// 3.x.x
+response.segments[0].hourlyData[WeatherHourly.temperature_2m]!;
+response.segments[1].hourlyData[WeatherHourly.temperature_2m]!;
+response.segments[...].hourlyData[WeatherHourly.temperature_2m]!;
 ```
 
 ## Top Contributors
