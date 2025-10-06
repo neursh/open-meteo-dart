@@ -31,10 +31,15 @@ class GeocodingApi extends BaseApi {
   Future<Map<String, dynamic>> requestJson({
     required String name,
     int? count,
+    Uri Function(Uri)? overrideUri,
   }) =>
-      apiRequestJson(this, {
-        'name': name,
-        'count': count,
-        'language': nullIfEqual(language, 'en'),
-      });
+      apiRequestJson(
+        this,
+        {
+          'name': name,
+          'count': count,
+          'language': nullIfEqual(language, 'en'),
+        },
+        overrideUri,
+      );
 }

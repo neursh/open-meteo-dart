@@ -63,6 +63,7 @@ class EnsembleApi extends BaseApi {
     DateTime? endHour,
     DateTime? startMinutely15,
     DateTime? endMinutely15,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestJson(
         this,
@@ -80,6 +81,7 @@ class EnsembleApi extends BaseApi {
           startMinutely15: startMinutely15,
           endMinutely15: endMinutely15,
         ),
+        overrideUri,
       );
 
   /// This method returns a Dart object,
@@ -98,6 +100,7 @@ class EnsembleApi extends BaseApi {
     DateTime? endHour,
     DateTime? startMinutely15,
     DateTime? endMinutely15,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -115,6 +118,7 @@ class EnsembleApi extends BaseApi {
           startMinutely15: startMinutely15,
           endMinutely15: endMinutely15,
         ),
+        overrideUri,
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
           data.$1,

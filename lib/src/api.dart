@@ -79,12 +79,18 @@ final Map<int, http.Client> _clients = {};
 Future<Map<String, dynamic>> apiRequestJson(
   BaseApi api,
   Map<String, dynamic> queryParams,
+  Uri Function(Uri)? overrideUri,
 ) async {
   Uri url = Uri.parse(api.apiUrl).replace(
     query: _encodeQuery(queryParams, {
       'apikey': nullIfEqual(api.apiKey, ''),
     }),
   );
+
+  if (overrideUri != null) {
+    url = overrideUri(url);
+  }
+
   return jsonDecode(
     (await api._client.get(url, headers: {"User-Agent": api.userAgent})).body,
   );
@@ -93,6 +99,7 @@ Future<Map<String, dynamic>> apiRequestJson(
 Future<(Uri, Uint8List)> apiRequestFlatBuffer(
   BaseApi api,
   Map<String, dynamic> queryParams,
+  Uri Function(Uri)? overrideUri,
 ) async {
   Uri url = Uri.parse(api.apiUrl).replace(
     query: _encodeQuery(queryParams, {
@@ -100,6 +107,10 @@ Future<(Uri, Uint8List)> apiRequestFlatBuffer(
       'format': 'flatbuffers',
     }),
   );
+
+  if (overrideUri != null) {
+    url = overrideUri(url);
+  }
 
   http.Response response =
       await api._client.get(url, headers: {"User-Agent": api.userAgent});

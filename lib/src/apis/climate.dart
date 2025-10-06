@@ -58,14 +58,15 @@ class ClimateApi extends BaseApi {
   Future<Map<String, dynamic>> requestJson({
     required Set<Location> locations,
     required Set<ClimateDaily> daily,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestJson(
-        this,
-        _queryParamMap(
-          locations: locations,
-          daily: daily,
-        ),
-      );
+          this,
+          _queryParamMap(
+            locations: locations,
+            daily: daily,
+          ),
+          overrideUri);
 
   /// This method returns a Dart object,
   /// and throws an exception if the API returns an error response,
@@ -73,6 +74,7 @@ class ClimateApi extends BaseApi {
   Future<ApiResponse<ClimateApi>> request({
     required Set<Location> locations,
     required Set<ClimateDaily> daily,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -80,6 +82,7 @@ class ClimateApi extends BaseApi {
           locations: locations,
           daily: daily,
         ),
+        overrideUri,
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
           data.$1,

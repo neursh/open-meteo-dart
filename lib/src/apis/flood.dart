@@ -42,6 +42,7 @@ class FloodApi extends BaseApi {
     required Set<FloodDaily> daily,
     int? pastDays,
     int? forecastDays,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestJson(
         this,
@@ -51,6 +52,7 @@ class FloodApi extends BaseApi {
           pastDays: pastDays,
           forecastDays: forecastDays,
         ),
+        overrideUri,
       );
 
   /// This method returns a Dart object,
@@ -61,6 +63,7 @@ class FloodApi extends BaseApi {
     required Set<FloodDaily> daily,
     int? pastDays,
     int? forecastDays,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -70,6 +73,7 @@ class FloodApi extends BaseApi {
           pastDays: pastDays,
           forecastDays: forecastDays,
         ),
+        overrideUri,
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
           data.$1,

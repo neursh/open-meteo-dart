@@ -46,6 +46,7 @@ class AirQualityApi extends BaseApi {
     int? forecastHours,
     DateTime? startHour,
     DateTime? endHour,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestJson(
         this,
@@ -60,6 +61,7 @@ class AirQualityApi extends BaseApi {
           startHour: startHour,
           endHour: endHour,
         ),
+        overrideUri,
       );
 
   /// This method returns a Dart object,
@@ -75,6 +77,7 @@ class AirQualityApi extends BaseApi {
     int? forecastHours,
     DateTime? startHour,
     DateTime? endHour,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -89,6 +92,7 @@ class AirQualityApi extends BaseApi {
           startHour: startHour,
           endHour: endHour,
         ),
+        overrideUri,
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
           data.$1,

@@ -4,10 +4,11 @@ import '../api.dart';
 ///
 /// https://open-meteo.com/en/docs/elevation-api/
 class ElevationApi extends BaseApi {
-  const ElevationApi(
-      {super.apiUrl = 'https://api.open-meteo.com/v1/elevation',
-      super.apiKey,
-      super.userAgent});
+  const ElevationApi({
+    super.apiUrl = 'https://api.open-meteo.com/v1/elevation',
+    super.apiKey,
+    super.userAgent,
+  });
 
   ElevationApi copyWith({
     String? apiUrl,
@@ -25,9 +26,14 @@ class ElevationApi extends BaseApi {
   Future<Map<String, dynamic>> requestJson({
     required Set<double> latitudes,
     required Set<double> longitudes,
+    Uri Function(Uri)? overrideUri,
   }) =>
-      apiRequestJson(this, {
-        'latitude': latitudes,
-        'longitude': longitudes,
-      });
+      apiRequestJson(
+        this,
+        {
+          'latitude': latitudes,
+          'longitude': longitudes,
+        },
+        overrideUri,
+      );
 }

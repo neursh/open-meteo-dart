@@ -51,6 +51,7 @@ class HistoricalApi extends BaseApi {
     Set<HistoricalHourly> hourly = const {},
     Set<HistoricalDaily> daily = const {},
     double? elevation,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestJson(
         this,
@@ -59,6 +60,7 @@ class HistoricalApi extends BaseApi {
           hourly: hourly,
           daily: daily,
         ),
+        overrideUri,
       );
 
   /// This method returns a Dart object,
@@ -69,6 +71,7 @@ class HistoricalApi extends BaseApi {
     Set<HistoricalHourly> hourly = const {},
     Set<HistoricalDaily> daily = const {},
     double? elevation,
+    Uri Function(Uri)? overrideUri,
   }) =>
       apiRequestFlatBuffer(
         this,
@@ -77,6 +80,7 @@ class HistoricalApi extends BaseApi {
           hourly: hourly,
           daily: daily,
         ),
+        overrideUri,
       ).then(
         (data) => ApiResponse.fromFlatBuffer(
           data.$1,
