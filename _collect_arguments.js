@@ -1,3 +1,8 @@
+/*
+Warning: DO NOT MAINTAIN THIS. THIS SCRIPT WAS WRITTEN BY AI FOR THE MOST PART,
+I DON'T WANT YOU WASTING TIME ON THINGS THAT I DIDN'T SPEND A GOOD AMOUNT OF TIME ON.
+*/
+
 // An invasive script to inject the open-meteo docs to capture all available variables.
 // This script also will generate an archive containing enum files of each type of API.
 // This script only works once, reload the page to parse the page again.
